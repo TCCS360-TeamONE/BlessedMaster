@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="Commit">
-      <change beforePath="$PROJECT_DIR$/Project360/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/main/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="Added Name (Andrew)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,6 +61,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="27iwC4NOzxA2wwYvnFZNkQDWDNm" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -70,7 +71,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "WebServerToolWindowFactoryState": "false"
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/andrewlau/IdeaProjects/BlessedMaster"
   }
 }]]></component>
   <component name="RunManager" selected="Application.Main">
@@ -138,6 +142,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.HelloWorld" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.MainTests" />
+      <item itemvalue="JUnit.MainTests.testAppVersion" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -159,7 +169,9 @@
       <workItem from="1651961377588" duration="2611000" />
       <workItem from="1651964033423" duration="1486000" />
       <workItem from="1652073244956" duration="1064000" />
-      <workItem from="1652146258947" duration="225000" />
+      <workItem from="1652152489067" duration="74000" />
+      <workItem from="1652152563680" duration="806000" />
+      <workItem from="1652153993837" duration="30000" />
     </task>
     <task id="LOCAL-00001" summary="I put my name">
       <created>1649817464829</created>
@@ -175,12 +187,12 @@
       <option name="project" value="LOCAL" />
       <updated>1652120558444</updated>
     </task>
-    <task id="LOCAL-00003" summary="Commit">
-      <created>1652146350220</created>
+    <task id="LOCAL-00003" summary="Added Name (Andrew)">
+      <created>1652152622254</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1652146350220</updated>
+      <updated>1652152622254</updated>
     </task>
     <option name="localTasksCounter" value="4" />
     <servers />
@@ -202,7 +214,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="I put my name" />
     <MESSAGE value="Added Name" />
-    <MESSAGE value="Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
+    <MESSAGE value="Added Name (Andrew)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Name (Andrew)" />
   </component>
 </project>
