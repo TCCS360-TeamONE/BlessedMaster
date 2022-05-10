@@ -24,7 +24,7 @@ public class Main {
 		"  Christopher Henderson",	// Chris's line
 		"  Betelhem Bada",	// Betty's line
 		"  Anthony Cabrera-Lara",	// Anthony's line
-		"  " 	// Andrew's line	
+		"  Anderew Lau" 	// Andrew's line
 	};
 
 	
