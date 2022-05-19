@@ -88,8 +88,10 @@ public class AboutWindow extends JFrame{
 			String newUser = JOptionPane.showInputDialog("Please register a user name:", defaultText);
 			String newEmail = JOptionPane.showInputDialog("Please register a user email:", defaultText);
 			
-			if (!newUser.equals(defaultText) &&
+			if (newUser != null &&
+				!newUser.equals(defaultText) &&
 				!newUser.isBlank() &&
+				newEmail != null && 
 				!newEmail.equals(defaultText) &&
 				!newEmail.isBlank()){
 				Main.userProfile.setName(newUser);

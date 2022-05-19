@@ -2,6 +2,7 @@ package main;
 
 import java.awt.EventQueue;
 
+import model.Profiles;
 import view.MainWindow;
 
 /**
@@ -31,21 +32,33 @@ public class Main {
 		"  Anderew Lau"
 	};
 
-	
+	// Profile for the about screen
 	public static Profile userProfile;
+	
+	// LoginProfile stuff for the ProfilePanel
+	public static Profiles loginProfiles;
 	
 	/**
 	 * Application entry point.
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		userProfile = new Profile();
+		
+		loginProfiles = new Profiles();
+		
+		/* TESTING STUFF */
+		for (int i = 0; i < 10; i++) {
+			loginProfiles.createNewUser("User"+i, "password");
+		}
+		
+		
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new MainWindow();
             }
         });
-		
-		userProfile = new Profile();
 	}
 }
