@@ -24,11 +24,11 @@ public class Main {
 	public static final int DEFAULT_HEIGHT = 600;
 	
 	public static final String[] aboutDevs = {
-		"  Alan Thompson",	// Alan's line
-		"  Christopher Henderson",	// Chris's line
-		"  Betelhem Bada",	// Betty's line
-		"  Anthony Cabrera-Lara",	// Anthony's line
-		"  Anderew Lau" 	// Andrew's line
+		"  Alan Thompson",
+		"  Christopher Henderson",
+		"  Betelhem Bada",
+		"  Anthony Cabrera-Lara",
+		"  Anderew Lau"
 	};
 
 	
@@ -47,6 +47,5 @@ public class Main {
         });
 		
 		userProfile = new Profile();
-
 	}
 }
