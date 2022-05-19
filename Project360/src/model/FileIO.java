@@ -31,8 +31,8 @@ public class FileIO {
 	
 	
 //////////////////////////////////////////////////////////////////////////
-///// I copied what's below this from my assignment 3 in TCCS 342,  /////
-////  its just a jump off point for the File read/write.           /////
+////  I copied what's below this from my assignment 3 in TCCS 342,  /////
+///   its just a jump off point for the File read/write.           /////
 
 	/**
 	 * Reads text from input.txt and return each line of that

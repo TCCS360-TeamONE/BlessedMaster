@@ -21,7 +21,7 @@ import main.Main;
  *    * Connected to the java classes: AboutWindow, FilePanel, LabelPanel, and ProfilePane.
  *    *
  */
-public class MainWindow extends JFrame{
+public class MainWindow extends JFrame {
 	
 	/** The title given to the main window. */
 	private static final String TITLE = "TeamONE FileSorter";

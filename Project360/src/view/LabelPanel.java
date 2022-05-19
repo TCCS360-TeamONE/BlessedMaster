@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class LabelPanel extends JPanel {
 	
 	/**
-	 * 
+	 *  
 	 */
 	private static final long serialVersionUID = 3058061381038686629L;
 

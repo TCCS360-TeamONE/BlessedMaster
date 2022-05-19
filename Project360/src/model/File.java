@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 public class File {
 	
+	/** TODO */
 	private String myFilePath;
 	
+	/** TODO */
 	private ArrayList<Label> myLabels;
+	
 	
 	public File(final String theFilePath) {
 		myFilePath = theFilePath;

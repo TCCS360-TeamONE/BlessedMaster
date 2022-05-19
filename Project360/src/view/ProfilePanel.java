@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class ProfilePanel extends JPanel {
 	
 	/**
-	 * 
+	 *  
 	 */
 	private static final long serialVersionUID = 9085434569766998412L;
 

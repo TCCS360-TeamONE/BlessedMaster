@@ -10,7 +10,7 @@ public class FilePanel extends JPanel {
 	
 	
 	/**
-	 * 
+	 *  
 	 */
 	private static final long serialVersionUID = -3452605865536486557L;
 
