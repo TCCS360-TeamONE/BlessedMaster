@@ -1,13 +1,14 @@
-package unit_tests;
+package main;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class MainTests {
+class JUnitTests_main {
 
 	/**
+	 * @author Christopher Henderson
 	 * Test that the version of the application is not NULL
 	 * and is what it should be.
 	 */
@@ -18,6 +19,7 @@ class MainTests {
 	}
 	
 	/**
+	 * @author Christopher Henderson
 	 * Test to ensure that all the dev's names are included
 	 * in the applications about screen
 	 */

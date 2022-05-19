@@ -1,5 +1,9 @@
 package main;
 
+import java.awt.EventQueue;
+
+import view.MainWindow;
+
 /**
  * 
  * @author Alan Thompson
@@ -35,9 +39,14 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new MainWindow();
+            }
+        });
 		
 		userProfile = new Profile();
-		
-		new MainWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+
 	}
 }

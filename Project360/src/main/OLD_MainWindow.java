@@ -16,7 +16,7 @@ import javax.swing.JFrame;
  *
  */
 
-public class MainWindow extends JFrame{
+public class OLD_MainWindow extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -30,7 +30,7 @@ public class MainWindow extends JFrame{
 	 * @param width
 	 * @param height
 	 */
-	public MainWindow(int width, int height) {
+	public OLD_MainWindow(int width, int height) {
 		initWindow(width, height);
 	}
 	
