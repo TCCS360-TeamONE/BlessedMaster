@@ -8,9 +8,10 @@ import org.junit.jupiter.api.Test;
 class JUnitTests_main {
 
 	/**
-	 * @author Christopher Henderson
 	 * Test that the version of the application is not NULL
 	 * and is what it should be.
+	 * 
+	 * @author Chris H.
 	 */
 	@Test
 	void testAppVersion() {
@@ -19,9 +20,10 @@ class JUnitTests_main {
 	}
 	
 	/**
-	 * @author Christopher Henderson
 	 * Test to ensure that all the dev's names are included
 	 * in the applications about screen
+	 * 
+	 * @author Chris H.
 	 */
 	@Test
 	void testAboutDevs() {
