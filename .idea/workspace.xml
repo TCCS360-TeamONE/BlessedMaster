@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="Added Name (Andrew)" />
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="Added Name (Andrew)">
+      <change beforePath="$PROJECT_DIR$/.idea/BlessedMaster.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BlessedMaster.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,20 +74,21 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/andrewlau/IdeaProjects/BlessedMaster"
+    "last_opened_file_path": "/Users/andrewlau/IdeaProjects/BlessedMaster",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="HelloWorld" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="sun.jvm.hotspot.HelloWorld" />
-      <module name="BlessedMaster" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.main.Main">
     <configuration name="HelloWorld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="driver.HelloWorld" />
       <module name="BlessedMaster" />
@@ -98,7 +102,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="main.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="BlessedMaster" />
       <extension name="coverage">
@@ -143,14 +147,13 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.HelloWorld" />
-      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.main.Main" />
       <item itemvalue="JUnit.MainTests" />
       <item itemvalue="JUnit.MainTests.testAppVersion" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.main.Main" />
         <item itemvalue="JUnit.MainTests.testAppVersion" />
         <item itemvalue="JUnit.MainTests" />
       </list>
@@ -172,6 +175,8 @@
       <workItem from="1652152489067" duration="74000" />
       <workItem from="1652152563680" duration="806000" />
       <workItem from="1652153993837" duration="30000" />
+      <workItem from="1652154024880" duration="666000" />
+      <workItem from="1652675036786" duration="1599000" />
     </task>
     <task id="LOCAL-00001" summary="I put my name">
       <created>1649817464829</created>
@@ -194,7 +199,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652152622254</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added Name (Andrew)">
+      <created>1652154078091</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1652154078091</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

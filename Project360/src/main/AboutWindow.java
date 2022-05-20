@@ -43,8 +43,8 @@ public class AboutWindow extends JFrame{
 		
 		if (Main.userProfile.isRegistered()) {
 			lineRegistered = "This app is registered to:";
-			lineUser = 		 "  " + Main.userProfile.getName();
-			lineEmail = 	 "  " + Main.userProfile.getEmail();
+			lineUser = 		 "  User Name : " + Main.userProfile.getName();
+			lineEmail = 	 "  Email Address : " + Main.userProfile.getEmail();
 		}
 		
 		String[] strAbout = {
