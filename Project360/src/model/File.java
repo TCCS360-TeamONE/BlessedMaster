@@ -67,4 +67,12 @@ public class File {
 			return true;
 		}
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("File {\"");
+		sb.append(myFilePath);
+		sb.append("\"}");
+		return sb.toString();
+	}
 }

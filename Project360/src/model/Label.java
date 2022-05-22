@@ -19,6 +19,11 @@ public class Label {
 		this.myName = myName;
 	}
 	
-	
-
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Label {\"");
+		sb.append(myName);
+		sb.append("\"}");
+		return sb.toString();
+	}
 }
