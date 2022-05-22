@@ -1,11 +1,9 @@
 package view;
 
-import java.awt.Font;
+import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import main.Main;
 import model.Profiles;
@@ -19,17 +17,22 @@ public class ProfilePanel extends JPanel {
 	
 	private JList<String> userJList;
 
+	private JButton importSetting;
+	private JButton exportSetting;
+
 	public ProfilePanel() {
 		super();
-		
+
+		buttonSetUp();
 		initUserList();
-		
+
 		JLabel fooBar = new JLabel("THIS IS THE PROFILE PANEL");
 		fooBar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 80));
 		
 		//add(fooBar);
 		add(userJList);
-		
+		add(importSetting);
+		add(exportSetting);
 	}
 	
 	/**
@@ -46,9 +49,20 @@ public class ProfilePanel extends JPanel {
 		
 		userJList.setFixedCellWidth(200);
 		userJList.setFixedCellHeight(50);
-		userJList.setAlignmentX(JList.CENTER_ALIGNMENT);
-		userJList.setAlignmentY(JList.CENTER_ALIGNMENT);
+		//userJList.setAlignmentX(JList.CENTER_ALIGNMENT);
+		//userJList.setAlignmentY(JList.CENTER_ALIGNMENT);
 		
+	}
+
+	public void buttonSetUp() {
+		importSetting = new JButton("Import");
+		importSetting.setFont(new Font("Arial", Font.PLAIN, 20));
+		importSetting.setPreferredSize(new Dimension(130,40));
+
+		exportSetting = new JButton("Export");
+		exportSetting.setFont(new Font("Arial", Font.PLAIN, 20));
+		exportSetting.setPreferredSize(new Dimension(130,40));
+
 	}
 
 }

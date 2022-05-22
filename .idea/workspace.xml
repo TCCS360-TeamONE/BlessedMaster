@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="Added Name (Andrew)">
-      <change beforePath="$PROJECT_DIR$/.idea/BlessedMaster.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BlessedMaster.iml" afterDir="false" />
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="Added updates for about window">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project360/src/view/ProfilePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/ProfilePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +14,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="saved" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -156,6 +161,8 @@
         <item itemvalue="Application.main.Main" />
         <item itemvalue="JUnit.MainTests.testAppVersion" />
         <item itemvalue="JUnit.MainTests" />
+        <item itemvalue="JUnit.MainTests.testAppVersion" />
+        <item itemvalue="JUnit.MainTests" />
       </list>
     </recent_temporary>
   </component>
@@ -176,7 +183,7 @@
       <workItem from="1652152563680" duration="806000" />
       <workItem from="1652153993837" duration="30000" />
       <workItem from="1652154024880" duration="666000" />
-      <workItem from="1652675036786" duration="1599000" />
+      <workItem from="1652675036786" duration="10027000" />
     </task>
     <task id="LOCAL-00001" summary="I put my name">
       <created>1649817464829</created>
@@ -206,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652154078091</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added updates for about window">
+      <created>1652999110083</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1652999110083</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +241,7 @@
     <MESSAGE value="I put my name" />
     <MESSAGE value="Added Name" />
     <MESSAGE value="Added Name (Andrew)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Name (Andrew)" />
+    <MESSAGE value="Added updates for about window" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added updates for about window" />
   </component>
 </project>
