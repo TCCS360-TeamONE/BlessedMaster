@@ -39,14 +39,14 @@ public class Profiles {
 		private String userName;
 		private String password;
 		
-		private ArrayList<File> FileList;
-		private ArrayList<Label> LabelList;
+		private ArrayList<File> fileList;
+		private ArrayList<Label> labelList;
 		
 		public LoginProfile(String theUserName, String thePassword) {
 			userName = theUserName;
 			password = thePassword;
-			FileList = new ArrayList<File>();
-			LabelList = new ArrayList<Label>();
+			fileList = new ArrayList<File>();
+			labelList = new ArrayList<Label>();
 		}
 		
 		public String getUserName() {
@@ -58,11 +58,26 @@ public class Profiles {
 		}
 		
 		public ArrayList<File> getFileList() {
-			return FileList;
+			return fileList;
 		}
 		
 		public ArrayList<Label> getLabelList() {
-			return LabelList;
+			return labelList;
 		}
+		
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			sb.append("LoginProfile {\"");
+			sb.append(userName);
+			sb.append("\",\"");
+			sb.append(password);
+			sb.append("\",");
+			sb.append(fileList.toString());
+			sb.append(",");
+			sb.append(labelList.toString());
+			sb.append("}");
+			return sb.toString();
+		}
+		
 	}
 }
