@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class File {
+@SuppressWarnings("serial")
+public class File implements Serializable{
 	
 	/** TODO */
 	private String myFilePath;
@@ -14,6 +16,16 @@ public class File {
 	public File(final String theFilePath) {
 		myFilePath = theFilePath;
 		myLabels = new ArrayList<>();
+	}
+	
+	/**
+	 * Getter for the file path of the File.
+	 * 
+	 * @author Christopher
+	 * @return filePath as a String
+	 */
+	public String getFilePath() {
+		return myFilePath;
 	}
 	
 	/**
