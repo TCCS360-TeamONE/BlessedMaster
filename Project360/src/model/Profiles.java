@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class Profiles {
 	
-	private ArrayList<LoginProfile> ProfileList;
+	private ArrayList<LoginProfile> profileList;
 	
 	public Profiles() {
-		ProfileList = new ArrayList<LoginProfile>();
+		profileList = new ArrayList<LoginProfile>();
 	}
 	
 	public ArrayList<LoginProfile> getProfileList() {
-		return ProfileList;
+		return profileList;
 	}
 	
 	public boolean createNewUser(String theUserName, String thePassword) {
@@ -20,18 +20,27 @@ public class Profiles {
 			!thePassword.isBlank() &&
 			!userAlreadyExists(theUserName)) {
 			
-			ProfileList.add(new LoginProfile(theUserName, thePassword));
+			profileList.add(new LoginProfile(theUserName, thePassword));
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean userAlreadyExists(String theUserName) {
-		for (LoginProfile p : ProfileList) {
+		for (LoginProfile p : profileList) {
 			if (theUserName.equals(p.getUserName()))
 				return true;
 		}
 		return false;
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (LoginProfile p : profileList) {
+			sb.append(p.toString());
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 	
 	public class LoginProfile {

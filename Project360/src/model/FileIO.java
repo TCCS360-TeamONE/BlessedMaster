@@ -2,10 +2,16 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 public class FileIO {
 	
@@ -13,11 +19,39 @@ public class FileIO {
 		
 	}
 	
-	public void importSettings() {
+	public static void importProfile(Profiles theProfiles) throws IOException{
+		String[] importedProfile = null;
 		
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
+		jfc.setDialogTitle("Import profile");
+		
+		int returnValue = jfc.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) 
+			importedProfile = readFile(jfc.getSelectedFile().getAbsolutePath());
+		
+		if (importedProfile != null && importedProfile.length != 0) {
+			String[] profileData = importedProfile[0].split("\"");
+			String profileName = profileData[1];
+			String profilePass = profileData[3];
+			if (!theProfiles.userAlreadyExists(profileName)) {
+				theProfiles.createNewUser(profileName, profilePass);
+			} else {
+				String alertMessage = 	"Profile \""
+										+ profileName
+										+ "\" already exists. Please try importing a different profile.";
+				JOptionPane.showMessageDialog(null, alertMessage);
+			}
+		}
+			
 	}
 	
-	public void exportSettings() {
+	public static void exportProfile(Profiles.LoginProfile theProfile) throws IOException{
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
+		jfc.setDialogTitle("Export profile");
+		
+		int returnValue = jfc.showSaveDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION)
+			writeFile(jfc.getSelectedFile().getAbsolutePath(), theProfile.toString());
 		
 	}
 	
@@ -30,54 +64,52 @@ public class FileIO {
 	}
 	
 	
-//////////////////////////////////////////////////////////////////////////
-////  I copied what's below this from my assignment 3 in TCCS 342,  /////
-///   its just a jump off point for the File read/write.           /////
-
 	/**
-	 * Reads text from input.txt and return each line of that
-	 * text as a String array.
+	 * Reads in file located at thePath in to a String[] indexed per line
 	 * 
-	 * @author Christopher Henderson
-	 * @return String array of each line of text
+	 * @author Christopher Henderson, Alan Thompson
+	 * @param thePath of file to be read
+	 * @return String[] indexed per line
 	 */
-	private static String[] readData() {
-		String path = "./files/input.txt";
-		String allLines = "";
+	private static String[] readFile(String thePath) throws IOException {
+		String data = "";
+		BufferedReader bRead = new BufferedReader(new FileReader(thePath));
 		
-		try (BufferedReader reader = new BufferedReader(new FileReader(path))){
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-            	allLines += line + "\n";
-            }
-            
-            reader.close();
-		}
-		catch (final IOException e) {
-			e.printStackTrace();
-		}
-
-		return allLines.split("\n");
+		String currLine;
+		while ( (currLine = bRead.readLine()) != null )
+			data += currLine + "\n";
+		
+		bRead.close();
+		return data.split("\n");
+	}
+	
+	/**
+	 * Writes theData to file at thePath
+	 * 
+	 * @author Christopher Henderson, Alan Thompson
+	 * @param thePath of the file to be written
+	 * @param theData to be written
+	 */
+	private static void writeFile(String thePath, String theData) throws IOException {
+		BufferedWriter bWrite = new BufferedWriter(new FileWriter(thePath));
+		bWrite.write(theData);
+		bWrite.close();
 	}
 	
 	
-	/**
-	 * Writes theText to output.txt
-	 * 
-	 * @author Christopher Henderson
-	 * @param theText to be written
-	 */
-	private static void writeData(String theText) {
-		String path = "./files/output.txt";
+	public static void main(String[] args) throws IOException {
+		Profiles profiles = new Profiles();
+		profiles.createNewUser("testProfile", "pass");
 		
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))){
-			writer.write(theText);
-			writer.close();
-		}
-		catch (final IOException e) {
-			e.printStackTrace();
-		}
+		Profiles.LoginProfile currentProfile = profiles.getProfileList().get(0);
+		currentProfile.getFileList().add(new File("./testFile.txt"));
+		currentProfile.getLabelList().add(new Label("Test Label 1"));
+		currentProfile.getLabelList().add(new Label("Test Label 2"));
+		
+		
+		exportProfile(currentProfile);
+		
+		importProfile(profiles);
 	}
 
 }
