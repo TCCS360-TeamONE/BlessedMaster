@@ -1,6 +1,9 @@
 package model;
 
-public class Label {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Label implements Serializable{
 	
 	/** TODO */
 	private String myName;
