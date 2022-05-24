@@ -8,172 +8,112 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import model.Profiles.LoginProfile;
+
+
 @SuppressWarnings("serial")
-public class DataBase implements Serializable{
+/**
+ * DATA MAN
+ * @author Christopher
+ *
+ */
+public class DataBase implements Serializable {
 	
 	/////////////// FOR TESTING ///////////////	
 	public static void main(String[] args) {
-		
 		// Build and fill library with test data
 		DataBase testCase = new DataBase();
-		testCase.myLibrary.addFile(new File("./Files/f1"));
-		testCase.myLibrary.addFile(new File("./Files/f2"));
-		testCase.myLibrary.addFile(new File("./Files/f3"));
-		testCase.myLibrary.addFile(new File("./Files/f4"));
-		testCase.myLibrary.addLabel(new Label("Label 1"));
-		testCase.myLibrary.addLabel(new Label("Label 2"));
-		testCase.myLibrary.addLabel(new Label("Label 3"));
-		testCase.myLibrary.addLabel(new Label("Label 4"));
+		testCase.profiles.createNewUser("Timm", "1234");
+		ArrayList<LoginProfile> users = testCase.profiles.getProfileList();
+		LoginProfile Timmy = users.get(0);
+		Library myLibrary = Timmy.getLibrary();
+		
+		myLibrary.addFile("./Files/f1.txt");
+		myLibrary.addFile("./Files/f2.txt");
+		myLibrary.addFile("./Files/f3.txt");
+		myLibrary.addFile("./Files/f4.txt");
+		myLibrary.addLabel("Label 1");
+		myLibrary.addLabel("Label 2");
+		myLibrary.addLabel("Label 3");
+		myLibrary.addLabel("Label 4");
 		System.out.println(testCase);
 		
 		//save object to byte code,
-		byte[] code = testCase.getLibraryBytecode();
-		testCase.resetLib(); // replace old Library
+		//byte[] code = testCase.getLibraryBytecode();
+		testCase.exportDataBase();
+		Timmy.resetLib();
 		System.out.println(testCase);
 		
 		// load original library from byte code
-		testCase.loadLibraryBytecode(code);
+		//testCase.loadLibraryBytecode(code);
+		testCase.importDataBase();
 		System.out.println(testCase);
 		
-	}
-	
-	public void resetLib() {
-		myLibrary = null;
-		myLibrary = new Library();
-		myLibrary.addTesty();
-	}
-	/////////////// END TESTING ///////////////	
+	} /////////////// END TESTING ///////////////	
 	
 	
-	
-	private Library myLibrary;
+	/** TODO: JavaDoc*/
+	private Profiles profiles;
 	
 	public DataBase() {
-		myLibrary = new Library();
-
+		profiles = new Profiles();
 	}
 	
+	/** TODO: JavaDoc*/
+	public void exportDataBase() {
+		byte[] byteCode = getLibraryBytecode();
+		FileIO.saveDatabase(byteCode);
+	}
+	
+	/** TODO: JavaDoc*/
+	public void importDataBase() {
+		byte[] byteCode = FileIO.loadDatabase();
+		loadLibraryBytecode(byteCode);
+	}
+	
+	/** TODO: JavaDoc*/
 	public byte[] getLibraryBytecode() {
 		ByteArrayOutputStream byteData = new ByteArrayOutputStream();
 		ObjectOutputStream outStream = null;
-		byte[] libraryBytecode = null;
+		byte[] profilesBytecode = null;
 		
 		try {
 			outStream = new ObjectOutputStream(byteData);
-			outStream.writeObject(myLibrary);
+			outStream.writeObject(profiles);
 			outStream.flush();
-			libraryBytecode = byteData.toByteArray();
+			profilesBytecode = byteData.toByteArray();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 		
-		return libraryBytecode;
+		return profilesBytecode;
 	}
 	
+	/** TODO: JavaDoc*/
 	public boolean loadLibraryBytecode(final byte[] theLibraryBytecode) {
 		ByteArrayInputStream byteData = new ByteArrayInputStream(theLibraryBytecode);
 		ObjectInputStream inStream = null;
-		Object importedLibrary = null;
+		Object importedProfiles = null;
 		try {
 			inStream = new ObjectInputStream(byteData);
-			importedLibrary = inStream.readObject();
+			importedProfiles = inStream.readObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		if (importedLibrary != null) {
-			myLibrary = (Library) importedLibrary;
+		if (importedProfiles != null) {
+			profiles= (Profiles) importedProfiles;
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-
-	// TODO: check for duplicated files
-	public void addFile(final String theFilePath) {
-		myLibrary.addFile(new File(theFilePath));
-	}
-	
-	public void removeFile(final File theFile) {
-		myLibrary.removeFile(theFile);
-	}
-	
-	public void addLabel(final String theLabelName) {
-		myLibrary.addLabel(new Label(theLabelName));
-	}
-	
-	public void removeLabel(final Label theLabel) {
-		myLibrary.removeLabel(theLabel);
-	}
-	
-	public File[] getFileArray() {
-		return (File[]) myLibrary.fileLibrary.toArray();
-	}
-	
-	public Label[] getLabelArray() {
-		return (Label[]) myLibrary.labelLibrary.toArray();
-	}
-	
-	@Override // TODO: Make better
+	@Override /** TODO: JavaDoc*/
 	public String toString() {
-		String Files = "";
-		for (File f : myLibrary.fileLibrary) {
-			Files += f + "   ";
-		}
-		
-		String Labels = "";
-		for (Label l : myLibrary.labelLibrary) {
-			Labels += l + "   ";
-		}
-		
-		
-		return (Files + "\n" + Labels + "\n");
-	}
-	
-	
-	public class Library implements Serializable {
-		
-		private ArrayList<File> fileLibrary;
-		
-		private ArrayList<Label> labelLibrary;
-		
-		public Library() {
-			fileLibrary = new ArrayList<File>();
-			labelLibrary = new ArrayList<Label>();	
-		}
-		
-		public void addTesty() { /// for testing only
-			addFile(new File("resty Fi"));
-			addLabel(new Label("resty Lab"));
-		}
-		
-		private boolean addFile(final File theFile) {
-			if (fileLibrary.contains(theFile))
-				return false;
-			else
-				fileLibrary.add(theFile);
-			return true;
-		}
-		
-		private boolean removeFile(final File theFile) {
-			return fileLibrary.remove(theFile);
-		}
-		
-		private boolean addLabel(final Label theLabel) {
-			if (labelLibrary.contains(theLabel))
-				return false;
-			else
-				labelLibrary.add(theLabel);
-			return true;
-		}
-		
-		private boolean removeLabel(final Label theLabel) {
-			return labelLibrary.remove(theLabel);
-		}
-		
+		return profiles.toString();
 	}
 
 }

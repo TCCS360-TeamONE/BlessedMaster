@@ -1,19 +1,17 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
 public class FileIO {
+	
+	public static final String DATABASE_PATH =  "data.ser";
 	
 	public void chooseFile() {
 		
@@ -55,12 +53,41 @@ public class FileIO {
 		
 	}
 	
-	public void saveDatabase() {
-		
+	/**
+	 * Saves the DataBase byte code to a file.
+	 * 
+	 * @author Christopher
+	 * @param byte[] of DataBase
+	 */
+	public static void saveDatabase(byte[] objectArr) {
+		try {
+			FileOutputStream fOut = new FileOutputStream(DATABASE_PATH); // TODO: decide real path
+			fOut.write(objectArr);
+			fOut.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void loadDatabase() {
+	/**
+	 * Loads the database byte code from a file.
+	 * 
+	 * @author Christopher
+	 * @return byte[] of DataBase
+	 */
+	public static byte[] loadDatabase() {
+		Path path = Paths.get(DATABASE_PATH); // TODO: decide real path
+		byte[] byteCode = null;
+		try {
+			byteCode = Files.readAllBytes(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		return byteCode;
 	}
 	
 	
@@ -94,22 +121,6 @@ public class FileIO {
 		BufferedWriter bWrite = new BufferedWriter(new FileWriter(thePath));
 		bWrite.write(theData);
 		bWrite.close();
-	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		Profiles profiles = new Profiles();
-		profiles.createNewUser("testProfile", "pass");
-		
-		Profiles.LoginProfile currentProfile = profiles.getProfileList().get(0);
-		currentProfile.getFileList().add(new File("./testFile.txt"));
-		currentProfile.getLabelList().add(new Label("Test Label 1"));
-		currentProfile.getLabelList().add(new Label("Test Label 2"));
-		
-		
-		exportProfile(currentProfile);
-		
-		importProfile(profiles);
 	}
 
 }
