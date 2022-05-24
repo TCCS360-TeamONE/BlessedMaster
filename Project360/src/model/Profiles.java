@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Profiles {
+@SuppressWarnings("serial")
+public class Profiles implements Serializable {
 	
 	private ArrayList<LoginProfile> profileList;
 	
@@ -43,19 +45,17 @@ public class Profiles {
 		return sb.toString();
 	}
 	
-	public class LoginProfile {
+	public class LoginProfile implements Serializable{
 		
 		private String userName;
 		private String password;
 		
-		private ArrayList<File> fileList;
-		private ArrayList<Label> labelList;
+		private Library userLibrary;
 		
 		public LoginProfile(String theUserName, String thePassword) {
 			userName = theUserName;
 			password = thePassword;
-			fileList = new ArrayList<File>();
-			labelList = new ArrayList<Label>();
+			userLibrary = new Library();
 		}
 		
 		public String getUserName() {
@@ -66,13 +66,18 @@ public class Profiles {
 			return password;
 		}
 		
-		public ArrayList<File> getFileList() {
-			return fileList;
+		public Library getLibrary() {
+			return userLibrary;
 		}
 		
-		public ArrayList<Label> getLabelList() {
-			return labelList;
+		//// TODO TESTING STUFF DELETE LATER
+		public void resetLib() {
+			userLibrary = new Library();
+			userLibrary.addFile("resty Fi");
+			userLibrary.addLabel("resty Lab");
 		}
+		
+		
 		
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
@@ -81,9 +86,7 @@ public class Profiles {
 			sb.append("\",\"");
 			sb.append(password);
 			sb.append("\",");
-			sb.append(fileList.toString());
-			sb.append(",");
-			sb.append(labelList.toString());
+			sb.append(userLibrary);
 			sb.append("}");
 			return sb.toString();
 		}
