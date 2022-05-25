@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class Profiles implements Serializable {
+public class ProfileManager implements Serializable {
 	
-	private ArrayList<LoginProfile> profileList;
+	private ArrayList<Profile> profileList;
 	
-	public Profiles() {
-		profileList = new ArrayList<LoginProfile>();
+	public ProfileManager() {
+		profileList = new ArrayList<Profile>();
 	}
 	
-	public ArrayList<LoginProfile> getProfileList() {
+	public ArrayList<Profile> getProfileList() {
 		return profileList;
 	}
 	
@@ -22,14 +22,14 @@ public class Profiles implements Serializable {
 			!thePassword.isBlank() &&
 			!userAlreadyExists(theUserName)) {
 			
-			profileList.add(new LoginProfile(theUserName, thePassword));
+			profileList.add(new Profile(theUserName, thePassword));
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean userAlreadyExists(String theUserName) {
-		for (LoginProfile p : profileList) {
+		for (Profile p : profileList) {
 			if (theUserName.equals(p.getUserName()))
 				return true;
 		}
@@ -38,21 +38,20 @@ public class Profiles implements Serializable {
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (LoginProfile p : profileList) {
+		for (Profile p : profileList) {
 			sb.append(p.toString());
 			sb.append("\n");
 		}
 		return sb.toString();
 	}
 	
-	public class LoginProfile implements Serializable{
+	public class Profile implements Serializable{
 		
 		private String userName;
 		private String password;
-		
 		private Library userLibrary;
 		
-		public LoginProfile(String theUserName, String thePassword) {
+		public Profile(String theUserName, String thePassword) {
 			userName = theUserName;
 			password = thePassword;
 			userLibrary = new Library();
@@ -77,8 +76,7 @@ public class Profiles implements Serializable {
 			userLibrary.addLabel("resty Lab");
 		}
 		
-		
-		
+
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append("LoginProfile {\"");

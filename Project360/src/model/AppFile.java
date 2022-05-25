@@ -16,7 +16,7 @@ public class AppFile implements Serializable {
 	private File jFile;
 	
 	/** TODO JavaDoc */
-	private ArrayList<Label> labelsArray;
+	private ArrayList<AppLabel> labelsArray;
 	
 	
 	public AppFile(final String theFilePath) {
@@ -52,9 +52,9 @@ public class AppFile implements Serializable {
 	 * @author Christopher
 	 * @return an array of Labels associated to this File
 	 */
-	public Label[] getLabelsArray() {
+	public AppLabel[] getLabelsArray() {
 		final int count = labelsArray.size();
-		final Label[] currentLabels = new Label[count];
+		final AppLabel[] currentLabels = new AppLabel[count];
 		
 		for (int i = 0; i < count; i++) {
 			currentLabels[i] = labelsArray.get(i);
@@ -70,7 +70,7 @@ public class AppFile implements Serializable {
 	 * @param theLabel to be added
 	 * @return true if addition succeeded
 	 */
-	public boolean addLabel(final Label theLabel) {
+	public boolean addLabel(final AppLabel theLabel) {
 		if (labelsArray.contains(theLabel)) {
 			return false;
 		}
@@ -88,7 +88,7 @@ public class AppFile implements Serializable {
 	 * @param theLabel to be removed
 	 * @return true if removal succeeded
 	 */
-	public boolean removeLabel(final Label theLabel) {
+	public boolean removeLabel(final AppLabel theLabel) {
 		if ( labelsArray.isEmpty()  ||  !(labelsArray.contains(theLabel)) ) {
 			return false;
 		}

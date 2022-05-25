@@ -1,23 +1,21 @@
 package model;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
 
+
 public class FileIO {
-	
-	public static final String DATABASE_PATH =  "data.ser";
+
+	public static final File appDataFile =  new File("data.ser");
 	
 	public void chooseFile() {
 		
 	}
 	
-	public static void importProfile(Profiles theProfiles) throws IOException{
+	public static void importProfile(ProfileManager theProfiles) throws IOException{
 		String[] importedProfile = null;
 		
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
@@ -43,7 +41,7 @@ public class FileIO {
 			
 	}
 	
-	public static void exportProfile(Profiles.LoginProfile theProfile) throws IOException{
+	public static void exportProfile(ProfileManager.Profile theProfile) throws IOException{
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
 		jfc.setDialogTitle("Export profile");
 		
@@ -53,44 +51,56 @@ public class FileIO {
 		
 	}
 	
+	
+	
 	/**
-	 * Saves the DataBase byte code to a file.
+	 * Saves all the data stored in appData.
 	 * 
 	 * @author Christopher
-	 * @param byte[] of DataBase
 	 */
-	public static void saveDatabase(byte[] objectArr) {
+	public static boolean saveData(Object data) {
+		boolean isSaved = false;
 		try {
-			FileOutputStream fOut = new FileOutputStream(DATABASE_PATH); // TODO: decide real path
-			fOut.write(objectArr);
-			fOut.close();
+			FileOutputStream dataFile = new FileOutputStream(appDataFile);
+			ObjectOutputStream dataOut = new ObjectOutputStream(dataFile);
+			dataOut.writeObject(data);
+			dataOut.close();
+			dataFile.close();
+			isSaved = true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return isSaved;
 	}
 	
 	/**
-	 * Loads the database byte code from a file.
+	 * Loads all the data stored in appData.
 	 * 
 	 * @author Christopher
-	 * @return byte[] of DataBase
 	 */
-	public static byte[] loadDatabase() {
-		Path path = Paths.get(DATABASE_PATH); // TODO: decide real path
-		byte[] byteCode = null;
+	public static Object loadData() {
+		if (!appDataFile.exists()) return null;
+		
+		Object data = null;
 		try {
-			byteCode = Files.readAllBytes(path);
+			FileInputStream dataFile = new FileInputStream(appDataFile);
+			ObjectInputStream dataIn = new ObjectInputStream(dataFile);
+			data = dataIn.readObject();
+			dataIn.close();
+			dataFile.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return byteCode;
+		return data;
 	}
 	
-	
+
 	/**
 	 * Reads in file located at thePath in to a String[] indexed per line
 	 * 
@@ -122,5 +132,36 @@ public class FileIO {
 		bWrite.write(theData);
 		bWrite.close();
 	}
+	
+
+/**
+ * @deprecated
+ */
+/* 
+	public static void saveDatabase(byte[] objectArr) {
+		try {
+			FileOutputStream fOut = new FileOutputStream(DATABASE_PATH); // TODO: decide real path
+			fOut.write(objectArr);
+			fOut.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static byte[] loadDatabase() {
+		Path path = Paths.get(DATABASE_PATH); // TODO: decide real path
+		byte[] byteCode = null;
+		try {
+			byteCode = Files.readAllBytes(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return byteCode;
+	}
+*/
 
 }
