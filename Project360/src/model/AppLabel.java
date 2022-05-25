@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class Label implements Serializable{
+public class AppLabel implements Serializable{
 	
 	/** TODO: JavaDoc*/
 	private String labelName;
@@ -12,7 +12,7 @@ public class Label implements Serializable{
 	/** TODO: JavaDoc*/
 	private ArrayList<AppFile> filesArray;
 	
-	public Label(final String theLableName) {
+	public AppLabel(final String theLableName) {
 		labelName = theLableName;
 		filesArray = new ArrayList<>();
 	}

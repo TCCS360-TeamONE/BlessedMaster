@@ -2,7 +2,7 @@ package main;
 
 import java.awt.EventQueue;
 
-import model.Profiles;
+import model.ProfileManager;
 import view.MainWindow;
 
 /**
@@ -20,7 +20,7 @@ public class Main {
 	/**
 	 * Application constant variables
 	 */
-	public static final String VERSION = "v0.1";
+	public static final String VERSION = "v0.2";
 	public static final int DEFAULT_WIDTH = 800;
 	public static final int DEFAULT_HEIGHT = 600;
 	
@@ -36,23 +36,28 @@ public class Main {
 	public static Profile userProfile;
 	
 	// LoginProfile stuff for the ProfilePanel
-	public static Profiles loginProfiles;
+	public static ProfileManager mainProfileManger;
+	
+	
+	private static void testWIP() {
+		userProfile = new Profile();
+		
+		mainProfileManger = new ProfileManager();
+		
+		/* TESTING STUFF */
+		for (int i = 0; i < 10; i++) {
+			mainProfileManger.createNewUser("User"+i, "password");
+		}
+		
+		
+	}
 	
 	/**
 	 * Application entry point.
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		userProfile = new Profile();
-		
-		loginProfiles = new Profiles();
-		
-		/* TESTING STUFF */
-		for (int i = 0; i < 10; i++) {
-			loginProfiles.createNewUser("User"+i, "password");
-		}
-		
+		testWIP();
 		
         EventQueue.invokeLater(new Runnable() {
             @Override

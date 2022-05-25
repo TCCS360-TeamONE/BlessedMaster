@@ -15,15 +15,15 @@ public class Library implements Serializable {
 	private HashMap<String, AppFile> fileLibrary;
 	
 	/** TODO: JavaDoc*/
-	private HashMap<String, Label> labelLibrary;
+	private HashMap<String, AppLabel> labelLibrary;
 	
 	public Library() {
 		fileLibrary = new HashMap<String, AppFile>();
-		labelLibrary = new HashMap<String, Label>();	
+		labelLibrary = new HashMap<String, AppLabel>();	
 	}
 	
 	/** TODO: JavaDoc*/
-	public boolean applyLabelToFile(AppFile theFile, Label theLabel) {
+	public boolean applyLabelToFile(AppFile theFile, AppLabel theLabel) {
 		if (containsFile(theFile) &&
 			containsLabel(theLabel)) {
 			
@@ -36,7 +36,7 @@ public class Library implements Serializable {
 	}
 	
 	/** TODO: JavaDoc*/
-	public boolean removeLabelFromFile(AppFile theFile, Label theLabel) {
+	public boolean removeLabelFromFile(AppFile theFile, AppLabel theLabel) {
 		if (containsFile(theFile) &&
 			containsLabel(theLabel)) {
 
@@ -52,7 +52,7 @@ public class Library implements Serializable {
 	}
 	
 	/** TODO: JavaDoc*/
-	public boolean containsLabel(Label theLabel) {
+	public boolean containsLabel(AppLabel theLabel) {
 		return labelLibrary.containsValue(theLabel);
 	}
 	
@@ -79,7 +79,7 @@ public class Library implements Serializable {
 		if (labelLibrary.containsKey(theLabelName))
 			return false;
 		else
-			labelLibrary.put(theLabelName, new Label(theLabelName));
+			labelLibrary.put(theLabelName, new AppLabel(theLabelName));
 		return true;
 	}
 	
@@ -100,7 +100,7 @@ public class Library implements Serializable {
 		}
 		
 		String Labels = "";
-		for (Label l : labelLibrary.values()) {
+		for (AppLabel l : labelLibrary.values()) {
 			Labels += l.getMyName() + ", ";
 		}
 		

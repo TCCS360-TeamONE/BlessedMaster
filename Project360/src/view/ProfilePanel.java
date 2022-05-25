@@ -9,7 +9,7 @@ import javax.swing.event.ListSelectionListener;
 
 import main.Main;
 import model.FileIO;
-import model.Profiles;
+import model.ProfileManager;
 
 public class ProfilePanel extends JPanel {
 	
@@ -41,9 +41,6 @@ public class ProfilePanel extends JPanel {
 
 		initButtons();
 		initUserTable();
-
-//		JLabel fooBar = new JLabel("THIS IS THE PROFILE PANEL");
-//		fooBar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 80));
 		
 		JScrollPane scrollPane = new JScrollPane(tableUsers);
 		scrollPane.setPreferredSize(new Dimension(300, 200));
@@ -57,7 +54,7 @@ public class ProfilePanel extends JPanel {
 	 */
 	public void initUserTable() {
 				
-		tableUsers = new JTable(generateTableUsersData(Main.loginProfiles), columnNames);
+		tableUsers = new JTable(generateTableUsersData(Main.mainProfileManger), columnNames);
 		tableUsers.setRowHeight((int) defaultButtonDimensions.getHeight());
 		
 		tableUsers.setFont(defaultButtonFont);
@@ -76,7 +73,7 @@ public class ProfilePanel extends JPanel {
 		
 	}
 	
-	private String[][] generateTableUsersData(Profiles profiles) {
+	private String[][] generateTableUsersData(ProfileManager profiles) {
 		
 		int profilesSize = profiles.getProfileList().size();
 		String[][] users = new String[profilesSize][3];
@@ -87,8 +84,16 @@ public class ProfilePanel extends JPanel {
 		return users;
 	}
 	
-	private void updateTableUsers(Profiles profiles) {
-		tableUsers = new JTable(generateTableUsersData(profiles), columnNames);
+	private void updateTableUsers() {
+		removeAll();
+
+		initUserTable();
+		
+		JScrollPane scrollPane = new JScrollPane(tableUsers);
+		scrollPane.setPreferredSize(new Dimension(300, 200));
+		add(scrollPane);
+		add(buttonGrid);
+		
 	}
 	
 	private void initImportProfileButton() {
@@ -99,8 +104,8 @@ public class ProfilePanel extends JPanel {
 		bImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FileIO.importProfile(Main.loginProfiles);
-					updateTableUsers(Main.loginProfiles); // TODO DOESN'T WORK
+					FileIO.importProfile(Main.mainProfileManger);
+					updateTableUsers();
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -120,7 +125,7 @@ public class ProfilePanel extends JPanel {
 		bExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FileIO.exportProfile(Main.loginProfiles.getProfileList().get(selectedProfileIndex));
+					FileIO.exportProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
  				} catch (Exception ex) {
  					ex.printStackTrace();
  				}
