@@ -3,13 +3,20 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Label object that includes a collection of AppFiles
+ * associated with this AppLabel, and has methods to add
+ * and remove AppFiles from that collection.
+ * 
+ * @authors Christopher, 
+ */
 @SuppressWarnings("serial")
 public class AppLabel implements Serializable{
 	
-	/** TODO: JavaDoc*/
+	/** Name of this Label. */
 	private String labelName;
 	
-	/** TODO: JavaDoc*/
+	/** Collection of Files that have this AppLabels applied to them. */
 	private ArrayList<AppFile> filesArray;
 	
 	public AppLabel(final String theLableName) {
@@ -17,21 +24,21 @@ public class AppLabel implements Serializable{
 		filesArray = new ArrayList<>();
 	}
 
-	/** TODO: JavaDoc*/
+	/** Getter for the name of this AppLabel. */
 	public String getMyName() {
 		return labelName;
 	}
 
-	/** TODO: JavaDoc*/
+	/** Setter for the name of this AppLabel. */
 	public void setMyName(String theLableName) {
 		this.labelName = theLableName;
 	}
 	
 	/**
-	 * Getter for the list of Files associated with this Label.
+	 * Getter for {@link #filesArray}.
 	 * 
 	 * @author Christopher
-	 * @return an array of Files associated to this Label
+	 * @return Array of {@link AppFile} associated to this Label.
 	 */
 	public AppFile[] getLabelsArray() {
 		final int count = filesArray.size();
@@ -79,7 +86,11 @@ public class AppLabel implements Serializable{
 		}
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * toString method for AppLabel.
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Label {\"");

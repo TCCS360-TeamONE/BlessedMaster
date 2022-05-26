@@ -4,17 +4,19 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * Library
- * @author Christopher
- *
+ * Library that holds all the AppLabels and AppFiles used
+ * in a profile.
+ * Has a map of Name -> AppLabels, and file path -> AppFile.
+ * 
+ * @authors Christopher, 
  */
 @SuppressWarnings("serial")
 public class Library implements Serializable {
 
-	/** TODO: JavaDoc*/
+	/** A map of unique file paths to a AppFile Object. */
 	private HashMap<String, AppFile> fileLibrary;
 	
-	/** TODO: JavaDoc*/
+	/** A map of unique label names to a AppLabel Object. */
 	private HashMap<String, AppLabel> labelLibrary;
 	
 	public Library() {
@@ -22,7 +24,14 @@ public class Library implements Serializable {
 		labelLibrary = new HashMap<String, AppLabel>();	
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * Associates an AppLabel to an AppFile.
+	 * 
+	 * @author Christopher
+	 * @param theFile
+	 * @param theLabel
+	 * @return true if successful
+	 */
 	public boolean applyLabelToFile(AppFile theFile, AppLabel theLabel) {
 		if (containsFile(theFile) &&
 			containsLabel(theLabel)) {
@@ -35,7 +44,14 @@ public class Library implements Serializable {
 		return false;
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * Removes a AppLabel from an AppFile
+	 * 
+	 * @author Christopher
+	 * @param theFile
+	 * @param theLabel
+	 * @return true if successful
+	 */
 	public boolean removeLabelFromFile(AppFile theFile, AppLabel theLabel) {
 		if (containsFile(theFile) &&
 			containsLabel(theLabel)) {
@@ -46,17 +62,32 @@ public class Library implements Serializable {
 		return false;
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * 
+	 * @author Christopher
+	 * @param theFile
+	 * @return true if theFile exists
+	 */
 	public boolean containsFile(AppFile theFile) {
 		return fileLibrary.containsValue(theFile);
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * 
+	 * @author Christopher
+	 * @param theLabel
+	 * @return true if theLabel exists
+	 */
 	public boolean containsLabel(AppLabel theLabel) {
 		return labelLibrary.containsValue(theLabel);
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * 
+	 * @author Christopher
+	 * @param theFilePath
+	 * @return true if successful
+	 */
 	public boolean addFile(final String theFilePath) {
 		if (fileLibrary.containsKey(theFilePath))
 			return false;
@@ -65,7 +96,12 @@ public class Library implements Serializable {
 		return true;
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * 
+	 * @author Christopher
+	 * @param theFilePath
+	 * @return true if successful
+	 */
 	public boolean removeFile(final String theFilePath) {
 		if (fileLibrary.containsKey(theFilePath)) {
 			fileLibrary.remove(theFilePath);
@@ -74,7 +110,12 @@ public class Library implements Serializable {
 		return false;
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * 
+	 * @author Christopher
+	 * @param theLabelName
+	 * @return true if successful
+	 */
 	public boolean addLabel(final String theLabelName) {
 		if (labelLibrary.containsKey(theLabelName))
 			return false;
@@ -83,7 +124,12 @@ public class Library implements Serializable {
 		return true;
 	}
 	
-	/** TODO: JavaDoc*/
+	/**
+	 * 
+	 * @author Christopher
+	 * @param theLabelName
+	 * @return true if successful
+	 */
 	public boolean removeLabel(final String theLabelName) {
 		if (labelLibrary.containsKey(theLabelName)) {
 			labelLibrary.remove(theLabelName);
@@ -92,7 +138,12 @@ public class Library implements Serializable {
 		return false;
 	}
 	
-	@Override // TODO: Make better
+	/**
+	 * TODO Make Better
+	 * toString method for Library.
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String toString() {
 		String Files = "";
 		for (AppFile f : fileLibrary.values()) {
@@ -103,7 +154,6 @@ public class Library implements Serializable {
 		for (AppLabel l : labelLibrary.values()) {
 			Labels += l.getMyName() + ", ";
 		}
-		
 		
 		return (" Library: Files {" + Files + "} Labels {" + Labels + "}");
 	}

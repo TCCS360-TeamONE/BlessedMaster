@@ -4,20 +4,32 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * File object that wraps a java File Object, includes a
+ * collection of AppLabels associated with that File,
+ * and has methods to add and remove labels from that collection.
+ * 
+ * @authors Christopher, 
+ */
 @SuppressWarnings("serial")
 public class AppFile implements Serializable {
 	
-	/** TODO JavaDoc */
+	/** File path of this AppFile. */
 	private String filePath;
 	
-	/** TODO JavaDoc */
+	/** Names of this AppFile. */
 	private String fileName;
 	
+	/**
+	 * Underlying File object to get name and icons.
+	 */
 	private File jFile;
 	
-	/** TODO JavaDoc */
+	/**
+	 * Collection of AppLabels that have been applied
+	 * to this AppFile.
+	 */
 	private ArrayList<AppLabel> labelsArray;
-	
 	
 	public AppFile(final String theFilePath) {
 		filePath = theFilePath;
@@ -59,7 +71,6 @@ public class AppFile implements Serializable {
 		for (int i = 0; i < count; i++) {
 			currentLabels[i] = labelsArray.get(i);
 		}
-		
 		return currentLabels;
 	}
 	
@@ -73,12 +84,10 @@ public class AppFile implements Serializable {
 	public boolean addLabel(final AppLabel theLabel) {
 		if (labelsArray.contains(theLabel)) {
 			return false;
-		}
-		else {
+		} else {
 			labelsArray.add(theLabel);
 			return true;
 		}
-		
 	}
 	
 	/**
@@ -97,8 +106,12 @@ public class AppFile implements Serializable {
 			return true;
 		}
 	}
-	
-	/** TODO: JavaDoc*/
+
+	/**
+	 * toString method for AppFile.
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("File {\"");
