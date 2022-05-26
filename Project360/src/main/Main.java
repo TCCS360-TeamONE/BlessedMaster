@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.EventQueue;
-
 import model.ProfileManager;
 import view.MainWindow;
 
@@ -14,7 +13,6 @@ import view.MainWindow;
  * The entry point for the TCSS360b TeamONE FileSorter application.
  *
  */
-
 public class Main {
 	
 	/**
