@@ -105,7 +105,7 @@ public class FileIO {
 			
 	}
 	
-	public static void exportProfile(ProfileManager.Profile theProfile) throws IOException{
+	public static void exportProfile(Profile theProfile) throws IOException{
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
 		jfc.setDialogTitle("Export profile");
 		

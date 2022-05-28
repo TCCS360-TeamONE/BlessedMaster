@@ -10,7 +10,7 @@ package main;
  *
  */
 
-public class Profile {
+public class RegisteredAppOwner {
 	
 	/**
 	 * Profile member variables
@@ -19,7 +19,7 @@ public class Profile {
 	private String email;
 	private boolean registered;
 	
-	public Profile() {
+	public RegisteredAppOwner() {
 		name = "unregistered";
 		email = "unregistered";
 		registered = false;
