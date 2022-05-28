@@ -1,19 +1,83 @@
 package model;
 
-import java.io.*;
+import java.awt.Component;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
-
+/**
+ * Handles all the file saving and loading operations.
+ * 
+ * @author Alan, Christopher
+ *
+ */
 public class FileIO {
-
-	public static final File appDataFile =  new File("data.ser");
 	
-	public void chooseFile() {
-		
+	/**
+	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
+	 * @return A java File object or Null if no file was selected
+	 */
+	public static File openFile() {
+		return openFile(null, null);
 	}
+	
+	/**
+	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
+	 * @param theParent a Java {@link Component} for the Open Dialog to be connected to
+	 * @return A java File object or Null if no file was selected
+	 */
+	public static File openFile(Component theParent) {
+		return openFile(theParent, null);
+	}
+	
+	/**
+	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
+	 * @param theFilters array of {@link FileNameExtensionFilter} to limit what files can be loaded
+	 * @return A java File object or Null if no file was selected
+	 */
+	public static File openFile(FileNameExtensionFilter[] theFilters) {
+		return openFile(null, theFilters);
+	}	
+	
+	/**
+	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
+	 * @param theParent a Java {@link Component} for the Open Dialog to be connected to
+	 * @param theFilters array of {@link FileNameExtensionFilter} to limit what files can be loaded
+	 * @return A java File object or Null if no file was selected
+	 */
+	public static File openFile(Component theParent, FileNameExtensionFilter[] theFilters) {
+		JFileChooser fileChooser = new JFileChooser();
+		File myFile = null;
+		int choice = fileChooser.showOpenDialog(theParent);
+		
+		if (theFilters != null) {
+			for (FileNameExtensionFilter fnef : theFilters) {
+				fileChooser.setFileFilter(fnef);
+			}
+		}
+		
+		if (choice == JFileChooser.APPROVE_OPTION) {
+			myFile = new File(fileChooser.getSelectedFile().getAbsolutePath());
+		}
+		else System.out.println("canceled");
+		
+		return myFile;
+	}
+
 	
 	public static void importProfile(ProfileManager theProfiles) throws IOException{
 		String[] importedProfile = null;
@@ -54,16 +118,19 @@ public class FileIO {
 	
 	
 	/**
-	 * Saves all the data stored in appData.
+	 * Saves the Object <Strong>theData</Strong> to <Strong>theFile</Strong>
+	 * passed into this method.
 	 * 
-	 * @author Christopher
+	 * @param theData and Object to be serialized and saved to a <Strong>theFile</Strong>
+	 * @param theFile where the <Strong>theData</Strong> is stored
+	 * @return
 	 */
-	public static boolean saveData(Object data) {
+	public static boolean saveData(Object theData, File theFile) {
 		boolean isSaved = false;
 		try {
-			FileOutputStream dataFile = new FileOutputStream(appDataFile);
+			FileOutputStream dataFile = new FileOutputStream(theFile);
 			ObjectOutputStream dataOut = new ObjectOutputStream(dataFile);
-			dataOut.writeObject(data);
+			dataOut.writeObject(theData);
 			dataOut.close();
 			dataFile.close();
 			isSaved = true;
@@ -77,16 +144,18 @@ public class FileIO {
 	}
 	
 	/**
-	 * Loads all the data stored in appData.
+	 * Loads <Strong>theFile</Strong> and, assuming it is a serialized object, returns the
+	 * <Strong>theObject</Strong> contained in that file.
 	 * 
-	 * @author Christopher
+	 * @param theFile that containers an <Strong>theObject<Strong>
+	 * @return theObject
 	 */
-	public static Object loadData() {
-		if (!appDataFile.exists()) return null;
+	public static Object loadData(File theFile) {
+		if (!theFile.exists()) return null;
 		
 		Object data = null;
 		try {
-			FileInputStream dataFile = new FileInputStream(appDataFile);
+			FileInputStream dataFile = new FileInputStream(theFile);
 			ObjectInputStream dataIn = new ObjectInputStream(dataFile);
 			data = dataIn.readObject();
 			dataIn.close();
@@ -132,36 +201,5 @@ public class FileIO {
 		bWrite.write(theData);
 		bWrite.close();
 	}
-	
-
-/**
- * @deprecated
- */
-/* 
-	public static void saveDatabase(byte[] objectArr) {
-		try {
-			FileOutputStream fOut = new FileOutputStream(DATABASE_PATH); // TODO: decide real path
-			fOut.write(objectArr);
-			fOut.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static byte[] loadDatabase() {
-		Path path = Paths.get(DATABASE_PATH); // TODO: decide real path
-		byte[] byteCode = null;
-		try {
-			byteCode = Files.readAllBytes(path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return byteCode;
-	}
-*/
 
 }

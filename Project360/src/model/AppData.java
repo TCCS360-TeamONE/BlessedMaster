@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.io.Serializable;
 
 import model.ProfileManager.Profile;
@@ -12,15 +13,18 @@ import model.ProfileManager.Profile;
  */
 public class AppData {
 	
+	public static final File APP_DATA_FILE =  new File("data.ser");
+	
 	/** Stores the Database in memory. */
-	private static Database database;
+	private Database database;
 	
 	/**
 	 * Initializes the database.
 	 * @author Christopher
 	 */
-	public static void start() {
-		database = (Database) FileIO.loadData();
+	public void start() {
+		database = (Database) FileIO.loadData(APP_DATA_FILE);
+		if (database == null) database = new Database();
 	}
 	
 	/**
@@ -95,6 +99,11 @@ public class AppData {
 	private class Database implements Serializable {
 		private String[] appOwnerInfo;
 		private ProfileManager profiles;
+		
+		private Database() {
+			appOwnerInfo = new String[] {"Timmy", "Tim@poo.com"}; // TODO FIX appOwnerInfo
+			profiles = new ProfileManager();
+		}
 	}
 
 }

@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.swing.Icon;
+import javax.swing.filechooser.FileSystemView;
+
 /**
  * File object that wraps a java File Object, includes a
  * collection of AppLabels associated with that File,
@@ -14,11 +17,42 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class AppFile implements Serializable {
 	
+//	public static void main(String[] args) {
+//		String dir = System.getProperty("user.dir") + File.separator + "TestFiles" + File.separator;
+//		
+//		AppFile test = new AppFile(dir + "test.docx");
+//		System.out.println(test.getFileName());
+//		System.out.println(test.getFilePath());
+//		System.out.println(test.getFileTypeDescription());
+//		System.out.println(test.fileSystem.getHomeDirectory());
+//		System.out.println(System.getProperty("user.dir"));
+//	}
+//	
+	/** Size of the File Icon */
+	private static final int ICON_WIDTH = 64;
+	private static final int ICON_HEIGHT = 64;
+	
+	/**
+	 * TODO: Write Javadoc
+	 */
+	private final FileSystemView fileSystem;
+	
 	/** File path of this AppFile. */
-	private String filePath;
+	private String fileFullPath;
 	
 	/** Names of this AppFile. */
 	private String fileName;
+	
+	/** File icon used by OS */
+	private Icon fileIcon;
+	
+	/**
+	 * Type description for a file, directory, or folder as it would
+	 * be displayed in a system file browser.
+	 * 
+	 * TODO: link to FileSystemView.getSystemTypeDescription()
+	 */
+	private String fileTypeDescription;
 	
 	/**
 	 * Underlying File object to get name and icons.
@@ -32,9 +66,14 @@ public class AppFile implements Serializable {
 	private ArrayList<AppLabel> labelsArray;
 	
 	public AppFile(final String theFilePath) {
-		filePath = theFilePath;
-		jFile = new File(theFilePath);
-		fileName = jFile.getName();
+		fileSystem = FileSystemView.getFileSystemView();
+		jFile = fileSystem.createFileObject(theFilePath);
+		
+		fileFullPath = theFilePath;
+		fileName = fileSystem.getSystemDisplayName(jFile);
+		fileIcon = fileSystem.getSystemIcon(jFile, ICON_WIDTH, ICON_HEIGHT);
+		fileTypeDescription = fileSystem.getSystemTypeDescription(jFile);
+		
 		labelsArray = new ArrayList<>();
 	}
 	
@@ -45,7 +84,7 @@ public class AppFile implements Serializable {
 	 * @return filePath as a String
 	 */
 	public String getFilePath() {
-		return filePath;
+		return fileFullPath;
 	}
 	
 	/**
@@ -56,6 +95,14 @@ public class AppFile implements Serializable {
 	 */
 	public String getFileName() {
 		return fileName;
+	}
+	
+	public String getFileTypeDescription() {
+		return fileTypeDescription;
+	}
+	
+	public Icon getFileIcon() {
+		return fileIcon;
 	}
 	
 	/**
@@ -115,7 +162,7 @@ public class AppFile implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("File {\"");
-		sb.append(filePath);
+		sb.append(fileFullPath);
 		sb.append("\"}");
 		return sb.toString();
 	}
