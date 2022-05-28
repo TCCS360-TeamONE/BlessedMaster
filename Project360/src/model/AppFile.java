@@ -12,7 +12,7 @@ import javax.swing.filechooser.FileSystemView;
  * collection of AppLabels associated with that File,
  * and has methods to add and remove labels from that collection.
  * 
- * @authors Christopher, 
+ * @authors Christopher,  
  */
 @SuppressWarnings("serial")
 public class AppFile implements Serializable {

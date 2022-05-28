@@ -9,7 +9,7 @@ import model.ProfileManager.Profile;
 /**
  * Handles all the persistent data not hard-coded into the application.
  * 
- * @author Christopher
+ * @author Christopher 
  */
 public class AppData {
 	

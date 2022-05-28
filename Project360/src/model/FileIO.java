@@ -22,7 +22,7 @@ import javax.swing.filechooser.FileSystemView;
 /**
  * Handles all the file saving and loading operations.
  * 
- * @author Alan, Christopher
+ * @author Alan, Christopher 
  *
  */
 public class FileIO {
