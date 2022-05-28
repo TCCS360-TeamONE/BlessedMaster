@@ -41,10 +41,10 @@ public class AboutWindow extends JFrame{
 		
 		registerUser();
 		
-		if (Main.userProfile.isRegistered()) {
+		if (Main.appOwner.isRegistered()) {
 			lineRegistered = "This app is registered to:";
-			lineUser = 		 "  User Name : " + Main.userProfile.getName();
-			lineEmail = 	 "  Email Address : " + Main.userProfile.getEmail();
+			lineUser = 		 "  User Name : " + Main.appOwner.getName();
+			lineEmail = 	 "  Email Address : " + Main.appOwner.getEmail();
 		}
 		
 		String[] strAbout = {
@@ -81,7 +81,7 @@ public class AboutWindow extends JFrame{
 	 * Helper method to call the required functions for profile user registration.
 	 */
 	public void registerUser() {
-		if (!Main.userProfile.isRegistered()) {
+		if (!Main.appOwner.isRegistered()) {
 			
 			String defaultText = "unregistered";
 			
@@ -94,9 +94,9 @@ public class AboutWindow extends JFrame{
 				newEmail != null && 
 				!newEmail.equals(defaultText) &&
 				!newEmail.isBlank()){
-				Main.userProfile.setName(newUser);
-				Main.userProfile.setEmail(newEmail);
-				Main.userProfile.setRegistered(true);
+				Main.appOwner.setName(newUser);
+				Main.appOwner.setEmail(newEmail);
+				Main.appOwner.setRegistered(true);
 			}
 		}
 	}

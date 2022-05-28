@@ -31,14 +31,14 @@ public class Main {
 	};
 
 	// Profile for the about screen
-	public static Profile userProfile;
+	public static RegisteredAppOwner appOwner;
 	
 	// LoginProfile stuff for the ProfilePanel
 	public static ProfileManager mainProfileManger;
 	
 	
 	private static void testWIP() {
-		userProfile = new Profile();
+		appOwner = new RegisteredAppOwner();
 		
 		mainProfileManger = new ProfileManager();
 		
