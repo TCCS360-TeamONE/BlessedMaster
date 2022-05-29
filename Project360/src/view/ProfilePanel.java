@@ -231,7 +231,7 @@ public class ProfilePanel extends JPanel {
 		bLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setCurrentlyLoadedProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
-				Main.window.fileAndLabelTabsUnlock();
+				Main.window.fileAndLabelTabsUnlock(); // to unlock File and Label tabs
 			}
 		});
 	}

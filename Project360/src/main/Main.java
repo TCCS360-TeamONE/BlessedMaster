@@ -38,14 +38,16 @@ public class Main {
 
 	// Profile for the about screen
 	public static RegisteredAppOwner appOwner;
-	
+
 	// LoginProfile stuff for the ProfilePanel
 	public static ProfileManager mainProfileManger;
+	
 	
 	private static void initOwner() {
 		appOwner = new RegisteredAppOwner();
 	}
 	
+	// to call methods in the MainWindow
 	public static MainWindow window;
 	
 	private static void initProfiles() {

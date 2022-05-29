@@ -80,7 +80,7 @@ public class MainWindow extends JFrame {
 	 * 
 	 * Do not use this and the "setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)"
 	 * at the same time. This does what that does but also saves the persistent
-	 * data of the application.
+	 * data of the application. 
 	 * 
 	 * @author Christopher
 	 */
