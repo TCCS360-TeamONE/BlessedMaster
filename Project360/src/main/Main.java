@@ -36,18 +36,25 @@ public class Main {
 	// LoginProfile stuff for the ProfilePanel
 	public static ProfileManager mainProfileManger;
 	
-	
+	/*
 	private static void testWIP() {
-		appOwner = new RegisteredAppOwner();
+		initOwner();
+		initProfiles();
 		
-		mainProfileManger = new ProfileManager();
-		
-		/* TESTING STUFF */
 		for (int i = 0; i < 10; i++) {
 			mainProfileManger.createNewUser("User"+i, "password");
 		}
+	}
+	*/
+	
+	private static void initOwner() {
+		appOwner = new RegisteredAppOwner();
+	}
+	
+	private static void initProfiles() {
+		mainProfileManger = new ProfileManager();
 		
-		
+		mainProfileManger.createNewUser("default", "pass");
 	}
 	
 	/**
@@ -55,7 +62,10 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		testWIP();
+		//testWIP();
+		
+		initOwner();
+		initProfiles();
 		
         EventQueue.invokeLater(new Runnable() {
             @Override
