@@ -1,6 +1,10 @@
 package main;
 
 import java.awt.EventQueue;
+import java.io.File;
+
+import model.FileIO;
+import model.Profile;
 import model.ProfileManager;
 import view.MainWindow;
 
@@ -22,6 +26,8 @@ public class Main {
 	public static final int DEFAULT_WIDTH = 800;
 	public static final int DEFAULT_HEIGHT = 600;
 	
+	public static final File PERSISTENT_DATA_FILE =  new File("./AppFiles/PersistentData.ser");
+	
 	public static final String[] aboutDevs = {
 		"  Alan Thompson",
 		"  Christopher Henderson",
@@ -36,34 +42,30 @@ public class Main {
 	// LoginProfile stuff for the ProfilePanel
 	public static ProfileManager mainProfileManger;
 	
-	/*
-	private static void testWIP() {
-		initOwner();
-		initProfiles();
-		
-		for (int i = 0; i < 10; i++) {
-			mainProfileManger.createNewUser("User"+i, "password");
-		}
-	}
-	*/
-	
 	private static void initOwner() {
 		appOwner = new RegisteredAppOwner();
 	}
 	
 	private static void initProfiles() {
-		mainProfileManger = new ProfileManager();
-		
-		mainProfileManger.createNewUser("default", "pass");
+		if (PERSISTENT_DATA_FILE.exists()) {
+			mainProfileManger = (ProfileManager) FileIO.loadObjectFile(PERSISTENT_DATA_FILE);
+		} else {
+			mainProfileManger = new ProfileManager();
+			mainProfileManger.addProfile(new Profile("default", "pass"));
+		}
+
 	}
+	
+	public static void savePersistentData() {
+		FileIO.saveObjectFile(mainProfileManger, PERSISTENT_DATA_FILE);
+	}
+	
 	
 	/**
 	 * Application entry point.
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//testWIP();
-		
 		initOwner();
 		initProfiles();
 		

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
 
+
 /**
  * File object that wraps a java File Object, includes a
  * collection of AppLabels associated with that File,
@@ -17,17 +18,25 @@ import javax.swing.filechooser.FileSystemView;
 @SuppressWarnings("serial")
 public class AppFile implements Serializable {
 	
+//	//////// FOR TESTING ONLY ///////////////////
 //	public static void main(String[] args) {
+//		
+//		
 //		String dir = System.getProperty("user.dir") + File.separator + "TestFiles" + File.separator;
 //		
 //		AppFile test = new AppFile(dir + "test.docx");
-//		System.out.println(test.getFileName());
-//		System.out.println(test.getFilePath());
-//		System.out.println(test.getFileTypeDescription());
+//		System.out.println("File Path: " + test.getFilePath());
+//		System.out.println("File Name: " + test.getFileName());
+//		System.out.println("File Extension: " + test.getFileExtension());
+//		System.out.println("Full File Name: " + test.getFullFileName());
+//		System.out.println("File Description: " + test.getFileTypeDescription());
 //		System.out.println(test.fileSystem.getHomeDirectory());
 //		System.out.println(System.getProperty("user.dir"));
-//	}
-//	
+//		
+//
+//	} //////// TESTING END ///////////////////
+
+	
 	/** Size of the File Icon */
 	private static final int ICON_WIDTH = 64;
 	private static final int ICON_HEIGHT = 64;
@@ -40,17 +49,27 @@ public class AppFile implements Serializable {
 	/** File path of this AppFile. */
 	private String fileFullPath;
 	
-	/** Names of this AppFile. */
+	/** Name of this file. Does not include the file extension.*/
 	private String fileName;
+
+	/** Extension of this file. <b>Example:</b> "txt" | "jpg"*/
+	private String fileExtension;
+	
+	/**
+	 * Name with Extension of this file.
+	 * <b>Example:</b> "words.txt"
+	 */
+	private String fileNameAndExtension;
 	
 	/** File icon used by OS */
 	private Icon fileIcon;
 	
 	/**
 	 * Type description for a file, directory, or folder as it would
-	 * be displayed in a system file browser.
+	 * be displayed in a system file browser.<p>Check out
+	 * {@link FileSystemView#getSystemTypeDescription() SystemTypeDescription}
+	 * for more information.<br>
 	 * 
-	 * TODO: link to FileSystemView.getSystemTypeDescription()
 	 */
 	private String fileTypeDescription;
 	
@@ -70,7 +89,8 @@ public class AppFile implements Serializable {
 		jFile = fileSystem.createFileObject(theFilePath);
 		
 		fileFullPath = theFilePath;
-		fileName = fileSystem.getSystemDisplayName(jFile);
+		fileNameAndExtension = fileSystem.getSystemDisplayName(jFile);
+		splitFileNameAndExt();
 		fileIcon = fileSystem.getSystemIcon(jFile, ICON_WIDTH, ICON_HEIGHT);
 		fileTypeDescription = fileSystem.getSystemTypeDescription(jFile);
 		
@@ -87,16 +107,31 @@ public class AppFile implements Serializable {
 		return fileFullPath;
 	}
 	
-	/**
-	 * Getter for the name of this file
-	 * 
-	 * @author Christopher
-	 * @return fileName as a String
+	/** 
+	 * Getter for the name of this file. Does not include the file extension.<p> 
+	 * <b>Example</b> for a file Notes.txt this method returns "Notes"
 	 */
 	public String getFileName() {
 		return fileName;
 	}
 	
+	/** 
+	 * Getter for the extension of this file.<p>
+	 * <b>Example</b> for a file Notes.txt this method returns "txt"
+	 */
+	public String getFileExtension() {
+		return fileExtension;
+	}
+	
+	/**
+	 * Getter for the file name and extension of this file as one string.<p>
+	 * <b>Example</b> for a file Notes.txt this method returns "Notes.txt"
+	 */
+	public String getFullFileName() {
+		return fileNameAndExtension;
+	}
+	
+	/** Getter File Type Description of this file. */
 	public String getFileTypeDescription() {
 		return fileTypeDescription;
 	}
@@ -165,5 +200,19 @@ public class AppFile implements Serializable {
 		sb.append(fileFullPath);
 		sb.append("\"}");
 		return sb.toString();
+	}
+	
+	private void splitFileNameAndExt() {
+		String fullFileName = jFile.getName();
+		char[] fullCharArr = fullFileName.toCharArray();
+		
+		int pointLocation = -1;
+		
+		for (int i = 0; i < fullCharArr.length; i++) {
+			if (fullCharArr[i] == '.') pointLocation = i;
+		}
+		
+		fileName = fullFileName.substring(0, pointLocation);
+		fileExtension = fullFileName.substring(pointLocation+1);
 	}
 }

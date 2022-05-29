@@ -1,9 +1,18 @@
 package view;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -14,9 +23,6 @@ import model.ProfileManager;
 
 public class ProfilePanel extends JPanel {
 	
-	/**
-	 *  
-	 */
 	private static final long serialVersionUID = 9085434569766998412L;
 	
 	private JTable tableUsers;
@@ -107,11 +113,14 @@ public class ProfilePanel extends JPanel {
 		bImport.setFont(defaultButtonFont);
 		bImport.setPreferredSize(defaultButtonDimensions);
 		
+		Component theParent = this; // <- needed to connect the file dialog to this panel
+		
 		bImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FileIO.importProfile(Main.mainProfileManger);
-					updateTableUsers();
+					System.out.println(FileIO.importProfile(theParent)); // <- prints true if it was successful
+					
+					updateTableUsers();	
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -128,10 +137,16 @@ public class ProfilePanel extends JPanel {
 		
 		bExport.setEnabled(false);
 		
+		Component theParent = this; // <- needed to connect the file dialog to this panel
+		
 		bExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FileIO.exportProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
+					boolean win = FileIO.exportProfile(theParent,
+							Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
+					
+					System.out.println(win); // <- prints true if it was successful
+					
  				} catch (Exception ex) {
  					ex.printStackTrace();
  				}
@@ -162,7 +177,7 @@ public class ProfilePanel extends JPanel {
 						String profilePass = JOptionPane.showInputDialog(passInputMessage);
 						if (profilePass == null) return;
 						if (!profilePass.isEmpty() && !profilePass.isBlank()) {
-							Main.mainProfileManger.createNewUser(profileName, profilePass);
+							Main.mainProfileManger.addProfile(new Profile(profileName, profilePass));
 							updateTableUsers();
 							JOptionPane.showMessageDialog(null, userCreatedMessage);
 						} else {

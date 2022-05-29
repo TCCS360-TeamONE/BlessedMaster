@@ -1,23 +1,16 @@
 package model;
 
 import java.awt.Component;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 
 /**
  * Handles all the file saving and loading operations.
@@ -27,179 +20,223 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class FileIO {
 	
+	public static final String PROFILE_EXT = "prf";
+	
+	public static final FileNameExtensionFilter PROFILE_EXT_FILTER = 
+			new FileNameExtensionFilter("Profile File", PROFILE_EXT);
+
+
+	//////////////////////////////////////////
+	
 	/**
-	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
-	 * @return A java File object or Null if no file was selected
+	 * Imports a Profile object that has been saved as a file
+	 * Enforced file extension {@value FileIO#PROFILE_EXT}
+	 * 
+	 * @return true if the import was successful 
 	 */
-	public static File openFile() {
-		return openFile(null, null);
+	public static boolean importProfile(Component theParent) {
+		File file = loadFile(theParent, PROFILE_EXT_FILTER);
+		if (file == null) {
+			System.err.println("FileIO.importProfile(): file is null");
+			return false;
+		}
+
+		Object importObject = loadObjectFile(file);
+		if (importObject == null) {
+			System.err.println("FileIO.importProfile(): ImportObject is null");
+			return false;
+		}
+		else if (importObject.getClass() != model.Profile.class) {
+			System.err.println("FileIO.importProfile(): Import Object is not a Profile Object " +
+								importObject.getClass());
+			return false;
+		}
+		
+		Profile profileImport = (Profile) importObject;
+		if (main.Main.mainProfileManger.userAlreadyExists(profileImport.getUserName())) {
+			System.err.println("FileIO.importProfile(): This User already exists");
+			return false;
+		}
+
+		main.Main.mainProfileManger.addProfile(profileImport);
+		return true;
 	}
+	
+	/**
+	 * Exports a Profile object and saves it to a user selected file
+	 * Enforced file extension {@value FileIO#PROFILE_EXT}
+	 * 
+	 * @param theProfile to be exported and saved to file suggested 
+	 * @return true if the export was successful 
+	 */
+	public static boolean exportProfile(Component theParent, Profile theProfile) {		
+		String suggestedName = theProfile.getUserName() + "." + PROFILE_EXT;
+		
+		File file = saveFile(theParent, suggestedName, PROFILE_EXT_FILTER);
+		if (file == null) {
+			System.err.println("FileIO.exportProfile(): file is null");
+			return false;
+		}
+
+		if(!saveObjectFile(theProfile, file)) {
+			System.err.println("FileIO.exportProfile(): Object File could not be saved");
+		}
+		
+		return true;
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
 	 * @param theParent a Java {@link Component} for the Open Dialog to be connected to
-	 * @return A java File object or Null if no file was selected
-	 */
-	public static File openFile(Component theParent) {
-		return openFile(theParent, null);
-	}
-	
-	/**
-	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
 	 * @param theFilters array of {@link FileNameExtensionFilter} to limit what files can be loaded
 	 * @return A java File object or Null if no file was selected
 	 */
-	public static File openFile(FileNameExtensionFilter[] theFilters) {
-		return openFile(null, theFilters);
-	}	
-	
-	/**
-	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
-	 * @param theParent a Java {@link Component} for the Open Dialog to be connected to
-	 * @param theFilters array of {@link FileNameExtensionFilter} to limit what files can be loaded
-	 * @return A java File object or Null if no file was selected
-	 */
-	public static File openFile(Component theParent, FileNameExtensionFilter[] theFilters) {
+	public static File loadFile(Component theParent, FileNameExtensionFilter... theFilters) {
 		JFileChooser fileChooser = new JFileChooser();
 		File myFile = null;
-		int choice = fileChooser.showOpenDialog(theParent);
 		
 		if (theFilters != null) {
-			for (FileNameExtensionFilter fnef : theFilters) {
-				fileChooser.setFileFilter(fnef);
+			for (FileNameExtensionFilter filter : theFilters) {
+				fileChooser.addChoosableFileFilter(filter);
+				fileChooser.setFileFilter(filter);
 			}
 		}
+		
+		int choice = fileChooser.showOpenDialog(theParent);
+		
+		
+		if (choice == JFileChooser.APPROVE_OPTION) {
+			myFile = new File(fileChooser.getSelectedFile().getAbsolutePath());
+		} else {
+			System.out.println("canceled");
+		}
+		
+		return myFile;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param theParent
+	 * @param theFilters
+	 * @return A File to be saved
+	 */
+	public static File saveFile(Component theParent, String defaultFileName, FileNameExtensionFilter... theFilters) {
+		JFileChooser fileChooser = new JFileChooser();
+		File myFile = null;
+		
+		if (theFilters != null) {
+			for (FileNameExtensionFilter filter : theFilters) {
+				fileChooser.addChoosableFileFilter(filter);
+				fileChooser.setFileFilter(filter);
+			}
+		}
+		
+		if (defaultFileName != null) {
+			fileChooser.setSelectedFile(new File(defaultFileName));
+		}
+		
+		int choice = fileChooser.showSaveDialog(theParent);
 		
 		if (choice == JFileChooser.APPROVE_OPTION) {
 			myFile = new File(fileChooser.getSelectedFile().getAbsolutePath());
 		}
-		else System.out.println("canceled");
 		
 		return myFile;
 	}
-
 	
-	public static void importProfile(ProfileManager theProfiles) throws IOException{
-		String[] importedProfile = null;
-		
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
-		jfc.setDialogTitle("Import profile");
-		
-		int returnValue = jfc.showOpenDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION) 
-			importedProfile = readFile(jfc.getSelectedFile().getAbsolutePath());
-		
-		if (importedProfile != null && importedProfile.length != 0) {
-			String[] profileData = importedProfile[0].split("\"");
-			String profileName = profileData[1];
-			String profilePass = profileData[3];
-			if (!theProfiles.userAlreadyExists(profileName)) {
-				theProfiles.createNewUser(profileName, profilePass);
-			} else {
-				String alertMessage = 	"Profile \""
-										+ profileName
-										+ "\" already exists. Please try importing a different profile.";
-				JOptionPane.showMessageDialog(null, alertMessage);
-			}
-		}
-			
-	}
-	
-	public static void exportProfile(Profile theProfile) throws IOException{
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
-		jfc.setDialogTitle("Export profile");
-		
-		int returnValue = jfc.showSaveDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION)
-			writeFile(jfc.getSelectedFile().getAbsolutePath(), theProfile.toString());
-		
-	}
-	
-	
+///////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Saves the Object <Strong>theData</Strong> to <Strong>theFile</Strong>
-	 * passed into this method.
+	 * Loads <b>theFile</b> and, assuming it is a serialized object, returns the
+	 * <b>theObject</b> contained in that file.
 	 * 
-	 * @param theData and Object to be serialized and saved to a <Strong>theFile</Strong>
-	 * @param theFile where the <Strong>theData</Strong> is stored
-	 * @return
+	 * @param theFile that containers an <b>theObject<b>
+	 * @return theObject or null if file could not be loaded
 	 */
-	public static boolean saveData(Object theData, File theFile) {
-		boolean isSaved = false;
-		try {
-			FileOutputStream dataFile = new FileOutputStream(theFile);
-			ObjectOutputStream dataOut = new ObjectOutputStream(dataFile);
-			dataOut.writeObject(theData);
-			dataOut.close();
-			dataFile.close();
-			isSaved = true;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return isSaved;
-	}
-	
-	/**
-	 * Loads <Strong>theFile</Strong> and, assuming it is a serialized object, returns the
-	 * <Strong>theObject</Strong> contained in that file.
-	 * 
-	 * @param theFile that containers an <Strong>theObject<Strong>
-	 * @return theObject
-	 */
-	public static Object loadData(File theFile) {
+	public static Object loadObjectFile(File theFile) {
 		if (!theFile.exists()) return null;
 		
-		Object data = null;
+		Object theObject = null;
 		try {
 			FileInputStream dataFile = new FileInputStream(theFile);
 			ObjectInputStream dataIn = new ObjectInputStream(dataFile);
-			data = dataIn.readObject();
+			theObject = dataIn.readObject();
 			dataIn.close();
 			dataFile.close();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("FileIO.openObjectFile(): " + e);
+			//e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("FileIO.openObjectFile(): " + e);
+			//e.printStackTrace();
 		}
 		
-		return data;
-	}
-	
-
-	/**
-	 * Reads in file located at thePath in to a String[] indexed per line
-	 * 
-	 * @author Christopher Henderson, Alan Thompson
-	 * @param thePath of file to be read
-	 * @return String[] indexed per line
-	 */
-	private static String[] readFile(String thePath) throws IOException {
-		String data = "";
-		BufferedReader bRead = new BufferedReader(new FileReader(thePath));
-		
-		String currLine;
-		while ( (currLine = bRead.readLine()) != null )
-			data += currLine + "\n";
-		
-		bRead.close();
-		return data.split("\n");
+		return theObject;
 	}
 	
 	/**
-	 * Writes theData to file at thePath
+	 * Saves the Object <b>theData</b> to <b>theFile</b> passed into this method.
 	 * 
-	 * @author Christopher Henderson, Alan Thompson
-	 * @param thePath of the file to be written
-	 * @param theData to be written
+	 * @param theObject and Object to be serialized and saved to a <b>theFile</b>
+	 * @param theFile where the <b>theData</b> is stored
+	 * @return true if the object was saved to file
 	 */
-	private static void writeFile(String thePath, String theData) throws IOException {
-		BufferedWriter bWrite = new BufferedWriter(new FileWriter(thePath));
-		bWrite.write(theData);
-		bWrite.close();
+	public static boolean saveObjectFile(Object theObject, File theFile) {
+		try {
+			FileOutputStream dataFile = new FileOutputStream(theFile);
+			ObjectOutputStream dataOut = new ObjectOutputStream(dataFile);
+			dataOut.writeObject(theObject);
+			dataOut.close();
+			dataFile.close();
+			return true; // return true because we can only get here if nothing got messed up
+		} catch (NullPointerException e) {
+			System.err.println("FileIO.saveObjectFile(): " + e);
+			//e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			System.err.println("FileIO.saveObjectFile(): " + e);
+			//e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("FileIO.saveObjectFile(): " + e);
+			//e.printStackTrace();
+		}
+		
+		return false; // only gets run if the return true in the try block does not get executed
 	}
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+//	/**
+//	 * Reads in file located at thePath in to a String[] indexed per line
+//	 * 
+//	 * @author Christopher Henderson, Alan Thompson
+//	 * @param thePath of file to be read
+//	 * @return String[] indexed per line
+//	 */
+//	private static String[] readFile(String thePath) throws IOException {
+//		String data = "";
+//		BufferedReader bRead = new BufferedReader(new FileReader(thePath));
+//		
+//		String currLine;
+//		while ( (currLine = bRead.readLine()) != null )
+//			data += currLine + "\n";
+//		
+//		bRead.close();
+//		return data.split("\n");
+//	}
+//	
+//	/**
+//	 * Writes theData to file at thePath
+//	 * 
+//	 * @author Christopher Henderson, Alan Thompson
+//	 * @param thePath of the file to be written
+//	 * @param theData to be written
+//	 */
+//	private static void writeFile(String thePath, String theData) throws IOException {
+//		BufferedWriter bWrite = new BufferedWriter(new FileWriter(thePath));
+//		bWrite.write(theData);
+//		bWrite.close();
+//	}
+////////////////////////////////////////////////////////////////////////////////////////////////
 }
