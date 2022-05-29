@@ -26,7 +26,7 @@ public class Main {
 	public static final int DEFAULT_WIDTH = 800;
 	public static final int DEFAULT_HEIGHT = 600;
 	
-	public static final File PERSISTENT_DATA_FILE =  new File("./AppFiles/PersistentData.ser");
+	public static final File PERSISTENT_DATA_FILE =  new File("PersistentData.ser");
 	
 	public static final String[] aboutDevs = {
 		"  Alan Thompson",
@@ -45,6 +45,8 @@ public class Main {
 	private static void initOwner() {
 		appOwner = new RegisteredAppOwner();
 	}
+	
+	public static MainWindow window;
 	
 	private static void initProfiles() {
 		if (PERSISTENT_DATA_FILE.exists()) {
@@ -72,7 +74,7 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MainWindow();
+               window = new MainWindow();
             }
         });
 	}

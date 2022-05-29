@@ -38,6 +38,10 @@ public class MainWindow extends JFrame {
 //	private static final Font TABS_FONT = new Font("Lucida Sans", Font.PLAIN, 22); <= I like this font better
 	private static final Font TABS_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 22);
 	
+	private static final Color LOCKED_TAB_COLOR = new Color(100,100,100);
+	
+	private static final Color UNLOCKED_TAB_COLOR = new Color(200,200,200);
+	
 	/** The tabbed pane, hold the file, label, profile tabs. */
 	private final JTabbedPane tabbedPane;
 
@@ -59,9 +63,13 @@ public class MainWindow extends JFrame {
 		tabbedPane = new JTabbedPane();
         buildTabbedPane();
         tabbedPane.setSelectedIndex(2);
+        
+        
         tabbedPane.setEnabledAt(0, false);
+        tabbedPane.setBackgroundAt(0, LOCKED_TAB_COLOR);
         tabbedPane.setEnabledAt(1, false);
-		
+        tabbedPane.setBackgroundAt(1, LOCKED_TAB_COLOR);
+        
         setContentPane(tabbedPane);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -82,9 +90,12 @@ public class MainWindow extends JFrame {
 		System.exit(0);
 	}
 	
-	private void fileAndLabelTabsUnlock() {
+	
+	public void fileAndLabelTabsUnlock() {
         tabbedPane.setEnabledAt(0, true);
+        tabbedPane.setBackgroundAt(0, UNLOCKED_TAB_COLOR);
         tabbedPane.setEnabledAt(1, true);
+        tabbedPane.setBackgroundAt(1, UNLOCKED_TAB_COLOR);
 	}
 	
 	
@@ -98,7 +109,7 @@ public class MainWindow extends JFrame {
 		Dimension tabSize = new Dimension(180, 40);
 		
         tabbedPane.setFont(TABS_FONT);
-        tabbedPane.setBackground(Color.LIGHT_GRAY); // un-selected tab background color
+        tabbedPane.setBackground(UNLOCKED_TAB_COLOR); // un-selected tab background color
         tabbedPane.setForeground(Color.BLACK); // sets text color in tabs
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
@@ -162,8 +173,8 @@ public class MainWindow extends JFrame {
 		tabbedPane.setTabComponentAt(aboutIndex, aboutButon());
         tabbedPane.setToolTipTextAt(aboutIndex, "Opens the About Window");
         tabbedPane.setBackgroundAt(aboutIndex, new Color(50,50,50));
-        
-        
+
+        ///////////////////////
         
         tabbedPane.setFocusable(false);
         tabbedPane.setTabPlacement(JTabbedPane.TOP);
