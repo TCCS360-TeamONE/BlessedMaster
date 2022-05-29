@@ -36,6 +36,32 @@ public class ProfileManager implements Serializable {
 		return false;
 	}
 	
+	public int getProfileIndex(String userName) {
+		for (int i = 0; i < profileList.size(); i++) {
+			Profile p = profileList.get(i);
+			if (p.getUserName().equals(userName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public Profile getProfile(String userName) {
+		int profileIndex = getProfileIndex(userName);
+		
+		if (profileIndex != -1)
+			return profileList.get(profileIndex);
+			
+		return null;
+	}
+	
+	public void removeProfile(String userName) {
+		int profileIndex = getProfileIndex(userName);
+		
+		if (profileIndex != -1)
+			profileList.remove(profileIndex);
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Profile p : profileList) {

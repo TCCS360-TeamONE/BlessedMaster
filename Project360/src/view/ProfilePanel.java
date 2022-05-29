@@ -9,6 +9,7 @@ import javax.swing.event.ListSelectionListener;
 
 import main.Main;
 import model.FileIO;
+import model.Profile;
 import model.ProfileManager;
 
 public class ProfilePanel extends JPanel {
@@ -34,6 +35,8 @@ public class ProfilePanel extends JPanel {
 	private final Font defaultButtonFont = new Font("Arial", Font.PLAIN, 20);
 	private final String[] columnNames = {"Profiles"};
 	
+	private Profile currentlyLoadedProfile;
+	
 	
 
 	public ProfilePanel() {
@@ -41,6 +44,8 @@ public class ProfilePanel extends JPanel {
 
 		initButtons();
 		initUserTable();
+		
+		setCurrentlyLoadedProfile(Main.mainProfileManger.getProfile("default"));
 		
 		JScrollPane scrollPane = new JScrollPane(tableUsers);
 		scrollPane.setPreferredSize(new Dimension(300, 200));
@@ -52,7 +57,7 @@ public class ProfilePanel extends JPanel {
 	 * Helper method to set up JTable tableUsers
 	 * @author Alan Thompson
 	 */
-	public void initUserTable() {
+	private void initUserTable() {
 				
 		tableUsers = new JTable(generateTableUsersData(Main.mainProfileManger), columnNames);
 		tableUsers.setRowHeight((int) defaultButtonDimensions.getHeight());
@@ -88,6 +93,7 @@ public class ProfilePanel extends JPanel {
 		removeAll();
 
 		initUserTable();
+		initButtons();
 		
 		JScrollPane scrollPane = new JScrollPane(tableUsers);
 		scrollPane.setPreferredSize(new Dimension(300, 200));
@@ -138,9 +144,37 @@ public class ProfilePanel extends JPanel {
 		bNew.setFont(defaultButtonFont);
 		bNew.setPreferredSize(defaultButtonDimensions);
 		
+		String nameInputMessage = "Please enter a name for the new profile:";
+		String passInputMessage = "Please enter a password.";
+		String userExistsMessage = 	"A profile with that name already exists!\n" + 
+									"Please try creating a profile with a different name.";
+		String userCreatedMessage = "Profile created successfully!";
+		String invalidUserMessage = "Profile name entered is invalid or blank. Profile creation aborted.";
+		String invalidPassMessage = "Password entered is invalid or blank. Profile creation aborted.";
+		
 		bNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(bNew.getText());
+				String profileName = JOptionPane.showInputDialog(nameInputMessage);
+				if (profileName == null) return;
+				if ( !profileName.isBlank() && 
+					 !profileName.isEmpty() ) {
+					if (!Main.mainProfileManger.userAlreadyExists(profileName)) {
+						String profilePass = JOptionPane.showInputDialog(passInputMessage);
+						if (profilePass == null) return;
+						if (!profilePass.isEmpty() && !profilePass.isBlank()) {
+							Main.mainProfileManger.createNewUser(profileName, profilePass);
+							updateTableUsers();
+							JOptionPane.showMessageDialog(null, userCreatedMessage);
+						} else {
+							JOptionPane.showMessageDialog(null, invalidPassMessage);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, userExistsMessage);
+						return;
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, invalidUserMessage);
+				}
 			}
 		});
 	}
@@ -152,9 +186,22 @@ public class ProfilePanel extends JPanel {
 		
 		bRemove.setEnabled(false);
 		
+		
+		
 		bRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(bRemove.getText());
+				String profileUserName = Main.mainProfileManger.getProfileList().get(selectedProfileIndex).getUserName();
+				String confirmRemoveMessage = 	"Are you sure you want to remove profile \"" +
+						profileUserName +
+						"\"?";
+				String abortMessage = "Profile removal aborted!";
+				int choice = JOptionPane.showConfirmDialog(null, confirmRemoveMessage);
+				if (choice == JOptionPane.YES_OPTION) {
+					Main.mainProfileManger.removeProfile(profileUserName);
+					updateTableUsers();
+				} else {
+					JOptionPane.showMessageDialog(null, abortMessage);
+				}
 			}
 		});
 	}
@@ -164,11 +211,11 @@ public class ProfilePanel extends JPanel {
 		bLoad.setFont(defaultButtonFont);
 		bLoad.setPreferredSize(defaultButtonDimensions);
 		
-		bLoad.setEnabled(false);
+		//bLoad.setEnabled(false);
 		
 		bLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(bLoad.getText());
+				setCurrentlyLoadedProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
 			}
 		});
 	}
@@ -187,6 +234,14 @@ public class ProfilePanel extends JPanel {
 		buttonGrid.add(bRemove);
 		buttonGrid.add(bImport);
 		buttonGrid.add(bExport);
+	}
+
+	public Profile getCurrentlyLoadedProfile() {
+		return currentlyLoadedProfile;
+	}
+
+	public void setCurrentlyLoadedProfile(Profile currentlyLoadedProfile) {
+		this.currentlyLoadedProfile = currentlyLoadedProfile;
 	}
 
 }
