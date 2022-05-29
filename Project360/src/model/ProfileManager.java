@@ -3,10 +3,14 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-@SuppressWarnings("serial")
+
 public class ProfileManager implements Serializable {
+
+	private static final long serialVersionUID = -1187921616748813628L;
 	
 	private ArrayList<Profile> profileList;
+	
+	private Profile loadedProfile;
 	
 	public ProfileManager() {
 		profileList = new ArrayList<Profile>();
@@ -16,24 +20,24 @@ public class ProfileManager implements Serializable {
 		return profileList;
 	}
 	
-	public boolean createNewUser(String theUserName, String thePassword) {
-		if (theUserName != null &&
-			thePassword != null &&
-			!thePassword.isBlank() &&
-			!userAlreadyExists(theUserName)) {
-			
-			profileList.add(new Profile(theUserName, thePassword));
-			return true;
-		}
-		return false;
+	public void addProfile(Profile theProfile) {
+		profileList.add(theProfile);
 	}
-	
+
 	public boolean userAlreadyExists(String theUserName) {
 		for (Profile p : profileList) {
 			if (theUserName.equals(p.getUserName()))
 				return true;
 		}
 		return false;
+	}
+	
+	public Profile getLoadedProfile() {
+		return loadedProfile;
+	}
+	
+	public void setloadedProfile(Profile theProfile) {
+		loadedProfile = theProfile;
 	}
 	
 	public int getProfileIndex(String userName) {

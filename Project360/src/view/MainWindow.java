@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -38,7 +40,6 @@ public class MainWindow extends JFrame {
 	
 	/** The tabbed pane, hold the file, label, profile tabs. */
 	private final JTabbedPane tabbedPane;
-	
 
 	/** Big number go Brrrrrrrrrr */
 	private static final long serialVersionUID = 5846307300982824039L;
@@ -48,21 +49,50 @@ public class MainWindow extends JFrame {
 		super(TITLE);
 		setSize(WINDOW_DEFAULT_SIZE);
 		setMinimumSize(WINDOW_MINIMUM_SIZE);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        tabbedPane = new JTabbedPane();  
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {         // <- replaces JFrame.EXIT_ON_CLOSE, don't use both
+			public void windowClosing(WindowEvent evt) {
+				sysSaveAndExit();
+			}
+		});
+		
+		tabbedPane = new JTabbedPane();
         buildTabbedPane();
-        
+        tabbedPane.setSelectedIndex(2);
+        tabbedPane.setEnabledAt(0, false);
+        tabbedPane.setEnabledAt(1, false);
+		
         setContentPane(tabbedPane);
         setVisible(true);
         setLocationRelativeTo(null);
 	}
 	
 	/**
+	 * Runs a custom set of actions when the MainWindow is closed.<p>
+	 * 
+	 * Do not use this and the "setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)"
+	 * at the same time. This does what that does but also saves the persistent
+	 * data of the application.
+	 * 
+	 * @author Christopher
+	 */
+	private void sysSaveAndExit() {
+		Main.savePersistentData();
+		System.out.println("All Done");
+		System.exit(0);
+	}
+	
+	private void fileAndLabelTabsUnlock() {
+        tabbedPane.setEnabledAt(0, true);
+        tabbedPane.setEnabledAt(1, true);
+	}
+	
+	
+	/**
 	 * Sets up the main tabbed pane and puts the FilesPanel, LabelPanel,
 	 * ProfilePanel, and AboutWindow button into 4 tabs.
 	 * 
-	 * @author Chris H
+	 * @author Christopher
 	 */
 	private void buildTabbedPane() {
 		Dimension tabSize = new Dimension(180, 40);
