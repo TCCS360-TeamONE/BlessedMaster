@@ -1,5 +1,7 @@
 package main;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Alan Thompson
@@ -10,8 +12,9 @@ package main;
  *
  */
 
-public class RegisteredAppOwner {
+public class RegisteredAppOwner implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Profile member variables
 	 */
