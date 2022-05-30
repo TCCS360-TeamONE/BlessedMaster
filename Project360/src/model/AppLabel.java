@@ -40,7 +40,7 @@ public class AppLabel implements Serializable{
 	 * @author Christopher
 	 * @return Array of {@link AppFile} associated to this Label.
 	 */
-	public AppFile[] getLabelsArray() {
+	public AppFile[] getFilesArray() {
 		final int count = filesArray.size();
 		final AppFile[] currentFiles = new AppFile[count];
 		
