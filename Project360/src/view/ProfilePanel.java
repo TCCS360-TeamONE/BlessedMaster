@@ -40,10 +40,6 @@ public class ProfilePanel extends JPanel {
 	private final Dimension defaultButtonDimensions = new Dimension(130,40);
 	private final Font defaultButtonFont = new Font("Arial", Font.PLAIN, 20);
 	private final String[] columnNames = {"Profiles"};
-	
-	private Profile currentlyLoadedProfile;
-	
-	
 
 	public ProfilePanel() {
 		super();
@@ -253,11 +249,11 @@ public class ProfilePanel extends JPanel {
 	}
 
 	public Profile getCurrentlyLoadedProfile() {
-		return currentlyLoadedProfile;
+		return Main.mainProfileManger.getLoadedProfile();
 	}
 
 	public void setCurrentlyLoadedProfile(Profile currentlyLoadedProfile) {
-		this.currentlyLoadedProfile = currentlyLoadedProfile;
+		Main.mainProfileManger.setloadedProfile(currentlyLoadedProfile);
 	}
 
 }
