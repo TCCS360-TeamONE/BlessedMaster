@@ -226,8 +226,13 @@ public class ProfilePanel extends JPanel {
 		
 		bLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setCurrentlyLoadedProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
-				Main.window.fileAndLabelTabsUnlock(); // to unlock File and Label tabs
+				if (selectedProfileIndex > -1) {
+					setCurrentlyLoadedProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
+					Main.window.fileAndLabelTabsUnlock(); // to unlock File and Label tabs
+				} else {
+					String noProfileSelectedMessage = "No profile selected. Please select a profile from the list to the left and try again.";
+					JOptionPane.showMessageDialog(null, noProfileSelectedMessage);
+				}
 			}
 		});
 	}
