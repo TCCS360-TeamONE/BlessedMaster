@@ -10,9 +10,14 @@ import java.util.ArrayList;
  * 
  * @authors Christopher, 
  */
-@SuppressWarnings("serial")
 public class AppLabel implements Serializable{
 	
+	/**
+	 * serial Version UID.
+	 * @see Serializable
+	 */
+	private static final long serialVersionUID = 4285037443708081840L;
+
 	/** Name of this Label. */
 	private String labelName;
 	
