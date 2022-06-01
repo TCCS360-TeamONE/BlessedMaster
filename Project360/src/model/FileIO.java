@@ -25,13 +25,13 @@ public class FileIO {
 	public static final FileNameExtensionFilter PROFILE_EXT_FILTER = 
 			new FileNameExtensionFilter("Profile File", PROFILE_EXT);
 
-
 	//////////////////////////////////////////
 	
 	/**
-	 * Imports a Profile object that has been saved as a file
+	 * Imports a Profile object that has been saved as a file @
 	 * Enforced file extension {@value FileIO#PROFILE_EXT}
 	 * 
+	 * @author Alan
 	 * @return true if the import was successful 
 	 */
 	public static boolean importProfile(Component theParent) {
@@ -66,6 +66,7 @@ public class FileIO {
 	 * Exports a Profile object and saves it to a user selected file
 	 * Enforced file extension {@value FileIO#PROFILE_EXT}
 	 * 
+	 * @author Alan
 	 * @param theProfile to be exported and saved to file suggested 
 	 * @return true if the export was successful 
 	 */
@@ -89,6 +90,11 @@ public class FileIO {
 	
 	/**
 	 * Opens a {@link JFileChooser} for the user to select a file and returns that file.
+	 * 
+	 * @author Christopher
+	 * @see JFileChooser
+	 * @see Component
+	 * @see FileNameExtensionFilter
 	 * @param theParent a Java {@link Component} for the Open Dialog to be connected to
 	 * @param theFilters array of {@link FileNameExtensionFilter} to limit what files can be loaded
 	 * @return A java File object or Null if no file was selected
@@ -116,11 +122,18 @@ public class FileIO {
 		return myFile;
 	}
 	
+	
 	/**
+	 * Opens a {@link JFileChooser} and allows the user to select a file to be saved
+	 * to disk, and returns the file.
 	 * 
-	 * 
-	 * @param theParent
-	 * @param theFilters
+	 * @author Christopher
+	 * @see JFileChooser
+	 * @see Component
+	 * @see FileNameExtensionFilter
+	 * @param theParent Component of the <b>JFileChooser</b>
+	 * @param defaultFileName of the file to be saved
+	 * @param theFilters array of {@link FileNameExtensionFilter} to limit what files can be saved
 	 * @return A File to be saved
 	 */
 	public static File saveFile(Component theParent, String defaultFileName, FileNameExtensionFilter... theFilters) {
@@ -153,6 +166,7 @@ public class FileIO {
 	 * Loads <b>theFile</b> and, assuming it is a serialized object, returns the
 	 * <b>theObject</b> contained in that file.
 	 * 
+	 * @author Christopher
 	 * @param theFile that containers an <b>theObject<b>
 	 * @return theObject or null if file could not be loaded
 	 */
@@ -180,6 +194,7 @@ public class FileIO {
 	/**
 	 * Saves the Object <b>theData</b> to <b>theFile</b> passed into this method.
 	 * 
+	 * @author Christopher
 	 * @param theObject and Object to be serialized and saved to a <b>theFile</b>
 	 * @param theFile where the <b>theData</b> is stored
 	 * @return true if the object was saved to file
@@ -206,37 +221,4 @@ public class FileIO {
 		return false; // only gets run if the return true in the try block does not get executed
 	}
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-//	/**
-//	 * Reads in file located at thePath in to a String[] indexed per line
-//	 * 
-//	 * @author Christopher Henderson, Alan Thompson
-//	 * @param thePath of file to be read
-//	 * @return String[] indexed per line
-//	 */
-//	private static String[] readFile(String thePath) throws IOException {
-//		String data = "";
-//		BufferedReader bRead = new BufferedReader(new FileReader(thePath));
-//		
-//		String currLine;
-//		while ( (currLine = bRead.readLine()) != null )
-//			data += currLine + "\n";
-//		
-//		bRead.close();
-//		return data.split("\n");
-//	}
-//	
-//	/**
-//	 * Writes theData to file at thePath
-//	 * 
-//	 * @author Christopher Henderson, Alan Thompson
-//	 * @param thePath of the file to be written
-//	 * @param theData to be written
-//	 */
-//	private static void writeFile(String thePath, String theData) throws IOException {
-//		BufferedWriter bWrite = new BufferedWriter(new FileWriter(thePath));
-//		bWrite.write(theData);
-//		bWrite.close();
-//	}
-////////////////////////////////////////////////////////////////////////////////////////////////
 }

@@ -1,17 +1,17 @@
 package main;
 
+import java.io.Serializable;
+
 /**
+ * RegisteredAppOwner is essentially a user license type object so that the app can be registered to
+ * a specific person/email.
  * 
  * @author Alan Thompson
- * 
- * Profile.java
- * 
- * A Profile object to be used for registering the main application's user name and email address.
- *
  */
 
-public class RegisteredAppOwner {
+public class RegisteredAppOwner implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Profile member variables
 	 */

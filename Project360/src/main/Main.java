@@ -27,6 +27,7 @@ public class Main {
 	public static final int DEFAULT_HEIGHT = 600;
 	
 	public static final File PERSISTENT_DATA_FILE =  new File("PersistentData.ser");
+	public static final File REGISTERED_USER_LICENSE = new File("RegisteredUserLicense.ser");
 	
 	public static final String[] aboutDevs = {
 		"  Alan Thompson",
@@ -44,7 +45,11 @@ public class Main {
 	
 	
 	private static void initOwner() {
-		appOwner = new RegisteredAppOwner();
+		if (REGISTERED_USER_LICENSE.exists()) {
+			appOwner = (RegisteredAppOwner) FileIO.loadObjectFile(REGISTERED_USER_LICENSE);
+		} else {
+			appOwner = new RegisteredAppOwner();
+		}
 	}
 	
 	// to call methods in the MainWindow
@@ -62,6 +67,7 @@ public class Main {
 	
 	public static void savePersistentData() {
 		FileIO.saveObjectFile(mainProfileManger, PERSISTENT_DATA_FILE);
+		FileIO.saveObjectFile(appOwner, REGISTERED_USER_LICENSE);
 	}
 	
 	

@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,6 +37,9 @@ public class LabelPanel extends JPanel {
 	private final GridLayout buttonLayout = new GridLayout(1,0);
 			//1,0,30);
 	private final DefaultTableModel tableModel = new DefaultTableModel();
+
+	private ArrayList<String > btnNameList = new ArrayList<>();
+	private JButton btn[] = new JButton[1000];
 
 
 	public LabelPanel() {
@@ -92,6 +96,8 @@ public class LabelPanel extends JPanel {
 			}
 		});
 
+
+
 	}
 
 	private void setApplyButton(){
@@ -135,8 +141,9 @@ public class LabelPanel extends JPanel {
 	}
 }
 
+
 /*
-	private void setLabelPanel(){
+
 
 
 		labelPanel = new JPanel(new GridLayout(0,3,30,20));
@@ -146,18 +153,19 @@ public class LabelPanel extends JPanel {
 		String name = "Button " + index;
 		btnNameList[index] = name;
 
+
 		}
 
-		JButton[] btn = new JButton[btnNameList.length];
 
 		try{
-			for(int i = 0; i < btnNameList.length; i++){
-				btn[i] = new JButton(btnNameList[i]);
-				btn[i].setPreferredSize(new Dimension(200,80));
+			for(int i = 0; i < btnNameList.size(); i++){
+				btn[i] = new JButton(btnNameList.get(i));
+				btn[i].setName(btnNameList.get(i));
+				btn[i].setPreferredSize(new Dimension(200,150));
 				labelPanel.add(btn[i]);
 			}
 		}catch(Exception e){
-			JOptionPane.showMessageDialog(null, 3);
+			JOptionPane.showMessageDialog(null, "Can't generate labelPanel\n" + e);
 		}
 
 

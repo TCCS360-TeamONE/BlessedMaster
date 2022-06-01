@@ -10,9 +10,14 @@ import java.util.ArrayList;
  * 
  * @authors Christopher, 
  */
-@SuppressWarnings("serial")
 public class AppLabel implements Serializable{
 	
+	/**
+	 * serial Version UID.
+	 * @see Serializable
+	 */
+	private static final long serialVersionUID = 4285037443708081840L;
+
 	/** Name of this Label. */
 	private String labelName;
 	
@@ -41,14 +46,7 @@ public class AppLabel implements Serializable{
 	 * @return Array of {@link AppFile} associated to this Label.
 	 */
 	public AppFile[] getFilesArray() {
-		final int count = filesArray.size();
-		final AppFile[] currentFiles = new AppFile[count];
-		
-		for (int i = 0; i < count; i++) {
-			currentFiles[i] = filesArray.get(i);
-		}
-		
-		return currentFiles;
+		return (AppFile[]) filesArray.toArray();
 	}
 	
 	/**

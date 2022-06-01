@@ -1,6 +1,8 @@
 package model;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -9,40 +11,30 @@ import javax.swing.filechooser.FileSystemView;
 
 
 /**
- * File object that wraps a java File Object, includes a
- * collection of AppLabels associated with that File,
- * and has methods to add and remove labels from that collection.
+ * File object that wraps a java File Object.<p>
+ * <b>Includes:</b><br>
+ * 1) A collection of AppLabels associated with that File<br>
+ * 2) Methods to add and remove labels from that collection<br>
+ * 3) Several properties of the file<br>
+ * 4) A method to open the file in the users OS<br>
  * 
- * @authors Christopher,  
+ * @authors Christopher,
  */
-@SuppressWarnings("serial")
 public class AppFile implements Serializable {
 	
-//	//////// FOR TESTING ONLY ///////////////////
-//	public static void main(String[] args) {
-//		
-//		
-//		String dir = System.getProperty("user.dir") + File.separator + "TestFiles" + File.separator;
-//		
-//		AppFile test = new AppFile(dir + "test.docx");
-//		System.out.println("File Path: " + test.getFilePath());
-//		System.out.println("File Name: " + test.getFileName());
-//		System.out.println("File Extension: " + test.getFileExtension());
-//		System.out.println("Full File Name: " + test.getFullFileName());
-//		System.out.println("File Description: " + test.getFileTypeDescription());
-//		System.out.println(test.fileSystem.getHomeDirectory());
-//		System.out.println(System.getProperty("user.dir"));
-//		
-//
-//	} //////// TESTING END ///////////////////
-
+	/**
+	 * serial Version UID.
+	 * @see Serializable
+	 */
+	private static final long serialVersionUID = -7429108953443696381L;
 	
 	/** Size of the File Icon */
 	private static final int ICON_WIDTH = 64;
 	private static final int ICON_HEIGHT = 64;
 	
 	/**
-	 * TODO: Write Javadoc
+	 * File System View utility object.
+	 * @see FileSystemView
 	 */
 	private final FileSystemView fileSystem;
 	
@@ -84,6 +76,11 @@ public class AppFile implements Serializable {
 	 */
 	private ArrayList<AppLabel> labelsArray;
 	
+	
+	public AppFile(final AppFile theFile) {
+		this(theFile.getFilePath());
+	}
+	
 	public AppFile(final String theFilePath) {
 		fileSystem = FileSystemView.getFileSystemView();
 		jFile = fileSystem.createFileObject(theFilePath);
@@ -101,23 +98,27 @@ public class AppFile implements Serializable {
 	 * Getter for the file path of this File.
 	 * 
 	 * @author Christopher
-	 * @return filePath as a String
+	 * @return {@link String} the full file path
 	 */
 	public String getFilePath() {
 		return fileFullPath;
 	}
-	
-	/** 
+
+	/**
 	 * Getter for the name of this file. Does not include the file extension.<p> 
 	 * <b>Example</b> for a file Notes.txt this method returns "Notes"
+	 * @author Christopher
+	 * @return {@link String} the file name, no extension
 	 */
 	public String getFileName() {
 		return fileName;
 	}
 	
-	/** 
+	/**
 	 * Getter for the extension of this file.<p>
 	 * <b>Example</b> for a file Notes.txt this method returns "txt"
+	 * @author Christopher
+	 * @return {@link String} file extension
 	 */
 	public String getFileExtension() {
 		return fileExtension;
@@ -126,16 +127,29 @@ public class AppFile implements Serializable {
 	/**
 	 * Getter for the file name and extension of this file as one string.<p>
 	 * <b>Example</b> for a file Notes.txt this method returns "Notes.txt"
+	 * @author Christopher
+	 * @return {@link String} the file Name with it's extension 
 	 */
 	public String getFullFileName() {
 		return fileNameAndExtension;
 	}
 	
 	/** Getter File Type Description of this file. */
+	
+	/**
+	 * Getter for the file type description of this file used by the OS.
+	 * @author Christopher
+	 * @return {@link String} the file type description
+	 */
 	public String getFileTypeDescription() {
 		return fileTypeDescription;
 	}
-	
+
+	/**
+	 * Getter the icon the OS uses for this file.
+	 * @author Christopher
+	 * @return {@link Icon} the file's icon
+	 */
 	public Icon getFileIcon() {
 		return fileIcon;
 	}
@@ -144,20 +158,14 @@ public class AppFile implements Serializable {
 	 * Getter for the list of labels associated with this file.
 	 * 
 	 * @author Christopher
-	 * @return an array of Labels associated to this File
+	 * @return an array of {@link AppLabel} associated to this File
 	 */
 	public AppLabel[] getLabelsArray() {
-		final int count = labelsArray.size();
-		final AppLabel[] currentLabels = new AppLabel[count];
-		
-		for (int i = 0; i < count; i++) {
-			currentLabels[i] = labelsArray.get(i);
-		}
-		return currentLabels;
+		return (AppLabel[]) labelsArray.toArray();
 	}
 	
 	/**
-	 * Adds a new Label to this file's Labels collection.
+	 * Adds a new {@link AppLabel} to this file's Labels collection.
 	 * 
 	 * @author Christopher
 	 * @param theLabel to be added
@@ -173,7 +181,7 @@ public class AppFile implements Serializable {
 	}
 	
 	/**
-	 * Removes a Label in this file's Labels collection.
+	 * Removes a {@link AppLabel} in this file's Labels collection.
 	 * 
 	 * @author Christopher
 	 * @param theLabel to be removed
@@ -188,20 +196,26 @@ public class AppFile implements Serializable {
 			return true;
 		}
 	}
-
+	
 	/**
-	 * toString method for AppFile.
-	 * {@inheritDoc}
+	 * Simply asks the user's operating system to open the file in
+	 * whatever default application is associated with its file type.
+	 * 
+	 * @author Christopher
 	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("File {\"");
-		sb.append(fileFullPath);
-		sb.append("\"}");
-		return sb.toString();
+	public void openFileInOS() {
+		try {
+			Desktop.getDesktop().open(jFile);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
+	/**
+	 * Splits the file name into a name and extension
+	 * example: Words.txt -> [Words, txt]
+	 * @author Christopher
+	 */
 	private void splitFileNameAndExt() {
 		String fullFileName = jFile.getName();
 		char[] fullCharArr = fullFileName.toCharArray();
@@ -214,5 +228,18 @@ public class AppFile implements Serializable {
 		
 		fileName = fullFileName.substring(0, pointLocation);
 		fileExtension = fullFileName.substring(pointLocation+1);
+	}
+
+	/**
+	 * toString method for AppFile.
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("File {\"");
+		sb.append(fileFullPath);
+		sb.append("\"}");
+		return sb.toString();
 	}
 }
