@@ -2,12 +2,22 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * The base profile object for how the application handles different users/profiles.
+ * @author Alan Thompson
+ *
+ */
 public class Profile implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	// The profiles unique name
 	private String userName;
+	
+	// The profiles password
 	private String password;
+	
+	// The profile's library, which is a collection of AppFile and AppLabel objects.
 	private Library userLibrary;
 	
 	public Profile(String theUserName, String thePassword) {
@@ -35,7 +45,6 @@ public class Profile implements Serializable{
 		userLibrary.addLabel("resty Lab");
 	}
 	
-
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("LoginProfile {\"");
