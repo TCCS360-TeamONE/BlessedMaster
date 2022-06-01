@@ -76,6 +76,11 @@ public class AppFile implements Serializable {
 	 */
 	private ArrayList<AppLabel> labelsArray;
 	
+	
+	public AppFile(final AppFile theFile) {
+		this(theFile.getFilePath());
+	}
+	
 	public AppFile(final String theFilePath) {
 		fileSystem = FileSystemView.getFileSystemView();
 		jFile = fileSystem.createFileObject(theFilePath);
@@ -156,13 +161,7 @@ public class AppFile implements Serializable {
 	 * @return an array of {@link AppLabel} associated to this File
 	 */
 	public AppLabel[] getLabelsArray() {
-		final int count = labelsArray.size();
-		final AppLabel[] currentLabels = new AppLabel[count];
-		
-		for (int i = 0; i < count; i++) {
-			currentLabels[i] = labelsArray.get(i);
-		}
-		return currentLabels;
+		return (AppLabel[]) labelsArray.toArray();
 	}
 	
 	/**
