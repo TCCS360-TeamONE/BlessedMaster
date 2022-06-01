@@ -21,22 +21,34 @@ import model.FileIO;
 import model.Profile;
 import model.ProfileManager;
 
+/**
+ * The Profile tab/panel inside of the application. Controls which profile is currently active/loaded,
+ * managing profiles (create/remove), and importing or exporting profiles to other machines.
+ * @author Alan Thompson
+ */
+
 public class ProfilePanel extends JPanel {
 	
 	private static final long serialVersionUID = 9085434569766998412L;
 	
+	// A JTable for storing the list
 	private JTable tableUsers;
 	
+	// A sub-panel to arrange the buttons in a grid
 	private JPanel buttonGrid;
-
+	
+	
+	// The buttons for use in the profile panel.
 	private JButton bImport;
 	private JButton bExport;
 	private JButton bNew;
 	private JButton bRemove;
 	private JButton bLoad;
 	
+	// The index of the profile that is currently selected
 	private int selectedProfileIndex = -1;
 	
+	// Some default Swing component values to prevent re-typing code
 	private final Dimension defaultButtonDimensions = new Dimension(130,40);
 	private final Font defaultButtonFont = new Font("Arial", Font.PLAIN, 20);
 	private final String[] columnNames = {"Profiles"};
@@ -80,6 +92,12 @@ public class ProfilePanel extends JPanel {
 		
 	}
 	
+	/**
+	 * A helper method to generate the needed 2d String array for use with JTables
+	 * @author Alan Thompson
+	 * @param profiles
+	 * @return generated 2d array of users
+	 */
 	private String[][] generateTableUsersData(ProfileManager profiles) {
 		
 		int profilesSize = profiles.getProfileList().size();
@@ -91,6 +109,10 @@ public class ProfilePanel extends JPanel {
 		return users;
 	}
 	
+	/**
+	 * A helper method to update the table if there is a change to the set of users.
+	 * @author Alan Thompson
+	 */
 	private void updateTableUsers() {
 		removeAll();
 
@@ -104,6 +126,10 @@ public class ProfilePanel extends JPanel {
 		
 	}
 	
+	/**
+	 * A helper method to init the "Import Profile" button and set up it's action listener.
+	 * @author Alan Thompson
+	 */
 	private void initImportProfileButton() {
 		bImport = new JButton("Import Profile");
 		bImport.setFont(defaultButtonFont);
@@ -124,8 +150,11 @@ public class ProfilePanel extends JPanel {
 		});
 	}
 	
-	
-	
+	/**
+	 * A helper method to init the "Export Profile" button and set up it's action listener.
+	 * @author Alan Thompson
+	 * @author Christopher Henderson
+	 */
 	private void initExportProfileButton() {
 		bExport = new JButton("Export Profile");
 		bExport.setFont(defaultButtonFont);
@@ -150,6 +179,10 @@ public class ProfilePanel extends JPanel {
 		});
 	}
 	
+	/**
+	 * A helper method to init the "New Profile" button and set up it's action listener.
+	 * @author Alan Thompson
+	 */
 	private void initNewProfileButton() {
 		bNew = new JButton("New Profile");
 		bNew.setFont(defaultButtonFont);
@@ -190,6 +223,10 @@ public class ProfilePanel extends JPanel {
 		});
 	}
 	
+	/**
+	 * A helper method to init the "Remove Profile" button and set up it's action listener.
+	 * @author Alan Thompson
+	 */
 	private void initRemoveProfileButton() {
 		bRemove = new JButton("Remove Profile");
 		bRemove.setFont(defaultButtonFont);
@@ -217,6 +254,10 @@ public class ProfilePanel extends JPanel {
 		});
 	}
 	
+	/**
+	 * A helper method to init the "Load Profile" button and set up it's action listener.
+	 * @author Alan Thompson
+	 */
 	private void initLoadProfileButton() {
 		bLoad = new JButton("Load Profile");
 		bLoad.setFont(defaultButtonFont);
@@ -237,6 +278,10 @@ public class ProfilePanel extends JPanel {
 		});
 	}
 	
+	/**
+	 * A helper method to call all the other button init helper methods and then add them to the frame.
+	 * @author Alan Thompson
+	 */
 	private void initButtons() {
 		initImportProfileButton();
 		initExportProfileButton();
@@ -252,7 +297,7 @@ public class ProfilePanel extends JPanel {
 		buttonGrid.add(bImport);
 		buttonGrid.add(bExport);
 	}
-
+	
 	public Profile getCurrentlyLoadedProfile() {
 		return Main.mainProfileManger.getLoadedProfile();
 	}
