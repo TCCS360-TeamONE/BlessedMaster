@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -29,6 +30,24 @@ public class Library implements Serializable {
 		labelLibrary = new HashMap<String, AppLabel>();	
 	}
 	
+	/**
+	 * Getter for fileLibrary.
+	 * @return AppFile[] of all the AppFiles in this Library
+	 */
+	public AppFile[] getFileLibraryArray() {
+		ArrayList<AppFile> fileLibArr = (ArrayList<AppFile>) fileLibrary.values();
+		return (AppFile[]) fileLibArr.toArray();
+	}
+	
+	/**
+	 * Getter for labelLibrary.
+	 * @return AppLabel[] of all the AppFiles in this Library
+	 */
+	public AppLabel[] getLabelLibraryArray() {
+		ArrayList<AppLabel> labelLibArr = (ArrayList<AppLabel>) labelLibrary.values();
+		return (AppLabel[]) labelLibArr.toArray();
+	}
+
 	/**
 	 * Associates an AppLabel to an AppFile.
 	 * 
