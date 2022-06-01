@@ -10,8 +10,13 @@ import java.util.HashMap;
  * 
  * @authors Christopher, 
  */
-@SuppressWarnings("serial")
 public class Library implements Serializable {
+
+	/**
+	 * serial Version UID.
+	 * @see Serializable
+	 */
+	private static final long serialVersionUID = 3216087415273229721L;
 
 	/** A map of unique file paths to a AppFile Object. */
 	private HashMap<String, AppFile> fileLibrary;
@@ -55,6 +60,9 @@ public class Library implements Serializable {
 	public boolean removeLabelFromFile(AppFile theFile, AppLabel theLabel) {
 		if (containsFile(theFile) &&
 			containsLabel(theLabel)) {
+			
+			theFile.removeLabel(theLabel);
+			theLabel.removeFile(theFile);
 
 			return true;
 		}
@@ -63,6 +71,7 @@ public class Library implements Serializable {
 	}
 	
 	/**
+	 * Searches for a AppFile in the file library.
 	 * 
 	 * @author Christopher
 	 * @param theFile
@@ -73,6 +82,7 @@ public class Library implements Serializable {
 	}
 	
 	/**
+	 * Searches for a AppLabel in the Label library.
 	 * 
 	 * @author Christopher
 	 * @param theLabel
@@ -82,7 +92,10 @@ public class Library implements Serializable {
 		return labelLibrary.containsValue(theLabel);
 	}
 	
+	//////////////// Files //////////////////////////////////////////////////
+	
 	/**
+	 * Adds an AppFile to this Library
 	 * 
 	 * @author Christopher
 	 * @param theFilePath
@@ -97,20 +110,40 @@ public class Library implements Serializable {
 	}
 	
 	/**
+	 * Removes an AppFile from this library.
 	 * 
 	 * @author Christopher
-	 * @param theFilePath
+	 * @param theFilePath of the file to be removed
 	 * @return true if successful
 	 */
 	public boolean removeFile(final String theFilePath) {
-		if (fileLibrary.containsKey(theFilePath)) {
-			fileLibrary.remove(theFilePath);
-			return true;
-		}
-		return false;
+		return removeFile(fileLibrary.get(theFilePath));
 	}
 	
 	/**
+	 * Removes an AppFile from this library.
+	 * 
+	 * @author Christopher
+	 * @param theFile to be removed
+	 * @return true if successful
+	 */
+	public boolean removeFile(final AppFile theFile) {
+		if (containsFile(theFile)) {
+			//Removes the reference to theFile in each Label connected with it
+			AppLabel[] labelsArr = theFile.getLabelsArray();
+			for (AppLabel label : labelsArr)
+				label.removeFile(theFile);
+			//
+			fileLibrary.remove(theFile.getFileName());
+			return true;
+		}
+		else return false;
+	}
+	
+	///////////// Labels /////////////////////////////////////////////////////
+	
+	/**
+	 * Adds an AppLabel to this Library.
 	 * 
 	 * @author Christopher
 	 * @param theLabelName
@@ -125,21 +158,40 @@ public class Library implements Serializable {
 	}
 	
 	/**
+	 * Removes an AppLabel from this Library.
 	 * 
 	 * @author Christopher
 	 * @param theLabelName
 	 * @return true if successful
 	 */
 	public boolean removeLabel(final String theLabelName) {
-		if (labelLibrary.containsKey(theLabelName)) {
-			labelLibrary.remove(theLabelName);
-			return true;
-		}
-		return false;
+		return removeLabel(labelLibrary.get(theLabelName));
 	}
 	
 	/**
-	 * TODO Make Better
+	 * Removes an AppLabel from this Library.
+	 * 
+	 * @author Christopher
+	 * @param theLabelName
+	 * @return true if successful
+	 */
+	public boolean removeLabel(final AppLabel theLabel) {
+		if (containsLabel(theLabel)) {
+			//Removes the reference to theLabel in each AppFile connected with it
+			AppFile[] filesArr = theLabel.getFilesArray();
+			for (AppFile file : filesArr)
+				file.removeLabel(theLabel);
+			//
+			fileLibrary.remove(theLabel.getMyName());
+			return true;
+		}
+		else return false;
+	}
+	
+	//////////////////////////////////////////////////////////////////
+	
+	/**
+	 * TODO: Make Better
 	 * toString method for Library.
 	 * {@inheritDoc}
 	 */
