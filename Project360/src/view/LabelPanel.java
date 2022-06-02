@@ -84,7 +84,7 @@ public class LabelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("Enter Label Name ");
-				if (!name.equals("") || name != null) {
+				if (!name.equals("") || name == null) {
 					if (!(labelLibrary.containsLabel(name))) {
 						boolean added = labelLibrary.addLabel(name);
 						if (added) {
@@ -131,7 +131,8 @@ public class LabelPanel extends JPanel {
 					}else{
 						System.out.println("Not deleted");
 					}
-					System.out.println();
+					delButton.setEnabled(tableModel.getRowCount() > 0);
+					applyButton.setEnabled(tableModel.getRowCount() > 0);
 				}
 				else{
 					JOptionPane.showMessageDialog(buttonPanel, "Select Label To Delete");
@@ -207,6 +208,7 @@ public class LabelPanel extends JPanel {
 
 		JList labelLibraryList = new JList(labelLibrary.getLabelLibraryArray().toArray());
 
+
 		labelLibraryList.setFont(new Font("Arial", Font.PLAIN, 20));
 
 
@@ -221,15 +223,26 @@ public class LabelPanel extends JPanel {
 			}
 		}
 
-
 		JList fileLabelList = new JList(associateLabelName.toArray());
 
 
 
+		JLabel addLabelToFile = new JLabel("Add Label", SwingConstants.CENTER);
+		addLabelToFile.setPreferredSize(new Dimension(250,30));
+		addLabelToFile.setFont(defaultTableFont);
+		JLabel removeLabelFromFile = new JLabel("Remove Label", SwingConstants.CENTER);
+		removeLabelFromFile.setPreferredSize(new Dimension(250,30));
+		removeLabelFromFile.setFont(defaultTableFont);
+
+
 		JScrollPane labelLibraryScroll = new JScrollPane(labelLibraryList);
-		labelLibraryScroll.setPreferredSize(new Dimension(250,300));
+		labelLibraryScroll.setPreferredSize(new Dimension(250,270));
 		JScrollPane fileLabelScroll = new JScrollPane(fileLabelList);
-		fileLabelScroll.setPreferredSize(new Dimension(250,300));
+		fileLabelScroll.setPreferredSize(new Dimension(250,270));
+
+		midApplyPanel.add(addLabelToFile);
+		midApplyPanel.add(Box.createHorizontalStrut(10));
+		midApplyPanel.add(removeLabelFromFile);
 
 		midApplyPanel.add(labelLibraryScroll);
 		midApplyPanel.add(Box.createHorizontalStrut(10));
