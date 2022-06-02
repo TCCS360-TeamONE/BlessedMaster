@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.swing.*;
 
@@ -53,9 +55,7 @@ public class FilePanel extends JPanel {
 
 	DefaultListModel dm;
 
-	/**
-	 *
-	 */
+
 	private static final long serialVersionUID = -3452605865536486557L;
 
 	public FilePanel() {
@@ -84,7 +84,7 @@ public class FilePanel extends JPanel {
 	public void buildSearchPane() {
 		searchPanel = new JPanel();
 
-		searchLabel = new JLabel("Label");
+		searchLabel = new JLabel("Labels");
 		searchLabel.setFont(textfont);
 
 		searchInput = new JTextField(20);
@@ -116,9 +116,15 @@ public class FilePanel extends JPanel {
 	}
 
 	private void searchAction() {
-		if (searchInput.getText() != "" && fileLibrary.getLabel(searchInput.getText()) != null) {
+		if (appliedLabels.size() == 3) {
+			JOptionPane.showMessageDialog(null, "You have reached the maximum amount of labels");
+		} else if (searchInput.getText() != "" && fileLibrary.getLabel(searchInput.getText()) != null) {
 			appliedLabels.add(searchInput.getText());
-			searchFileList(searchInput.getText());
+			// version 1
+			//searchFileList(searchInput.getText());
+
+			//version 2
+			searchFileList2();
 			appliedLabelsDisplay();
 		} else {
 			JOptionPane.showMessageDialog(null, "This Label Does Not Exist");
@@ -171,7 +177,6 @@ public class FilePanel extends JPanel {
 					String fileName = f.getName();
 					System.out.println(path);
 					Boolean test = fileLibrary.addFile(path);
-
 
 					refreshList();
 
@@ -228,7 +233,7 @@ public class FilePanel extends JPanel {
 		labelsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		labelsList.setFont(textfont);
 
-		JLabel labelLabels = new JLabel("Applied Label: ");
+		JLabel labelLabels = new JLabel("Applied Labels: ");
 		labelLabels.setFont(textfont);
 
 		labelDisplay.add(labelLabels);
@@ -260,6 +265,10 @@ public class FilePanel extends JPanel {
 				} catch (Exception ex) {
 					System.out.println("fail");
 				}
+
+				for(String s: appliedLabels) {
+					System.out.println(s);
+				}
 			}
 		});
 
@@ -287,15 +296,57 @@ public class FilePanel extends JPanel {
 	}
 
 	 private void searchFileList(String label) {
-	 AppLabel searchLabel;
-	 dm = new DefaultListModel();
-	 filesList.setModel(dm);
+	 	AppLabel searchLabel;
+	 	dm = new DefaultListModel();
+	 	filesList.setModel(dm);
 
-	 searchLabel = fileLibrary.getLabel(label);
+	 	searchLabel = fileLibrary.getLabel(label);
 
-	 for (AppFile f: searchLabel.getFilesArray()) {
-	 	dm.addElement(f.getFilePath());
+	 	for (AppFile f: searchLabel.getFilesArray()) {
+	 		dm.addElement(f.getFilePath());
+		}
+
 	 }
+
+	 private void searchFileList2() {
+		System.out.println("Current amount of applied labels: " + appliedLabels.size());
+		ArrayList<String> locatedFiles = new ArrayList<>();
+		ArrayList<String> finalList = new ArrayList<>();
+
+		ArrayList<AppLabel> labLib = new ArrayList<>();
+		// creates an arraylist for all selected labels
+		for (String label: appliedLabels) {
+			labLib.add(fileLibrary.getLabel(label));
+		}
+
+		for (AppLabel l: labLib) {
+			AppFile[] tempFiles = l.getFilesArray();
+			for (AppFile temp: tempFiles) {
+				locatedFiles.add(temp.getFilePath());
+			}
+		}
+
+		 HashMap<String, Integer> map = new HashMap<>();
+
+		 for (int i = 0; i < locatedFiles.size(); i++) {
+			 if (map.containsKey(locatedFiles.get(i))) {
+				 String current = locatedFiles.get(i);
+				 int count = map.get(current) + 1;
+				 if (count == (appliedLabels.size())) {
+					 finalList.add(current);
+				 }
+				 map.put(current, count);
+			 } else {
+				 map.put(locatedFiles.get(i), 1);
+			 }
+		 }
+
+		 dm = new DefaultListModel();
+		 filesList.setModel(dm);
+
+		 for (String s: finalList) {
+			 dm.addElement(s);
+		 }
 
 	 }
 
