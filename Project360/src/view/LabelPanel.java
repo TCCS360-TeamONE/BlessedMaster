@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import main.Main;
+import model.AppLabel;
 import model.Library;
 
 public class LabelPanel extends JPanel {
@@ -33,20 +34,23 @@ public class LabelPanel extends JPanel {
 	private JTable table;
 
 	private final Font defaultButtonFont = new Font("Arial", Font.PLAIN, 22);
+	private final Font defaultTableFont = new Font("", Font.BOLD, 20);
 	private final Dimension defaultButtonDimension = new Dimension(130,50);
 	private final GridLayout buttonLayout = new GridLayout(1,0);
 			//1,0,30);
 	private final DefaultTableModel tableModel = new DefaultTableModel();
 
-	private ArrayList<String > btnNameList = new ArrayList<>();
-	private JButton btn[] = new JButton[1000];
+	Object[] row = new Object[1];
+	Object[] columns ={"Label Names"};
+
+	private final Library labelLibrary = Main.mainProfileManger.getLoadedProfile().getLibrary();
 
 
 	public LabelPanel() {
 		super();
 		this.setLayout(new BorderLayout());
-		setUpButtonPane();
 		setUpScrollPane();
+		setUpButtonPane();
 		add(buttonPanel, BorderLayout.PAGE_START);
 		add(scrollPane, BorderLayout.CENTER);
 	}
@@ -61,13 +65,19 @@ public class LabelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("Enter Label Name ");
-				if(name != null) {
-					//Main.mainProfileManger.getLoadedProfile()
-					Object[] row = new Object[1];
+				if(name.equals("")) {
+					boolean added = labelLibrary.addLabel(name);
+					if(added){
+						System.out.println("added");
+					}else{
+						System.out.println("Not added");
+					}
+					System.out.println(Main.mainProfileManger.getLoadedProfile().getLibrary().toString());
+
 					row[0] = name;
 					tableModel.addRow(row);
-					delButton.setEnabled(true);
-					applyButton.setEnabled(true);
+
+
 				}
 			}
 		});
@@ -78,15 +88,23 @@ public class LabelPanel extends JPanel {
 		delButton = new JButton("- Delete");
 		delButton.setPreferredSize(defaultButtonDimension);
 		delButton.setFont(defaultButtonFont);
-		delButton.setEnabled(false);
-
+		delButton.setEnabled(tableModel.getRowCount() > 0);
 		delButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				int i = table.getSelectedRow();
+
 				if(i>=0){
+					String labelDeleteName = String.valueOf(tableModel.getValueAt(i, 0));
 					tableModel.removeRow(i);
+					boolean deleted = labelLibrary.removeLabel(labelDeleteName);
+					if(deleted){
+						System.out.println("deleted");
+					}else{
+						System.out.println("Not deleted");
+					}
+					System.out.println();
 				}
 				else{
 					JOptionPane.showMessageDialog(buttonPanel, "Select Label To Delete");
@@ -104,7 +122,7 @@ public class LabelPanel extends JPanel {
 		applyButton = new JButton("Apply Label");
 		applyButton.setPreferredSize(defaultButtonDimension);
 		applyButton.setFont(defaultButtonFont);
-		applyButton.setEnabled(false);
+		applyButton.setEnabled(tableModel.getRowCount() <= 0);
 	}
 
 	private void setUpButtonPane(){
@@ -125,22 +143,37 @@ public class LabelPanel extends JPanel {
 	private void setLabelPanel(){
 
 		table = new JTable();
-		Object[] columns ={"Label Names"};
 		tableModel.setColumnIdentifiers(columns);
 		table.setModel(tableModel);
-		Font font = new Font("", Font.BOLD, 20);
 		table.setRowHeight(30);
-		table.setFont(font);
+		table.setFont(defaultTableFont);
+
+
+		//load the existing profile
+		ArrayList<AppLabel> labelArray = labelLibrary.getLabelLibraryArray();
+		int lengthOfLabel = labelLibrary.getLabelLibraryArray().size();
+
+		for(int i = 0; i < lengthOfLabel; i++){
+			String nameOfExistingLabel = labelArray.get(i).getMyName();
+			row[0] = nameOfExistingLabel;
+			tableModel.addRow(row);
+		}
+
 
 
 	}
 	private void setUpScrollPane(){
 		setLabelPanel();
+
 		add(table,BorderLayout.CENTER);
 		scrollPane = new JScrollPane(table);
 	}
-}
 
+	private void refreshTable(){
+		table.revalidate();
+		table.repaint();
+	}
+}
 
 /*
 
