@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="File Panel">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project360/src/view/FilePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/FilePanel.java" afterDir="false" />
-    </list>
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="File Panel" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
