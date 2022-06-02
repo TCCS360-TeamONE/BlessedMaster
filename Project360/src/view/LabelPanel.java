@@ -67,8 +67,9 @@ public class LabelPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("Enter Label Name ");
 				if (!name.equals("")) {
-					boolean added = labelLibrary.addLabel(name);
-					if (labelLibrary.containsLabel(name)) {
+
+					if (!(labelLibrary.containsLabel(name))) {
+						boolean added = labelLibrary.addLabel(name);
 						if (added) {
 							System.out.println("added");
 						} else {
@@ -77,6 +78,10 @@ public class LabelPanel extends JPanel {
 						System.out.println(Main.mainProfileManger.getLoadedProfile().getLibrary().toString());
 						row[0] = name;
 						tableModel.addRow(row);
+
+						delButton.setEnabled(tableModel.getRowCount() > 0);
+						applyButton.setEnabled(tableModel.getRowCount() > 0);
+
 					} else {
 						JOptionPane.showMessageDialog(null, "This Label Already Exist");
 					}
@@ -151,8 +156,8 @@ public class LabelPanel extends JPanel {
 		table.setModel(tableModel);
 		table.setRowHeight(30);
 		table.setFont(defaultTableFont);
+		table.setDefaultEditor(Object.class, null);
 
-		System.out.println(Main.mainProfileManger.getLoadedProfile().getLibrary().toString());
 		//load the existing profile
 		System.out.println(labelLibrary.toString());
 		ArrayList<AppLabel> labelArray = labelLibrary.getLabelLibraryArray();
@@ -175,7 +180,6 @@ public class LabelPanel extends JPanel {
 		add(table,BorderLayout.CENTER);
 		scrollPane = new JScrollPane(table);
 
-		System.out.println(labelLibrary.toString());
 	}
 
 	private void refreshTable(){
