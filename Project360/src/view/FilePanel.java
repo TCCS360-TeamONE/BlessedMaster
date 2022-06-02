@@ -1,11 +1,15 @@
 package view;
 
 import main.Main;
+import model.AppFile;
+import model.AppLabel;
 import model.Library;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -27,19 +31,27 @@ public class FilePanel extends JPanel {
 	private JLabel searchLabel;
 	private JTextField searchInput;
 	private JButton searchButton;
+	private JButton removeButton;
 
 	private JList filesList;
 	private String[] files;
 	private JScrollPane scrollPane;
 
 	private JPanel labelDisplay;
+	private JButton openFileButton;
+	private JPanel openPanel;
+	private JPanel bottomPannel;
 	private JList labelsList;
+	private ArrayList<String> appliedLabels = new ArrayList<>();
 
-	private final Font font = new Font("Arial", Font.PLAIN, 20);
-	private final Dimension defaultButtonDimension = new Dimension(120,40);
+	private final Font font = new Font("Arial", Font.PLAIN, 15);
+	private final Font textfont = new Font("Arial", Font.PLAIN, 20);
+	private final Dimension defaultButtonDimension = new Dimension(100,40);
 	private GridLayout buttonLayout = new GridLayout(1,0);
 
 	private final Library fileLibrary = Main.mainProfileManger.getLoadedProfile().getLibrary();
+
+	DefaultListModel dm;
 
 	/**
 	 *
@@ -56,14 +68,14 @@ public class FilePanel extends JPanel {
 		buildScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 
-		buildLabelDisplay();
-		add(labelDisplay, BorderLayout.PAGE_END);
+		buildBottomPanel();
+		add(bottomPannel, BorderLayout.PAGE_END);
 	}
 
 	public void buildTopPanel() {
 		top = new JPanel();
 
-		buildButtonPane();
+		buildAddDeleteFilePane();
 		buildSearchPane();
 
 		top.add(buttonPanel);
@@ -72,24 +84,65 @@ public class FilePanel extends JPanel {
 	public void buildSearchPane() {
 		searchPanel = new JPanel();
 
-		searchLabel = new JLabel("Search");
-		searchLabel.setFont(font);
-
-		ImageIcon searchIcon = new ImageIcon("./icons/search_A_32.png");
+		searchLabel = new JLabel("Label");
+		searchLabel.setFont(textfont);
 
 		searchInput = new JTextField(20);
-		searchButton = new JButton(searchIcon);
-		searchButton.setPreferredSize(defaultButtonDimension);
+		searchInput.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchAction();
+			}
+		});
+		buildSearchButton();
+		buildRemoveLabelsButton();
 
 		searchPanel.add(searchLabel);
 		searchPanel.add(searchInput);
 		searchPanel.add(searchButton);
+		searchPanel.add(removeButton);
 
 	}
 
-	private void buildButtonPane(){
-		setAddButton();
-		setDeleteButton();
+	private void buildSearchButton() {
+		searchButton = new JButton("Apply");
+		searchButton.setPreferredSize(defaultButtonDimension);
+		searchButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchAction();
+			}
+		});
+	}
+
+	private void searchAction() {
+		if (searchInput.getText() != "" && fileLibrary.getLabel(searchInput.getText()) != null) {
+			appliedLabels.add(searchInput.getText());
+			searchFileList(searchInput.getText());
+			appliedLabelsDisplay();
+		} else {
+			JOptionPane.showMessageDialog(null, "This Label Does Not Exist");
+		}
+		searchInput.setText("");
+	}
+
+	private void buildRemoveLabelsButton() {
+		removeButton = new JButton("Remove");
+		removeButton.setPreferredSize(defaultButtonDimension);
+		removeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				refreshList();
+				appliedLabels.clear();
+				appliedLabelsDisplay();
+			}
+		});
+	}
+
+
+	private void buildAddDeleteFilePane(){
+		buildAddFileButton();
+		fileDeleteButton();
 
 		buttonPanel = new JPanel(buttonLayout);
 
@@ -101,8 +154,8 @@ public class FilePanel extends JPanel {
 
 	}
 
-	private void setAddButton(){
-		addButton = new JButton("Add");
+	private void buildAddFileButton(){
+		addButton = new JButton("Add File");
 		addButton.setPreferredSize(defaultButtonDimension);
 		addButton.setFont(font);
 		addButton.addActionListener(new ActionListener() {
@@ -115,36 +168,51 @@ public class FilePanel extends JPanel {
 				if (file.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					java.io.File f = file.getSelectedFile();
 					String path = f.getPath();
+					String fileName = f.getName();
 					System.out.println(path);
-
 					Boolean test = fileLibrary.addFile(path);
+
+
+					refreshList();
+
+
 				}
 			}
 		});
 	}
 
 
-	private void setDeleteButton(){
-		delButton = new JButton("Remove");
+	private void fileDeleteButton(){
+		delButton = new JButton("Delete File");
 		delButton.setPreferredSize(defaultButtonDimension);
 		delButton.setFont(font);
+		delButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String deleteFile = (String) filesList.getSelectedValue();
+				System.out.println(deleteFile);
+				boolean deleted = fileLibrary.removeFile(deleteFile);
+
+				refreshList();
+			}
+		});
 	}
 
 	private void buildFileList() {
-		generateFiles();
 		//test
-		filesList = new JList(fileLibrary.getFileLibraryArray().toArray());
+		filesList = new JList(buildFileArrayList().toArray());
 		filesList.setVisibleRowCount(15);
 		filesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		filesList.setFont(font);
 		add(new JScrollPane(filesList));
 	}
 
-	private void generateFiles() {
-		files = new String[100];
-		for (int i = 0; i < 100; i++) {
-			files[i] = "File" + i + ".pdf";
+	private ArrayList<String> buildFileArrayList() {
+		ArrayList<String> list = new ArrayList<String>();
+		for (AppFile f : fileLibrary.getFileLibraryArray()) {
+			list.add(f.getFilePath());
 		}
+		return list;
 	}
 
 	private void buildScrollPane() {
@@ -153,19 +221,82 @@ public class FilePanel extends JPanel {
 	}
 
 	private void buildLabelDisplay() {
+
 		labelDisplay = new JPanel();
-		String[] options = { "Label1;", "Label2;", "Label3" };
-		labelsList = new JList(options);
+		labelsList = new JList(appliedLabels.toArray());
 		labelsList.setVisibleRowCount(1);
 		labelsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		labelsList.setFont(font);
+		labelsList.setFont(textfont);
 
-		JLabel labelLabels = new JLabel("Attached Labels: ");
-		labelLabels.setFont(font);
+		JLabel labelLabels = new JLabel("Applied Label: ");
+		labelLabels.setFont(textfont);
 
 		labelDisplay.add(labelLabels);
 		labelDisplay.add(labelsList);
+		labelDisplay.setPreferredSize(new Dimension(1000,40));
 	}
 
+	private void buildBottomPanel() {
+		buildLabelDisplay();
+		setOpenPanel();
+
+		bottomPannel = new JPanel();
+		bottomPannel.add(labelDisplay, BorderLayout.WEST);
+		bottomPannel.add(openFileButton, BorderLayout.EAST);
+	}
+
+	private void setOpenPanel() {
+		openPanel = new JPanel();
+
+		openFileButton = new JButton("Open File");
+		openFileButton.setPreferredSize(defaultButtonDimension);
+		openFileButton.setFont(font);
+		openFileButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String s = (String) filesList.getSelectedValue();
+					Desktop.getDesktop().open(new File(s));
+				} catch (Exception ex) {
+					System.out.println("fail");
+				}
+			}
+		});
+
+		openPanel.add(openFileButton);
+
+	}
+
+
+	private void refreshList() {
+		dm = new DefaultListModel();
+		filesList.setModel(dm);
+		for (AppFile f: fileLibrary.getFileLibraryArray()) {
+			dm.addElement(f.getFilePath());
+		}
+	}
+
+	private void appliedLabelsDisplay() {
+		dm = new DefaultListModel();
+		labelsList.setModel(dm);
+		if (appliedLabels.size() > 0) {
+			for (String label: appliedLabels) {
+				dm.addElement(label);
+			}
+		}
+	}
+
+	 private void searchFileList(String label) {
+	 AppLabel searchLabel;
+	 dm = new DefaultListModel();
+	 filesList.setModel(dm);
+
+	 searchLabel = fileLibrary.getLabel(label);
+
+	 for (AppFile f: searchLabel.getFilesArray()) {
+	 	dm.addElement(f.getFilePath());
+	 }
+
+	 }
 
 }
