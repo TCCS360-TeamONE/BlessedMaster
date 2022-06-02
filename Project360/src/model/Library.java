@@ -124,7 +124,7 @@ public class Library implements Serializable {
 	 */
 	public AppFile getFile(final String theFilePath) {
 		for (AppFile file : fileLibrary) {
-			if (file.getFilePath() == theFilePath)
+			if (file.getFilePath().equals(theFilePath))
 				return file;
 		}
 		return null;

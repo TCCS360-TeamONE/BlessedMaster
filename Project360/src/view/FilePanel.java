@@ -1,6 +1,11 @@
 package view;
 
+import main.Main;
+import model.Library;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -33,6 +38,8 @@ public class FilePanel extends JPanel {
 	private final Font font = new Font("Arial", Font.PLAIN, 20);
 	private final Dimension defaultButtonDimension = new Dimension(120,40);
 	private GridLayout buttonLayout = new GridLayout(1,0);
+
+	private final Library fileLibrary = Main.mainProfileManger.getLoadedProfile().getLibrary();
 
 	/**
 	 *
@@ -98,7 +105,24 @@ public class FilePanel extends JPanel {
 		addButton = new JButton("Add");
 		addButton.setPreferredSize(defaultButtonDimension);
 		addButton.setFont(font);
+		addButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser file = new JFileChooser();
+				file.setMultiSelectionEnabled(true);
+				file.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				file.setFileHidingEnabled(false);
+				if (file.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					java.io.File f = file.getSelectedFile();
+					String path = f.getPath();
+					System.out.println(path);
+
+					Boolean test = fileLibrary.addFile(path);
+				}
+			}
+		});
 	}
+
 
 	private void setDeleteButton(){
 		delButton = new JButton("Remove");
@@ -108,7 +132,8 @@ public class FilePanel extends JPanel {
 
 	private void buildFileList() {
 		generateFiles();
-		filesList = new JList(files);
+		//test
+		filesList = new JList(fileLibrary.getFileLibraryArray().toArray());
 		filesList.setVisibleRowCount(15);
 		filesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		filesList.setFont(font);
