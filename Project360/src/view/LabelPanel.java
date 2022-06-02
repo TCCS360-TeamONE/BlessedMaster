@@ -49,8 +49,9 @@ public class LabelPanel extends JPanel {
 	public LabelPanel() {
 		super();
 		this.setLayout(new BorderLayout());
-		setUpScrollPane();
 		setUpButtonPane();
+		setUpScrollPane();
+
 		add(buttonPanel, BorderLayout.PAGE_START);
 		add(scrollPane, BorderLayout.CENTER);
 	}
@@ -65,7 +66,7 @@ public class LabelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("Enter Label Name ");
-				if(name.equals("")) {
+				if(!name.equals("")) {
 					boolean added = labelLibrary.addLabel(name);
 					if(added){
 						System.out.println("added");
@@ -76,8 +77,8 @@ public class LabelPanel extends JPanel {
 
 					row[0] = name;
 					tableModel.addRow(row);
-
-
+				}else{
+					JOptionPane.showMessageDialog(null, "Can't be empty");
 				}
 			}
 		});
@@ -88,7 +89,7 @@ public class LabelPanel extends JPanel {
 		delButton = new JButton("- Delete");
 		delButton.setPreferredSize(defaultButtonDimension);
 		delButton.setFont(defaultButtonFont);
-		delButton.setEnabled(tableModel.getRowCount() > 0);
+
 		delButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -122,7 +123,6 @@ public class LabelPanel extends JPanel {
 		applyButton = new JButton("Apply Label");
 		applyButton.setPreferredSize(defaultButtonDimension);
 		applyButton.setFont(defaultButtonFont);
-		applyButton.setEnabled(tableModel.getRowCount() <= 0);
 	}
 
 	private void setUpButtonPane(){
@@ -148,25 +148,31 @@ public class LabelPanel extends JPanel {
 		table.setRowHeight(30);
 		table.setFont(defaultTableFont);
 
-
+		System.out.println(Main.mainProfileManger.getLoadedProfile().getLibrary().toString());
 		//load the existing profile
+		System.out.println(labelLibrary.toString());
 		ArrayList<AppLabel> labelArray = labelLibrary.getLabelLibraryArray();
 		int lengthOfLabel = labelLibrary.getLabelLibraryArray().size();
 
-		for(int i = 0; i < lengthOfLabel; i++){
+		for(int i = 0; i < lengthOfLabel; i++) {
 			String nameOfExistingLabel = labelArray.get(i).getMyName();
 			row[0] = nameOfExistingLabel;
 			tableModel.addRow(row);
 		}
 
+		delButton.setEnabled(tableModel.getRowCount() > 0);
+		applyButton.setEnabled(tableModel.getRowCount() > 0);
 
 
 	}
 	private void setUpScrollPane(){
 		setLabelPanel();
 
+
 		add(table,BorderLayout.CENTER);
 		scrollPane = new JScrollPane(table);
+
+		System.out.println(labelLibrary.toString());
 	}
 
 	private void refreshTable(){
