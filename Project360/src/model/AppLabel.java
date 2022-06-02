@@ -46,7 +46,14 @@ public class AppLabel implements Serializable{
 	 * @return Array of {@link AppFile} associated to this Label.
 	 */
 	public AppFile[] getFilesArray() {
-		return (AppFile[]) filesArray.toArray();
+		AppFile[] arr = new AppFile[filesArray.size()];
+		int i = 0;
+		for (AppFile file : filesArray) {
+			arr[i] = file;
+			i++;
+		}
+		
+		return arr;
 	}
 	
 	/**
