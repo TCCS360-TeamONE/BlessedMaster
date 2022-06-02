@@ -49,8 +49,8 @@ public class ProfilePanel extends JPanel {
 	private int selectedProfileIndex = -1;
 	
 	// Some default Swing component values to prevent re-typing code
-	private final Dimension defaultButtonDimensions = new Dimension(130,40);
-	private final Font defaultButtonFont = new Font("Arial", Font.PLAIN, 20);
+	private final Dimension defaultButtonDimensions = new Dimension(130,50);
+	private final Font defaultButtonFont = new Font("Arial", Font.PLAIN, 32);
 	private final String[] columnNames = {"Profiles"};
 
 	public ProfilePanel() {
@@ -62,7 +62,7 @@ public class ProfilePanel extends JPanel {
 		setCurrentlyLoadedProfile(Main.mainProfileManger.getProfile("default"));
 		
 		JScrollPane scrollPane = new JScrollPane(tableUsers);
-		scrollPane.setPreferredSize(new Dimension(300, 200));
+		scrollPane.setPreferredSize(new Dimension(600, 302));
 		add(scrollPane);
 		add(buttonGrid);
 	}
@@ -120,7 +120,7 @@ public class ProfilePanel extends JPanel {
 		initButtons();
 		
 		JScrollPane scrollPane = new JScrollPane(tableUsers);
-		scrollPane.setPreferredSize(new Dimension(300, 200));
+		scrollPane.setPreferredSize(new Dimension(500, 400));
 		add(scrollPane);
 		add(buttonGrid);
 		
@@ -291,7 +291,7 @@ public class ProfilePanel extends JPanel {
 		initLoadProfileButton();
 		
 		buttonGrid = new JPanel(new GridLayout(0,1));
-		buttonGrid.setPreferredSize(new Dimension(200, 150));
+		buttonGrid.setPreferredSize(new Dimension(300, 300));
 		buttonGrid.add(bLoad);
 		buttonGrid.add(bNew);
 		buttonGrid.add(bRemove);
