@@ -161,7 +161,14 @@ public class AppFile implements Serializable {
 	 * @return an array of {@link AppLabel} associated to this File
 	 */
 	public AppLabel[] getLabelsArray() {
-		return (AppLabel[]) labelsArray.toArray();
+		AppLabel[] arr = new AppLabel[labelsArray.size()];
+		int i = 0;
+		for (AppLabel label : labelsArray) {
+			arr[i] = label;
+			i++;
+		}
+		
+		return arr;
 	}
 	
 	/**
