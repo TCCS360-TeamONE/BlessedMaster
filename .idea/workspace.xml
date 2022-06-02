@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="Update on Label panel&#10;functionality on add and delete button(with the profile)">
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="small fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project360/src/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/model/Library.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" afterDir="false" />
@@ -187,6 +187,7 @@
       <workItem from="1652154024880" duration="666000" />
       <workItem from="1652675036786" duration="23384000" />
       <workItem from="1654123131924" duration="8307000" />
+      <workItem from="1654148878781" duration="2403000" />
     </task>
     <task id="LOCAL-00001" summary="I put my name">
       <created>1649817464829</created>
@@ -237,7 +238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654130122804</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="small fix">
+      <created>1654149151292</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1654149151292</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,6 +269,7 @@
     <MESSAGE value="Added updates for about window" />
     <MESSAGE value="Create Export and Import button(init)" />
     <MESSAGE value="Update on Label panel&#10;functionality on add and delete button(with the profile)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update on Label panel&#10;functionality on add and delete button(with the profile)" />
+    <MESSAGE value="small fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="small fix" />
   </component>
 </project>
