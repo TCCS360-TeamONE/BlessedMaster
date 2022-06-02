@@ -191,7 +191,8 @@ public class Library implements Serializable {
 		return labelLibrary.contains(theLabel);
 	}
 	public boolean containsLabel(String theLabelName) {
-		return !(getLabel(theLabelName) ==  null);
+		return !(getLabel(theLabelName) == null);
+
 	}
 	
 	/**
@@ -203,7 +204,7 @@ public class Library implements Serializable {
 	 */
 	public AppLabel getLabel(final String theLabelName) {
 		for (AppLabel label : labelLibrary) {
-			if (label.getMyName() == theLabelName)
+			if (label.getMyName().equals(theLabelName))
 				return label;
 		}
 		return null;
@@ -242,7 +243,7 @@ public class Library implements Serializable {
 	 * Removes an AppLabel from this Library.
 	 * 
 	 * @author Christopher
-	 * @param theLabelName
+	 * @param theLabel
 	 * @return true if successful
 	 */
 	public boolean removeLabel(final AppLabel theLabel) {

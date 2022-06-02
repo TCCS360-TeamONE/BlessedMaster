@@ -67,7 +67,6 @@ public class LabelPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("Enter Label Name ");
 				if (!name.equals("")) {
-
 					if (!(labelLibrary.containsLabel(name))) {
 						boolean added = labelLibrary.addLabel(name);
 						if (added) {
@@ -132,6 +131,14 @@ public class LabelPanel extends JPanel {
 		applyButton = new JButton("Apply Label");
 		applyButton.setPreferredSize(defaultButtonDimension);
 		applyButton.setFont(defaultButtonFont);
+
+		applyButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//create a pop up window
+
+			}
+		});
 	}
 
 	private void setUpButtonPane(){
