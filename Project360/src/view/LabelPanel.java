@@ -68,7 +68,7 @@ public class LabelPanel extends JPanel {
 				String name = JOptionPane.showInputDialog("Enter Label Name ");
 				if (!name.equals("")) {
 					boolean added = labelLibrary.addLabel(name);
-					if (!labelLibrary.containsLabel(name)) {
+					if (labelLibrary.containsLabel(name)) {
 						if (added) {
 							System.out.println("added");
 						} else {
