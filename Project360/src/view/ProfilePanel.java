@@ -269,6 +269,7 @@ public class ProfilePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedProfileIndex > -1) {
 					setCurrentlyLoadedProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
+					Main.refreshAll();
 					Main.window.fileAndLabelTabsUnlock(); // to unlock File and Label tabs
 				} else {
 					String noProfileSelectedMessage = "No profile selected. Please select a profile from the list to the left and try again.";

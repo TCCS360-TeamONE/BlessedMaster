@@ -70,6 +70,12 @@ public class Main {
 		FileIO.saveObjectFile(appOwner, REGISTERED_USER_LICENSE);
 	}
 	
+	public static void refreshAll() {
+		savePersistentData();
+		window.dispose();
+		window = new MainWindow();
+	}
+	
 	
 	/**
 	 * Application entry point.
