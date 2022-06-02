@@ -3,6 +3,8 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Library that holds all the AppLabels and AppFiles used
@@ -34,18 +36,31 @@ public class Library implements Serializable {
 	 * Getter for fileLibrary.
 	 * @return AppFile[] of all the AppFiles in this Library
 	 */
-	public AppFile[] getFileLibraryArray() {
-		ArrayList<AppFile> fileLibArr = (ArrayList<AppFile>) fileLibrary.values();
-		return (AppFile[]) fileLibArr.toArray();
+	public ArrayList<AppFile> getFileLibraryArray() {
+		ArrayList<AppFile> fileList = new ArrayList<>();
+        final Set<String> keys = fileLibrary.keySet();
+        Iterator<String> itr = keys.iterator();
+        while(itr.hasNext()) {
+        	fileList.add(fileLibrary.get(itr.next()));
+        }
+        
+        return fileList;
+
 	}
 	
 	/**
 	 * Getter for labelLibrary.
 	 * @return AppLabel[] of all the AppFiles in this Library
 	 */
-	public AppLabel[] getLabelLibraryArray() {
-		ArrayList<AppLabel> labelLibArr = (ArrayList<AppLabel>) labelLibrary.values();
-		return (AppLabel[]) labelLibArr.toArray();
+	public ArrayList<AppLabel> getLabelLibraryArray() {
+		ArrayList<AppLabel> labelList = new ArrayList<>();
+        final Set<String> keys = labelLibrary.keySet();
+        Iterator<String> itr = keys.iterator();
+        while(itr.hasNext()) {
+        	labelList.add(labelLibrary.get(itr.next()));
+        }
+        
+        return labelList;
 	}
 
 	/**
