@@ -23,6 +23,8 @@ import javax.swing.*;
  */
 
 public class FilePanel extends JPanel {
+
+	private final int MAX_LABELS = 5;
 	private JPanel top;
 
 	private JPanel buttonPanel;
@@ -116,9 +118,13 @@ public class FilePanel extends JPanel {
 	}
 
 	private void searchAction() {
-		if (appliedLabels.size() == 3) {
+		if (appliedLabels.size() == MAX_LABELS) {
 			JOptionPane.showMessageDialog(null, "You have reached the maximum amount of labels");
 		} else if (searchInput.getText() != "" && fileLibrary.getLabel(searchInput.getText()) != null) {
+			//test
+			//fileLibrary.applyLabelToFile(fileLibrary.getFile("/Users/anthonycabrera/Desktop/pdfs/file1.pdf"), fileLibrary.getLabel("one"));
+			//fileLibrary.applyLabelToFile(fileLibrary.getFile("/Users/anthonycabrera/Desktop/pdfs/file1.pdf"), fileLibrary.getLabel("two"));
+			//fileLibrary.applyLabelToFile(fileLibrary.getFile("/Users/anthonycabrera/Desktop/pdfs/file2.pdf"), fileLibrary.getLabel("one"));
 			appliedLabels.add(searchInput.getText());
 			// version 1
 			//searchFileList(searchInput.getText());
@@ -175,7 +181,6 @@ public class FilePanel extends JPanel {
 					java.io.File f = file.getSelectedFile();
 					String path = f.getPath();
 					String fileName = f.getName();
-					System.out.println(path);
 					Boolean test = fileLibrary.addFile(path);
 
 					refreshList();
@@ -195,7 +200,6 @@ public class FilePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String deleteFile = (String) filesList.getSelectedValue();
-				System.out.println(deleteFile);
 				boolean deleted = fileLibrary.removeFile(deleteFile);
 
 				refreshList();
@@ -266,9 +270,6 @@ public class FilePanel extends JPanel {
 					System.out.println("fail");
 				}
 
-				for(String s: appliedLabels) {
-					System.out.println(s);
-				}
 			}
 		});
 
@@ -309,7 +310,6 @@ public class FilePanel extends JPanel {
 	 }
 
 	 private void searchFileList2() {
-		System.out.println("Current amount of applied labels: " + appliedLabels.size());
 		ArrayList<String> locatedFiles = new ArrayList<>();
 		ArrayList<String> finalList = new ArrayList<>();
 
@@ -328,16 +328,16 @@ public class FilePanel extends JPanel {
 
 		 HashMap<String, Integer> map = new HashMap<>();
 
+		for (String s: locatedFiles) {
+			map.put(s, 0);
+		}
+
 		 for (int i = 0; i < locatedFiles.size(); i++) {
-			 if (map.containsKey(locatedFiles.get(i))) {
-				 String current = locatedFiles.get(i);
-				 int count = map.get(current) + 1;
-				 if (count == (appliedLabels.size())) {
-					 finalList.add(current);
-				 }
-				 map.put(current, count);
-			 } else {
-				 map.put(locatedFiles.get(i), 1);
+			 String current = locatedFiles.get(i);
+			 int count = map.get(current) + 1;
+			 map.put(current, count);
+			 if (count == appliedLabels.size()) {
+				 finalList.add(current);
 			 }
 		 }
 
