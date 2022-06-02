@@ -60,7 +60,7 @@ public class AppLabel implements Serializable{
 	 * Adds a new Label to this file's Labels collection.
 	 * 
 	 * @author Christopher
-	 * @param theLabel to be added
+	 * @param theFile to be added
 	 * @return true if addition succeeded
 	 */
 	public boolean addFile(final AppFile theFile) {
@@ -78,7 +78,7 @@ public class AppLabel implements Serializable{
 	 * Removes a Label in this file's Labels collection.
 	 * 
 	 * @author Christopher
-	 * @param theLabel to be removed
+	 * @param theFile to be removed
 	 * @return true if removal succeeded
 	 */
 	public boolean removeFile(final AppFile theFile) {
@@ -98,9 +98,9 @@ public class AppLabel implements Serializable{
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Label {\"");
+		//sb.append("Label {\"");
 		sb.append(labelName);
-		sb.append("\"}");
+		//sb.append("\"}");
 		return sb.toString();
 	}
 }
