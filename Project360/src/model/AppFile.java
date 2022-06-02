@@ -36,7 +36,7 @@ public class AppFile implements Serializable {
 	 * File System View utility object.
 	 * @see FileSystemView
 	 */
-	private final FileSystemView fileSystem;
+	private final transient FileSystemView fileSystem;
 	
 	/** File path of this AppFile. */
 	private String fileFullPath;
