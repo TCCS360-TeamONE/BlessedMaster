@@ -22,14 +22,14 @@ public class Library implements Serializable {
 	private static final long serialVersionUID = 3216087415273229721L;
 
 	/** A map of unique file paths to a AppFile Object. */
-	private HashMap<String, AppFile> fileLibrary;
+	private ArrayList<AppFile> fileLibrary;
 	
 	/** A map of unique label names to a AppLabel Object. */
-	private HashMap<String, AppLabel> labelLibrary;
+	private ArrayList<AppLabel> labelLibrary;
 	
 	public Library() {
-		fileLibrary = new HashMap<String, AppFile>();
-		labelLibrary = new HashMap<String, AppLabel>();	
+		fileLibrary = new ArrayList<AppFile>();
+		labelLibrary = new ArrayList<AppLabel>();	
 	}
 	
 	/**
@@ -37,14 +37,11 @@ public class Library implements Serializable {
 	 * @return AppFile[] of all the AppFiles in this Library
 	 */
 	public ArrayList<AppFile> getFileLibraryArray() {
-		ArrayList<AppFile> fileList = new ArrayList<>();
-        final Set<String> keys = fileLibrary.keySet();
-        Iterator<String> itr = keys.iterator();
-        while(itr.hasNext()) {
-        	fileList.add(fileLibrary.get(itr.next()));
-        }
-        
-        return fileList;
+		ArrayList<AppFile> files = new ArrayList<>();
+		for (AppFile file : fileLibrary) {
+			files.add(file);
+		}
+        return files;
 
 	}
 	
@@ -53,14 +50,11 @@ public class Library implements Serializable {
 	 * @return AppLabel[] of all the AppFiles in this Library
 	 */
 	public ArrayList<AppLabel> getLabelLibraryArray() {
-		ArrayList<AppLabel> labelList = new ArrayList<>();
-        final Set<String> keys = labelLibrary.keySet();
-        Iterator<String> itr = keys.iterator();
-        while(itr.hasNext()) {
-        	labelList.add(labelLibrary.get(itr.next()));
-        }
-        
-        return labelList;
+		ArrayList<AppLabel> labels = new ArrayList<>();
+		for (AppLabel label : labelLibrary) {
+			labels.add(label);
+		}
+        return labels;
 	}
 
 	/**
@@ -104,6 +98,9 @@ public class Library implements Serializable {
 		return false;
 	}
 	
+	
+	//////////////// Files //////////////////////////////////////////////////
+	
 	/**
 	 * Searches for a AppFile in the file library.
 	 * 
@@ -112,21 +109,26 @@ public class Library implements Serializable {
 	 * @return true if theFile exists
 	 */
 	public boolean containsFile(AppFile theFile) {
-		return fileLibrary.containsValue(theFile);
+		return fileLibrary.contains(theFile);
+	}
+	public boolean containsFile(String theFilePath) {
+		return !(getFile(theFilePath) == null);
 	}
 	
 	/**
-	 * Searches for a AppLabel in the Label library.
+	 * Gets a AppFile from fileLibrary.
 	 * 
 	 * @author Christopher
-	 * @param theLabel
-	 * @return true if theLabel exists
+	 * @param theFilePath
+	 * @return AppFile, or Null if no AppFile exists
 	 */
-	public boolean containsLabel(AppLabel theLabel) {
-		return labelLibrary.containsValue(theLabel);
+	public AppFile getFile(final String theFilePath) {
+		for (AppFile file : fileLibrary) {
+			if (file.getFilePath() == theFilePath)
+				return file;
+		}
+		return null;
 	}
-	
-	//////////////// Files //////////////////////////////////////////////////
 	
 	/**
 	 * Adds an AppFile to this Library
@@ -136,13 +138,15 @@ public class Library implements Serializable {
 	 * @return true if successful
 	 */
 	public boolean addFile(final String theFilePath) {
-		if (fileLibrary.containsKey(theFilePath))
+		if (containsFile(theFilePath)) {
 			return false;
-		else
-			fileLibrary.put(theFilePath, new AppFile(theFilePath));
-		return true;
+		}
+		else {
+			fileLibrary.add(new AppFile(theFilePath));
+			return true;
+		}
 	}
-	
+
 	/**
 	 * Removes an AppFile from this library.
 	 * 
@@ -151,7 +155,7 @@ public class Library implements Serializable {
 	 * @return true if successful
 	 */
 	public boolean removeFile(final String theFilePath) {
-		return removeFile(fileLibrary.get(theFilePath));
+		return removeFile(getFile(theFilePath));
 	}
 	
 	/**
@@ -162,19 +166,48 @@ public class Library implements Serializable {
 	 * @return true if successful
 	 */
 	public boolean removeFile(final AppFile theFile) {
-		if (containsFile(theFile)) {
-			//Removes the reference to theFile in each Label connected with it
-			AppLabel[] labelsArr = theFile.getLabelsArray();
-			for (AppLabel label : labelsArr)
-				label.removeFile(theFile);
-			//
-			fileLibrary.remove(theFile.getFileName());
-			return true;
+		if (theFile == null || !(containsFile(theFile))) {
+			return false;
 		}
-		else return false;
+		// Removes the reference to theFile in each Label connected with it
+		AppLabel[] labelsArr = theFile.getLabelsArray();
+		for (AppLabel label : labelsArr)
+			label.removeFile(theFile);
+		//
+		fileLibrary.remove(theFile);
+		return true;
 	}
 	
 	///////////// Labels /////////////////////////////////////////////////////
+	
+	/**
+	 * Searches for a AppLabel in the Label library.
+	 * 
+	 * @author Christopher
+	 * @param theLabel
+	 * @return true if theLabel exists
+	 */
+	public boolean containsLabel(AppLabel theLabel) {
+		return labelLibrary.contains(theLabel);
+	}
+	public boolean containsLabel(String theLabelName) {
+		return !(getLabel(theLabelName) ==  null);
+	}
+	
+	/**
+	 * Gets a AppLabel from the Label library.
+	 * 
+	 * @author Christopher
+	 * @param theLabelName
+	 * @return AppLabel or Null if no AppLabel exists
+	 */
+	public AppLabel getLabel(final String theLabelName) {
+		for (AppLabel label : labelLibrary) {
+			if (label.getMyName() == theLabelName)
+				return label;
+		}
+		return null;
+	}
 	
 	/**
 	 * Adds an AppLabel to this Library.
@@ -184,11 +217,14 @@ public class Library implements Serializable {
 	 * @return true if successful
 	 */
 	public boolean addLabel(final String theLabelName) {
-		if (labelLibrary.containsKey(theLabelName))
+		if (containsLabel(theLabelName)) {
+			System.out.println("yo 221");
 			return false;
-		else
-			labelLibrary.put(theLabelName, new AppLabel(theLabelName));
-		return true;
+		}
+		else{
+			labelLibrary.add(new AppLabel(theLabelName));
+			return true;
+		}
 	}
 	
 	/**
@@ -199,7 +235,7 @@ public class Library implements Serializable {
 	 * @return true if successful
 	 */
 	public boolean removeLabel(final String theLabelName) {
-		return removeLabel(labelLibrary.get(theLabelName));
+		return removeLabel(getLabel(theLabelName));
 	}
 	
 	/**
@@ -210,13 +246,14 @@ public class Library implements Serializable {
 	 * @return true if successful
 	 */
 	public boolean removeLabel(final AppLabel theLabel) {
+		System.out.println(theLabel);
 		if (containsLabel(theLabel)) {
 			//Removes the reference to theLabel in each AppFile connected with it
 			AppFile[] filesArr = theLabel.getFilesArray();
 			for (AppFile file : filesArr)
 				file.removeLabel(theLabel);
 			//
-			fileLibrary.remove(theLabel.getMyName());
+			System.out.println(labelLibrary.remove(theLabel));
 			return true;
 		}
 		else return false;
@@ -232,12 +269,12 @@ public class Library implements Serializable {
 	@Override
 	public String toString() {
 		String Files = "";
-		for (AppFile f : fileLibrary.values()) {
+		for (AppFile f : fileLibrary) {
 			Files += f.getFileName() + ", ";
 		}
 		
 		String Labels = "";
-		for (AppLabel l : labelLibrary.values()) {
+		for (AppLabel l : labelLibrary) {
 			Labels += l.getMyName() + ", ";
 		}
 		

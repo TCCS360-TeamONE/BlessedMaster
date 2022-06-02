@@ -9,8 +9,13 @@ import java.io.Serializable;
  */
 public class Profile implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * serial Version UID.
+	 * @see Serializable
+	 */
+	private static final long serialVersionUID = -2405511487098467910L;
+
 	// The profiles unique name
 	private String userName;
 	
