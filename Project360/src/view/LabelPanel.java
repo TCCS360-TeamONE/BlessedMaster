@@ -1,4 +1,4 @@
-/*
+/**
 
 Andrew & Betelhem
  */
@@ -9,11 +9,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
+import java.lang.reflect.Array;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import main.Main;
+import model.AppFile;
 import model.AppLabel;
 import model.Library;
 
@@ -32,6 +37,19 @@ public class LabelPanel extends JPanel {
 	private JPanel buttonPanel;
 	private JScrollPane scrollPane;
 	private JTable table;
+
+	//apply panel
+	JFrame applyFrame;
+	JPanel startApplyPanel;
+	JTextField searchField;
+	JButton selectBtn;
+	JPanel midApplyPanel;
+	JPanel botApplyPanel;
+	JButton closeApplyWindowBtn;
+	JButton applyApplyWindowBtn;
+
+
+
 
 	private final Font defaultButtonFont = new Font("Arial", Font.PLAIN, 22);
 	private final Font defaultTableFont = new Font("", Font.BOLD, 20);
@@ -66,7 +84,7 @@ public class LabelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("Enter Label Name ");
-				if (!name.equals("")) {
+				if (!name.equals("") || name != null) {
 					if (!(labelLibrary.containsLabel(name))) {
 						boolean added = labelLibrary.addLabel(name);
 						if (added) {
@@ -135,10 +153,109 @@ public class LabelPanel extends JPanel {
 		applyButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//create a pop up window
+				setUpApplyWindow();
 
 			}
 		});
+	}
+
+	private void setUpApplyWindow(){
+		//create a pop up window
+		applyFrame = new JFrame("Apply Window");
+		applyFrame.setLayout(new BorderLayout());
+		applyFrame.setSize(650,450);
+		applyFrame.getDefaultCloseOperation();
+		applyFrame.setLocationRelativeTo(null);
+		applyFrame.setVisible(true);
+		applyFrame.setResizable(false);
+
+		setStartApplyPanel();
+		setMidApplyPanel();
+		setBotApplyPanel();
+
+
+
+		applyFrame.add(startApplyPanel,BorderLayout.PAGE_START);
+		applyFrame.add(midApplyPanel, BorderLayout.CENTER);
+		applyFrame.add(botApplyPanel,BorderLayout.PAGE_END);
+
+	}
+
+	private void setStartApplyPanel(){
+		startApplyPanel = new JPanel(new FlowLayout());
+		searchField = new JTextField("file to select");
+		searchField.setPreferredSize(new Dimension(400,40));
+
+		selectBtn = new JButton("Select File");
+		selectBtn.setPreferredSize(new Dimension(110,40));
+
+
+		startApplyPanel.add(searchField);
+
+		startApplyPanel.add(selectBtn);
+
+
+	}
+
+	private void setMidApplyPanel(){
+		midApplyPanel = new JPanel(new FlowLayout());
+		/**
+		 * Create two JLists
+		 * one for apply new labels
+		 * one for remove old labels
+		 */
+
+		JList labelLibraryList = new JList(labelLibrary.getLabelLibraryArray().toArray());
+
+		labelLibraryList.setFont(new Font("Arial", Font.PLAIN, 20));
+
+
+		ArrayList<String> associateLabelName = new ArrayList<>();
+		//default
+		if(searchField.getText().equals("file to select")){
+			//do nothing;
+		}else{
+			AppLabel[] associateLabelArray = labelLibrary.getFile(searchField.getText()).getLabelsArray();
+			for(int i = 0; i < associateLabelArray.length; i++){
+				associateLabelName.add(associateLabelArray[i].toString());
+			}
+		}
+
+
+		JList fileLabelList = new JList(associateLabelName.toArray());
+
+
+
+		JScrollPane labelLibraryScroll = new JScrollPane(labelLibraryList);
+		labelLibraryScroll.setPreferredSize(new Dimension(250,300));
+		JScrollPane fileLabelScroll = new JScrollPane(fileLabelList);
+		fileLabelScroll.setPreferredSize(new Dimension(250,300));
+
+		midApplyPanel.add(labelLibraryScroll);
+		midApplyPanel.add(Box.createHorizontalStrut(10));
+		midApplyPanel.add(fileLabelScroll);
+
+	}
+
+	private void setBotApplyPanel(){
+		botApplyPanel = new JPanel(new FlowLayout());
+
+		applyApplyWindowBtn = new JButton("Apply");
+		closeApplyWindowBtn = new JButton("Close");
+		applyApplyWindowBtn.setPreferredSize(new Dimension(90,40));
+		closeApplyWindowBtn.setPreferredSize(new Dimension(90,40));
+
+		closeApplyWindowBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				applyFrame.dispose();
+			}
+		});
+
+		botApplyPanel.add(Box.createHorizontalStrut(430));
+		botApplyPanel.add(applyApplyWindowBtn);
+		botApplyPanel.add(closeApplyWindowBtn);
+
 	}
 
 	private void setUpButtonPane(){
@@ -189,10 +306,6 @@ public class LabelPanel extends JPanel {
 
 	}
 
-	private void refreshTable(){
-		table.revalidate();
-		table.repaint();
-	}
 }
 
 /*
