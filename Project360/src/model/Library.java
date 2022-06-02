@@ -241,7 +241,7 @@ public class Library implements Serializable {
 			Labels += l.getMyName() + ", ";
 		}
 		
-		return (" Library: Files {" + Files + "} Labels {" + Labels + "}");
+		return (" Library: Files {" + Files + "} Labels: {" + Labels + "}");
 	}
 	
 }
