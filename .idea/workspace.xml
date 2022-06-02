@@ -152,6 +152,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.HelloWorld" />
       <item itemvalue="Application.main.Main" />
       <item itemvalue="JUnit.MainTests" />
       <item itemvalue="JUnit.MainTests.testAppVersion" />
@@ -184,6 +185,7 @@
       <workItem from="1652153993837" duration="30000" />
       <workItem from="1652154024880" duration="666000" />
       <workItem from="1652675036786" duration="23384000" />
+      <workItem from="1654123131924" duration="6643000" />
     </task>
     <task id="LOCAL-00001" summary="I put my name">
       <created>1649817464829</created>
