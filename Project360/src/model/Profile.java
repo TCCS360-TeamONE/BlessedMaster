@@ -43,13 +43,6 @@ public class Profile implements Serializable{
 		return userLibrary;
 	}
 	
-	//// TODO TESTING STUFF DELETE LATER
-	public void resetLib() {
-		userLibrary = new Library();
-		userLibrary.addFile("resty Fi");
-		userLibrary.addLabel("resty Lab");
-	}
-	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("LoginProfile {\"");
