@@ -66,21 +66,26 @@ public class LabelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("Enter Label Name ");
-				if(!name.equals("")) {
+				if (!name.equals("")) {
 					boolean added = labelLibrary.addLabel(name);
-					if(added){
-						System.out.println("added");
-					}else{
-						System.out.println("Not added");
+					if (!labelLibrary.containsLabel(name)) {
+						if (added) {
+							System.out.println("added");
+						} else {
+							System.out.println("Not added");
+						}
+						System.out.println(Main.mainProfileManger.getLoadedProfile().getLibrary().toString());
+						row[0] = name;
+						tableModel.addRow(row);
+					} else {
+						JOptionPane.showMessageDialog(null, "This Label Already Exist");
 					}
-					System.out.println(Main.mainProfileManger.getLoadedProfile().getLibrary().toString());
-
-					row[0] = name;
-					tableModel.addRow(row);
-				}else{
+				} else {
 					JOptionPane.showMessageDialog(null, "Can't be empty");
 				}
+
 			}
+
 		});
 
 	}
@@ -89,7 +94,6 @@ public class LabelPanel extends JPanel {
 		delButton = new JButton("- Delete");
 		delButton.setPreferredSize(defaultButtonDimension);
 		delButton.setFont(defaultButtonFont);
-
 		delButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +171,6 @@ public class LabelPanel extends JPanel {
 	}
 	private void setUpScrollPane(){
 		setLabelPanel();
-
 
 		add(table,BorderLayout.CENTER);
 		scrollPane = new JScrollPane(table);
