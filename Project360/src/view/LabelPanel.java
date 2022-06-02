@@ -320,39 +320,3 @@ public class LabelPanel extends JPanel {
 	}
 
 }
-
-/*
-
-
-
-		labelPanel = new JPanel(new GridLayout(0,3,30,20));
-
-		String[] btnNameList = new String[10];
-		for(int index = 0; index <= 0; index++){
-		String name = "Button " + index;
-		btnNameList[index] = name;
-
-
-		}
-
-
-		try{
-			for(int i = 0; i < btnNameList.size(); i++){
-				btn[i] = new JButton(btnNameList.get(i));
-				btn[i].setName(btnNameList.get(i));
-				btn[i].setPreferredSize(new Dimension(200,150));
-				labelPanel.add(btn[i]);
-			}
-		}catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Can't generate labelPanel\n" + e);
-		}
-
-
-
-
-	}
-
- */
-
-
-
