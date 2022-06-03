@@ -190,9 +190,24 @@ public class LabelPanel extends JPanel {
 		selectBtn = new JButton("Select File");
 		selectBtn.setPreferredSize(new Dimension(110,40));
 
+		selectBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//if does not contains file -> pop up dialogue
+				if(!labelLibrary.containsFile(searchField.getText())){
+					JOptionPane.showMessageDialog(null, "File does not exists");
+				}else{
+					//show file onto the Jlist
+					setMidApplyPanel();
+					//refresh
+					applyFrame.revalidate();
+					applyFrame.repaint();
+				}
+			}
+		});
+
 
 		startApplyPanel.add(searchField);
-
 		startApplyPanel.add(selectBtn);
 
 
@@ -253,9 +268,9 @@ public class LabelPanel extends JPanel {
 	private void setBotApplyPanel(){
 		botApplyPanel = new JPanel(new FlowLayout());
 
-		applyApplyWindowBtn = new JButton("Apply");
+		applyApplyWindowBtn = new JButton("Apply / Remove");
 		closeApplyWindowBtn = new JButton("Close");
-		applyApplyWindowBtn.setPreferredSize(new Dimension(90,40));
+		applyApplyWindowBtn.setPreferredSize(new Dimension(150,40));
 		closeApplyWindowBtn.setPreferredSize(new Dimension(90,40));
 
 		closeApplyWindowBtn.addActionListener(new ActionListener() {
@@ -265,7 +280,7 @@ public class LabelPanel extends JPanel {
 			}
 		});
 
-		botApplyPanel.add(Box.createHorizontalStrut(430));
+		botApplyPanel.add(Box.createHorizontalStrut(330));
 		botApplyPanel.add(applyApplyWindowBtn);
 		botApplyPanel.add(closeApplyWindowBtn);
 
