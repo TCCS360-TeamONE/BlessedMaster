@@ -9,16 +9,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
-import java.lang.reflect.Array;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import main.Main;
-import model.AppFile;
 import model.AppLabel;
 import model.Library;
 
@@ -57,7 +55,6 @@ public class LabelPanel extends JPanel {
 	private final GridLayout buttonLayout = new GridLayout(1,0);
 			//1,0,30);
 	private final DefaultTableModel tableModel = new DefaultTableModel();
-
 	Object[] row = new Object[1];
 	Object[] columns ={"Label Names"};
 
@@ -119,32 +116,37 @@ public class LabelPanel extends JPanel {
 		delButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				int delMessage = JOptionPane.showConfirmDialog(null,"Are you sure you want to delete? ","Delete", JOptionPane.YES_NO_OPTION);
 				int i = table.getSelectedRow();
 
-				if(i>=0){
-					String labelDeleteName = String.valueOf(tableModel.getValueAt(i, 0));
-					tableModel.removeRow(i);
-					boolean deleted = labelLibrary.removeLabel(labelDeleteName);
-					if(deleted){
-						System.out.println("deleted");
-					}else{
-						System.out.println("Not deleted");
+				if(delMessage ==0) {
+					if (i >= 0) {
+						String labelDeleteName = String.valueOf(tableModel.getValueAt(i, 0));
+						tableModel.removeRow(i);
+						boolean deleted = labelLibrary.removeLabel(labelDeleteName);
+						if (deleted) {
+							System.out.println("deleted");
+						} else {
+							System.out.println("Not deleted");
+						}
+						delButton.setEnabled(tableModel.getRowCount() > 0);
+						applyButton.setEnabled(tableModel.getRowCount() > 0);
+
+						JOptionPane.showMessageDialog(null, "Successfully Deleted!");
+
+					} else {
+						JOptionPane.showMessageDialog(buttonPanel, "Select Label To Delete");
 					}
-					delButton.setEnabled(tableModel.getRowCount() > 0);
-					applyButton.setEnabled(tableModel.getRowCount() > 0);
+					}else{
+					JOptionPane.showMessageDialog(null,"Label is Not Deleted");
 				}
-				else{
-					JOptionPane.showMessageDialog(buttonPanel, "Select Label To Delete");
-
-				}
-
 			}
 		});
 
 
 
 	}
+
 
 	private void setApplyButton(){
 		applyButton = new JButton("Apply Label");
@@ -190,24 +192,9 @@ public class LabelPanel extends JPanel {
 		selectBtn = new JButton("Select File");
 		selectBtn.setPreferredSize(new Dimension(110,40));
 
-		selectBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//if does not contains file -> pop up dialogue
-				if(!labelLibrary.containsFile(searchField.getText())){
-					JOptionPane.showMessageDialog(null, "File does not exists");
-				}else{
-					//show file onto the Jlist
-					setMidApplyPanel();
-					//refresh
-					applyFrame.revalidate();
-					applyFrame.repaint();
-				}
-			}
-		});
-
 
 		startApplyPanel.add(searchField);
+
 		startApplyPanel.add(selectBtn);
 
 
@@ -267,10 +254,9 @@ public class LabelPanel extends JPanel {
 
 	private void setBotApplyPanel(){
 		botApplyPanel = new JPanel(new FlowLayout());
-
-		applyApplyWindowBtn = new JButton("Apply / Remove");
+		applyApplyWindowBtn = new JButton("Apply");
 		closeApplyWindowBtn = new JButton("Close");
-		applyApplyWindowBtn.setPreferredSize(new Dimension(150,40));
+		applyApplyWindowBtn.setPreferredSize(new Dimension(90,40));
 		closeApplyWindowBtn.setPreferredSize(new Dimension(90,40));
 
 		closeApplyWindowBtn.addActionListener(new ActionListener() {
@@ -280,7 +266,7 @@ public class LabelPanel extends JPanel {
 			}
 		});
 
-		botApplyPanel.add(Box.createHorizontalStrut(330));
+		botApplyPanel.add(Box.createHorizontalStrut(430));
 		botApplyPanel.add(applyApplyWindowBtn);
 		botApplyPanel.add(closeApplyWindowBtn);
 
@@ -326,9 +312,25 @@ public class LabelPanel extends JPanel {
 
 
 	}
+
+	/**
+	 * Sort the labels Alphabetical order
+	 * A-Z or Z - A
+	 */
+
+
+	private void sort(){
+		TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
+		table.setRowSorter(rowSorter);
+		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+		rowSorter.setSortKeys(sortKeys);
+
+
+	}
 	private void setUpScrollPane(){
 		setLabelPanel();
-
+		sort();
 		add(table,BorderLayout.CENTER);
 		scrollPane = new JScrollPane(table);
 
