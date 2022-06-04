@@ -42,6 +42,14 @@ public class LabelPanel extends JPanel {
 	JTextField searchField;
 	JButton selectBtn;
 	JPanel midApplyPanel;
+	JList labelLibraryList;
+	ArrayList<String> associateLabelName;
+	AppLabel[] associateLabelArray;
+	JList fileLabelList;
+	JLabel addLabelToFile;
+	JLabel removeLabelFromFile;
+	JScrollPane labelLibraryScroll;
+	JScrollPane fileLabelScroll;
 	JPanel botApplyPanel;
 	JButton closeApplyWindowBtn;
 	JButton applyApplyWindowBtn;
@@ -192,6 +200,21 @@ public class LabelPanel extends JPanel {
 		selectBtn = new JButton("Select File");
 		selectBtn.setPreferredSize(new Dimension(110,40));
 
+		selectBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//error checking
+				if(!labelLibrary.containsFile(searchField.getText())){
+					JOptionPane.showMessageDialog(null, "File does not exists/Wrong file path. Please try again");
+				}else{
+					//refresh the panel
+					setMidApplyPanel();
+					applyFrame.revalidate();
+					applyFrame.repaint();
+				}
+			}
+		});
+
 
 		startApplyPanel.add(searchField);
 
@@ -208,38 +231,39 @@ public class LabelPanel extends JPanel {
 		 * one for remove old labels
 		 */
 
-		JList labelLibraryList = new JList(labelLibrary.getLabelLibraryArray().toArray());
+		labelLibraryList = new JList(labelLibrary.getLabelLibraryArray().toArray());
 
 
 		labelLibraryList.setFont(new Font("Arial", Font.PLAIN, 20));
 
 
-		ArrayList<String> associateLabelName = new ArrayList<>();
+		associateLabelName = new ArrayList<>();
 		//default
 		if(searchField.getText().equals("file to select")){
 			//do nothing;
 		}else{
-			AppLabel[] associateLabelArray = labelLibrary.getFile(searchField.getText()).getLabelsArray();
+			associateLabelArray = labelLibrary.getFile(searchField.getText()).getLabelsArray();
 			for(int i = 0; i < associateLabelArray.length; i++){
 				associateLabelName.add(associateLabelArray[i].toString());
 			}
+
+			//check the file is attached to which label
+			System.out.println(associateLabelName.toString());
 		}
 
-		JList fileLabelList = new JList(associateLabelName.toArray());
+		fileLabelList = new JList(associateLabelName.toArray());
 
-
-
-		JLabel addLabelToFile = new JLabel("Add Label", SwingConstants.CENTER);
+		addLabelToFile = new JLabel("Add Label", SwingConstants.CENTER);
 		addLabelToFile.setPreferredSize(new Dimension(250,30));
 		addLabelToFile.setFont(defaultTableFont);
-		JLabel removeLabelFromFile = new JLabel("Remove Label", SwingConstants.CENTER);
+		removeLabelFromFile = new JLabel("Remove Label", SwingConstants.CENTER);
 		removeLabelFromFile.setPreferredSize(new Dimension(250,30));
 		removeLabelFromFile.setFont(defaultTableFont);
 
 
-		JScrollPane labelLibraryScroll = new JScrollPane(labelLibraryList);
+		labelLibraryScroll = new JScrollPane(labelLibraryList);
 		labelLibraryScroll.setPreferredSize(new Dimension(250,270));
-		JScrollPane fileLabelScroll = new JScrollPane(fileLabelList);
+		fileLabelScroll = new JScrollPane(fileLabelList);
 		fileLabelScroll.setPreferredSize(new Dimension(250,270));
 
 		midApplyPanel.add(addLabelToFile);
@@ -258,6 +282,13 @@ public class LabelPanel extends JPanel {
 		closeApplyWindowBtn = new JButton("Close");
 		applyApplyWindowBtn.setPreferredSize(new Dimension(90,40));
 		closeApplyWindowBtn.setPreferredSize(new Dimension(90,40));
+
+		applyApplyWindowBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 
 		closeApplyWindowBtn.addActionListener(new ActionListener() {
 			@Override
