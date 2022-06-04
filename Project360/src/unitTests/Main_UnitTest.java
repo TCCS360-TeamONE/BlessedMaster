@@ -1,29 +1,35 @@
-package main;
+package unitTests;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class JUnitTests_main {
+import main.Main;
+
+class Main_UnitTest {
 
 	/**
 	 * Test that the version of the application is not NULL
 	 * and is what it should be.
 	 * 
-	 * @author Chris H.
+	 * @author Christopher
 	 */
 	@Test
 	void testAppVersion() {
 		assertNotNull("Version String is Null", main.Main.VERSION);
-		assertEquals("v0.1", main.Main.VERSION);
+		assertEquals("v0.3", main.Main.VERSION);
 	}
 	
 	/**
 	 * Test to ensure that all the dev's names are included
 	 * in the applications about screen
 	 * 
-	 * @author Chris H.
+	 * @author Christopher
 	 */
 	@Test
 	void testAboutDevs() {
@@ -40,6 +46,29 @@ class JUnitTests_main {
 		assertTrue(main.Main.aboutDevs[2].equals(test[2]));
 		assertTrue(main.Main.aboutDevs[3].equals(test[3]));
 		assertTrue(main.Main.aboutDevs[4].equals(test[4]));
+	}
+	
+	////// ^^^ OLD Tests /////
+	
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+	}
+
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+	}
+
+	@BeforeEach
+	void setUp() throws Exception {
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+	}
+
+	@Test
+	void test() {
+		fail("Not yet implemented");
 	}
 
 }
