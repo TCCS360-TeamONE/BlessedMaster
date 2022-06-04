@@ -22,7 +22,7 @@ public class Main {
 	/**
 	 * Application constant variables
 	 */
-	public static final String VERSION = "v0.2";
+	public static final String VERSION = "v0.3";
 	public static final int DEFAULT_WIDTH = 800;
 	public static final int DEFAULT_HEIGHT = 600;
 	
