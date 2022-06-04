@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileSystemView;
 
 
@@ -18,7 +20,7 @@ import javax.swing.filechooser.FileSystemView;
  * 3) Several properties of the file<br>
  * 4) A method to open the file in the users OS<br>
  * 
- * @authors Christopher,
+ * @authors Christopher
  */
 public class AppFile implements Serializable {
 	
@@ -36,7 +38,19 @@ public class AppFile implements Serializable {
 	 * File System View utility object.
 	 * @see FileSystemView
 	 */
-	private final transient FileSystemView fileSystem;
+	private transient FileSystemView fileSystem;
+	
+	/** File icon used by OS */
+	private transient Icon fileIcon;
+	
+	/**
+	 * Type description for a file, directory, or folder as it would
+	 * be displayed in a system file browser.<p>Check out
+	 * {@link FileSystemView#getSystemTypeDescription() SystemTypeDescription}
+	 * for more information.<br>
+	 * 
+	 */
+	private transient String fileTypeDescription;
 	
 	/** File path of this AppFile. */
 	private String fileFullPath;
@@ -52,18 +66,6 @@ public class AppFile implements Serializable {
 	 * <b>Example:</b> "words.txt"
 	 */
 	private String fileNameAndExtension;
-	
-	/** File icon used by OS */
-	private Icon fileIcon;
-	
-	/**
-	 * Type description for a file, directory, or folder as it would
-	 * be displayed in a system file browser.<p>Check out
-	 * {@link FileSystemView#getSystemTypeDescription() SystemTypeDescription}
-	 * for more information.<br>
-	 * 
-	 */
-	private String fileTypeDescription;
 	
 	/**
 	 * Underlying File object to get name and icons.
@@ -82,16 +84,24 @@ public class AppFile implements Serializable {
 	}
 	
 	public AppFile(final String theFilePath) {
-		fileSystem = FileSystemView.getFileSystemView();
 		jFile = fileSystem.createFileObject(theFilePath);
-		
+		fileSystem = FileSystemView.getFileSystemView();
 		fileFullPath = theFilePath;
+		
 		fileNameAndExtension = fileSystem.getSystemDisplayName(jFile);
 		splitFileNameAndExt();
-		fileIcon = fileSystem.getSystemIcon(jFile, ICON_WIDTH, ICON_HEIGHT);
-		fileTypeDescription = fileSystem.getSystemTypeDescription(jFile);
 		
 		labelsArray = new ArrayList<>();
+		
+		fileIcon = fileSystem.getSystemIcon(jFile, ICON_WIDTH, ICON_HEIGHT);		
+		fileTypeDescription = fileSystem.getSystemTypeDescription(jFile);
+
+	}
+	
+	public void updateFileInfo() {
+		fileSystem = FileSystemView.getFileSystemView();
+		fileIcon = fileSystem.getSystemIcon(jFile, ICON_WIDTH, ICON_HEIGHT);
+		fileTypeDescription = fileSystem.getSystemTypeDescription(jFile);
 	}
 	
 	/**
@@ -142,7 +152,13 @@ public class AppFile implements Serializable {
 	 * @return {@link String} the file type description
 	 */
 	public String getFileTypeDescription() {
-		return fileTypeDescription;
+		if (Objects.nonNull(fileTypeDescription)) {
+			return fileTypeDescription;
+		}
+		else {
+			return "null description";
+		}
+
 	}
 
 	/**
@@ -151,7 +167,12 @@ public class AppFile implements Serializable {
 	 * @return {@link Icon} the file's icon
 	 */
 	public Icon getFileIcon() {
-		return fileIcon;
+		if (Objects.nonNull(fileIcon)) {
+			return fileIcon;
+		}
+		else {
+			return (Icon) (new ImageIcon("./icons/nullIcon"));
+		}
 	}
 	
 	/**
