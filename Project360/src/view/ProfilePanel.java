@@ -123,6 +123,7 @@ public class ProfilePanel extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(500, 400));
 		add(scrollPane);
 		add(buttonGrid);
+		repaint();
 		
 	}
 	
@@ -171,7 +172,7 @@ public class ProfilePanel extends JPanel {
 							Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
 					
 					System.out.println(win); // <- prints true if it was successful
-					
+					updateTableUsers();
  				} catch (Exception ex) {
  					ex.printStackTrace();
  				}
@@ -207,8 +208,8 @@ public class ProfilePanel extends JPanel {
 						if (profilePass == null) return;
 						if (!profilePass.isEmpty() && !profilePass.isBlank()) {
 							Main.mainProfileManger.addProfile(new Profile(profileName, profilePass));
-							updateTableUsers();
 							JOptionPane.showMessageDialog(null, userCreatedMessage);
+							updateTableUsers();
 						} else {
 							JOptionPane.showMessageDialog(null, invalidPassMessage);
 						}
