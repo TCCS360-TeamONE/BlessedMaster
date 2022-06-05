@@ -34,11 +34,11 @@ public class FilePanel extends JPanel {
 	private JPanel searchPanel;
 	private JLabel searchLabel;
 	private JTextField searchInput;
+	private JComboBox labelOptions;
 	private JButton searchButton;
 	private JButton removeButton;
 
 	private JList filesList;
-	private String[] files;
 	private JScrollPane scrollPane;
 
 	private JPanel labelDisplay;
@@ -86,7 +86,7 @@ public class FilePanel extends JPanel {
 	public void buildSearchPane() {
 		searchPanel = new JPanel();
 
-		searchLabel = new JLabel("Labels");
+		searchLabel = new JLabel("Label Filter");
 		searchLabel.setFont(textfont);
 
 		searchInput = new JTextField(20);
@@ -181,8 +181,11 @@ public class FilePanel extends JPanel {
 					java.io.File f = file.getSelectedFile();
 					String path = f.getPath();
 					String fileName = f.getName();
-					Boolean test = fileLibrary.addFile(path);
-
+					if (!fileLibrary.containsFile(path)) {
+						Boolean test = fileLibrary.addFile(path);
+					} else {
+						JOptionPane.showMessageDialog(null, "ERROR: Duplicate File");
+					}
 					refreshList();
 
 
@@ -199,10 +202,15 @@ public class FilePanel extends JPanel {
 		delButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int delMessage = JOptionPane.showConfirmDialog(null,"Are you sure you want to delete? ","Delete", JOptionPane.YES_NO_OPTION);
 				String deleteFile = (String) filesList.getSelectedValue();
-				boolean deleted = fileLibrary.removeFile(deleteFile);
-
-				refreshList();
+				if (delMessage == 0){
+					boolean deleted = fileLibrary.removeFile(deleteFile);
+					JOptionPane.showMessageDialog(null,"File deleted");
+					refreshList();
+				} else {
+					JOptionPane.showMessageDialog(null,"File was not deleted");
+				}
 			}
 		});
 	}
@@ -237,7 +245,7 @@ public class FilePanel extends JPanel {
 		labelsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		labelsList.setFont(textfont);
 
-		JLabel labelLabels = new JLabel("Applied Labels: ");
+		JLabel labelLabels = new JLabel("Applied Label Filters: ");
 		labelLabels.setFont(textfont);
 
 		labelDisplay.add(labelLabels);
@@ -268,6 +276,7 @@ public class FilePanel extends JPanel {
 					Desktop.getDesktop().open(new File(s));
 				} catch (Exception ex) {
 					System.out.println("fail");
+					JOptionPane.showMessageDialog(null, "Sorry, couldn't open file path.");
 				}
 
 			}
@@ -296,20 +305,20 @@ public class FilePanel extends JPanel {
 		}
 	}
 
-	 private void searchFileList(String label) {
-	 	AppLabel searchLabel;
-	 	dm = new DefaultListModel();
-	 	filesList.setModel(dm);
+	private void searchFileList(String label) {
+		AppLabel searchLabel;
+		dm = new DefaultListModel();
+		filesList.setModel(dm);
 
-	 	searchLabel = fileLibrary.getLabel(label);
+		searchLabel = fileLibrary.getLabel(label);
 
-	 	for (AppFile f: searchLabel.getFilesArray()) {
-	 		dm.addElement(f.getFilePath());
+		for (AppFile f: searchLabel.getFilesArray()) {
+			dm.addElement(f.getFilePath());
 		}
 
-	 }
+	}
 
-	 private void searchFileList2() {
+	private void searchFileList2() {
 		ArrayList<String> locatedFiles = new ArrayList<>();
 		ArrayList<String> finalList = new ArrayList<>();
 
@@ -326,28 +335,28 @@ public class FilePanel extends JPanel {
 			}
 		}
 
-		 HashMap<String, Integer> map = new HashMap<>();
+		HashMap<String, Integer> map = new HashMap<>();
 
 		for (String s: locatedFiles) {
 			map.put(s, 0);
 		}
 
-		 for (int i = 0; i < locatedFiles.size(); i++) {
-			 String current = locatedFiles.get(i);
-			 int count = map.get(current) + 1;
-			 map.put(current, count);
-			 if (count == appliedLabels.size()) {
-				 finalList.add(current);
-			 }
-		 }
+		for (int i = 0; i < locatedFiles.size(); i++) {
+			String current = locatedFiles.get(i);
+			int count = map.get(current) + 1;
+			map.put(current, count);
+			if (count == appliedLabels.size()) {
+				finalList.add(current);
+			}
+		}
 
-		 dm = new DefaultListModel();
-		 filesList.setModel(dm);
+		dm = new DefaultListModel();
+		filesList.setModel(dm);
 
-		 for (String s: finalList) {
-			 dm.addElement(s);
-		 }
+		for (String s: finalList) {
+			dm.addElement(s);
+		}
 
-	 }
+	}
 
 }

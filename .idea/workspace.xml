@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="bug: &#10;apply window : JList is not selected" />
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="AppFile fixed">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project360/src/view/FilePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/FilePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/main" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -191,7 +198,7 @@
       <workItem from="1654155084492" duration="2836000" />
       <workItem from="1654173686393" duration="13220000" />
       <workItem from="1654189079532" duration="2480000" />
-      <workItem from="1654306931645" duration="6671000" />
+      <workItem from="1654306931645" duration="11878000" />
     </task>
     <task id="LOCAL-00001" summary="I put my name">
       <created>1649817464829</created>
@@ -291,7 +298,21 @@
       <option name="project" value="LOCAL" />
       <updated>1654386697906</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="AppFile fixed">
+      <created>1654387295320</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1654387295320</updated>
+    </task>
+    <task id="LOCAL-00016" summary="apply window fix">
+      <created>1654391264498</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1654391264498</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -321,6 +342,8 @@
     <MESSAGE value="added some function in apply button" />
     <MESSAGE value="small change" />
     <MESSAGE value="bug: &#10;apply window : JList is not selected" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug: &#10;apply window : JList is not selected" />
+    <MESSAGE value="AppFile fixed" />
+    <MESSAGE value="apply window fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="apply window fix" />
   </component>
 </project>
