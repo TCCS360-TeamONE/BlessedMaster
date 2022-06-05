@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import main.AboutWindow;
 import main.Main;
@@ -70,9 +72,22 @@ public class MainWindow extends JFrame {
         tabbedPane.setEnabledAt(1, false);
         tabbedPane.setBackgroundAt(1, LOCKED_TAB_COLOR);
         
+        tabChangeListener();
+        
         setContentPane(tabbedPane);
         setVisible(true);
         setLocationRelativeTo(null);
+	}
+	
+	public void refreshTabs(int tabIndex) {
+		
+	}
+	
+	public void fileAndLabelTabsUnlock() {
+        tabbedPane.setEnabledAt(0, true);
+        tabbedPane.setBackgroundAt(0, UNLOCKED_TAB_COLOR);
+        tabbedPane.setEnabledAt(1, true);
+        tabbedPane.setBackgroundAt(1, UNLOCKED_TAB_COLOR);
 	}
 	
 	/**
@@ -90,14 +105,17 @@ public class MainWindow extends JFrame {
 		System.exit(0);
 	}
 	
-	
-	public void fileAndLabelTabsUnlock() {
-        tabbedPane.setEnabledAt(0, true);
-        tabbedPane.setBackgroundAt(0, UNLOCKED_TAB_COLOR);
-        tabbedPane.setEnabledAt(1, true);
-        tabbedPane.setBackgroundAt(1, UNLOCKED_TAB_COLOR);
+	private void tabChangeListener() {
+		tabbedPane.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				System.out.println("TAB MAN");
+				
+			}
+			
+		});
 	}
-	
 	
 	/**
 	 * Sets up the main tabbed pane and puts the FilesPanel, LabelPanel,
