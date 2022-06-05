@@ -37,6 +37,9 @@ public class ProfilePanel extends JPanel {
 	// A sub-panel to arrange the buttons in a grid
 	private JPanel buttonGrid;
 	
+	private JPanel leftPanel;
+	private JPanel rightPanel;
+	
 	
 	// The buttons for use in the profile panel.
 	private JButton bImport;
@@ -45,7 +48,7 @@ public class ProfilePanel extends JPanel {
 	private JButton bRemove;
 	private JButton bLoad;
 	
-	// The index of the profile that is currently selected
+	// The indexs of the profiles that are currently selected and loaded
 	private int selectedProfileIndex = -1;
 	
 	// Some default Swing component values to prevent re-typing code
@@ -54,17 +57,25 @@ public class ProfilePanel extends JPanel {
 	private final String[] columnNames = {"Profiles"};
 
 	public ProfilePanel() {
-		super();
+		super(new GridLayout(1,2,0,0));
+		initProfilePanel();
+	}
+	
+	private void initProfilePanel() {
+		leftPanel = new JPanel(new GridLayout());
+		rightPanel = new JPanel(new GridLayout());
+		
+		add(leftPanel);
+		add(rightPanel);
 
 		initButtons();
 		initUserTable();
 		
-		setCurrentlyLoadedProfile(Main.mainProfileManger.getProfile("default"));
+		
 		
 		JScrollPane scrollPane = new JScrollPane(tableUsers);
-		scrollPane.setPreferredSize(new Dimension(600, 302));
-		add(scrollPane);
-		add(buttonGrid);
+		leftPanel.add(scrollPane);
+		rightPanel.add(buttonGrid);
 	}
 	
 	/**
@@ -84,8 +95,8 @@ public class ProfilePanel extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting() && tableUsers.getSelectedRow() != -1) {
 					selectedProfileIndex = tableUsers.getSelectedRow();
+					checkProfileQuantity();
 					bExport.setEnabled(true);
-					bRemove.setEnabled(true);
 				}
 			}
 		});
@@ -115,16 +126,9 @@ public class ProfilePanel extends JPanel {
 	 */
 	private void updateTableUsers() {
 		removeAll();
-
 		initUserTable();
-		initButtons();
-		
-		JScrollPane scrollPane = new JScrollPane(tableUsers);
-		scrollPane.setPreferredSize(new Dimension(500, 400));
-		add(scrollPane);
-		add(buttonGrid);
+		initProfilePanel();
 		repaint();
-		
 	}
 	
 	/**
@@ -141,9 +145,12 @@ public class ProfilePanel extends JPanel {
 		bImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					System.out.println(FileIO.importProfile(theParent)); // <- prints true if it was successful
-					
-					updateTableUsers();	
+					//System.out.println(FileIO.importProfile(theParent)); // <- prints true if it was successful
+					boolean success = FileIO.importProfile(theParent);
+					if (!success)
+						JOptionPane.showMessageDialog(null, "Error! Profile already exists.");
+					else
+						updateTableUsers();
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -168,10 +175,10 @@ public class ProfilePanel extends JPanel {
 		bExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					boolean win = FileIO.exportProfile(theParent,
+					FileIO.exportProfile(theParent,
 							Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
 					
-					System.out.println(win); // <- prints true if it was successful
+					//System.out.println(win); // <- prints true if it was successful
 					updateTableUsers();
  				} catch (Exception ex) {
  					ex.printStackTrace();
@@ -220,8 +227,10 @@ public class ProfilePanel extends JPanel {
 				} else {
 					JOptionPane.showMessageDialog(null, invalidUserMessage);
 				}
+				checkProfileQuantity();
 			}
 		});
+		
 	}
 	
 	/**
@@ -239,20 +248,45 @@ public class ProfilePanel extends JPanel {
 		
 		bRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String profileUserName = Main.mainProfileManger.getProfileList().get(selectedProfileIndex).getUserName();
-				String confirmRemoveMessage = 	"Are you sure you want to remove profile \"" +
-						profileUserName +
-						"\"?";
-				String abortMessage = "Profile removal aborted!";
-				int choice = JOptionPane.showConfirmDialog(null, confirmRemoveMessage);
-				if (choice == JOptionPane.YES_OPTION) {
-					Main.mainProfileManger.removeProfile(profileUserName);
-					updateTableUsers();
+				String loadedUserName = Main.mainProfileManger.getLoadedProfile().getUserName();
+				if (selectedProfileIndex != 0) {
+					System.out.println(loadedUserName);
+					if (loadedUserName.equals(profileUserName)) {
+						JOptionPane.showMessageDialog(null, "Can't remove currently loaded profile!");
+						return;
+					}
+					String confirmRemoveMessage = 	"Are you sure you want to remove profile \"" +
+							profileUserName +
+							"\"?";
+					String abortMessage = "Profile removal aborted!";
+					int choice = JOptionPane.showConfirmDialog(null, confirmRemoveMessage);
+					if (choice == JOptionPane.YES_OPTION) {
+						Main.mainProfileManger.removeProfile(profileUserName);
+						updateTableUsers();
+					} else {
+						JOptionPane.showMessageDialog(null, abortMessage);
+					}
+					checkProfileQuantity();
 				} else {
-					JOptionPane.showMessageDialog(null, abortMessage);
+					String cantRemoveDefaultMessage = "Can't remove default profile. Please select a different Profile and try again.";
+					JOptionPane.showMessageDialog(null, cantRemoveDefaultMessage);
 				}
 			}
 		});
+	}
+	
+	/**
+	 * A helper method to check if there is 1 or more profiles. If there is 1, disable the remove button.
+	 * Otherwise enable it.
+	 * @author Alan Thompson
+	 */
+	private void checkProfileQuantity() {
+		if (Main.mainProfileManger.getProfileList().size() <= 1)
+			bRemove.setEnabled(false);
+		else
+			bRemove.setEnabled(true);
 	}
 	
 	/**
@@ -263,13 +297,15 @@ public class ProfilePanel extends JPanel {
 		bLoad = new JButton("Load Profile");
 		bLoad.setFont(defaultButtonFont);
 		bLoad.setPreferredSize(defaultButtonDimensions);
-		
+				
 		//bLoad.setEnabled(false);
 		
 		bLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedProfileIndex > -1) {
-					setCurrentlyLoadedProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
+					//setCurrentlyLoadedProfile(Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
+					Profile selectedProfile = Main.mainProfileManger.getProfileList().get(selectedProfileIndex);
+					Main.mainProfileManger.setloadedProfile(selectedProfile);
 					Main.refreshAll();
 					Main.window.fileAndLabelTabsUnlock(); // to unlock File and Label tabs
 				} else {
@@ -299,13 +335,4 @@ public class ProfilePanel extends JPanel {
 		buttonGrid.add(bImport);
 		buttonGrid.add(bExport);
 	}
-	
-	public Profile getCurrentlyLoadedProfile() {
-		return Main.mainProfileManger.getLoadedProfile();
-	}
-
-	public void setCurrentlyLoadedProfile(Profile currentlyLoadedProfile) {
-		Main.mainProfileManger.setloadedProfile(currentlyLoadedProfile);
-	}
-
 }
