@@ -7,7 +7,6 @@
     <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="AppFile fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project360/src/view/FilePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/FilePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,6 +198,8 @@
       <workItem from="1654173686393" duration="13220000" />
       <workItem from="1654189079532" duration="2480000" />
       <workItem from="1654306931645" duration="11878000" />
+      <workItem from="1654395365622" duration="6340000" />
+      <workItem from="1654402172048" duration="143000" />
     </task>
     <task id="LOCAL-00001" summary="I put my name">
       <created>1649817464829</created>
