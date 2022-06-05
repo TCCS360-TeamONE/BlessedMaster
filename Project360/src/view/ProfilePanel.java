@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -176,7 +175,7 @@ public class ProfilePanel extends JPanel {
 		bExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					boolean win = FileIO.exportProfile(theParent,
+					FileIO.exportProfile(theParent,
 							Main.mainProfileManger.getProfileList().get(selectedProfileIndex));
 					
 					//System.out.println(win); // <- prints true if it was successful
