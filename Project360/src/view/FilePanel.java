@@ -8,12 +8,17 @@ import model.Library;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 
 /**
@@ -24,7 +29,7 @@ import javax.swing.*;
 
 public class FilePanel extends JPanel {
 
-	private final int MAX_LABELS = 5;
+	private final int MAX_LABELS = 3;
 	private JPanel top;
 
 	private JPanel buttonPanel;
@@ -34,7 +39,7 @@ public class FilePanel extends JPanel {
 	private JPanel searchPanel;
 	private JLabel searchLabel;
 	private JTextField searchInput;
-	private JComboBox labelOptions;
+	private JComboBox labelMenu;
 	private JButton searchButton;
 	private JButton removeButton;
 
@@ -56,6 +61,8 @@ public class FilePanel extends JPanel {
 	private final Library fileLibrary = Main.mainProfileManger.getLoadedProfile().getLibrary();
 
 	DefaultListModel dm;
+
+	DefaultComboBoxModel comboModel;
 
 
 	private static final long serialVersionUID = -3452605865536486557L;
@@ -83,26 +90,69 @@ public class FilePanel extends JPanel {
 		top.add(buttonPanel);
 		top.add(searchPanel);
 	}
-	public void buildSearchPane() {
+	private void buildSearchPane() {
 		searchPanel = new JPanel();
 
 		searchLabel = new JLabel("Label Filter");
 		searchLabel.setFont(textfont);
 
 		searchInput = new JTextField(20);
+
 		searchInput.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				searchAction();
 			}
 		});
+		buildLabelMenu();
 		buildSearchButton();
 		buildRemoveLabelsButton();
 
 		searchPanel.add(searchLabel);
-		searchPanel.add(searchInput);
+		//searchPanel.add(searchInput);
+		searchPanel.add(labelMenu);
 		searchPanel.add(searchButton);
 		searchPanel.add(removeButton);
+
+	}
+
+	private void buildLabelMenu() {
+		ArrayList<String> labels = new ArrayList<>();
+		for(AppLabel item: fileLibrary.getLabelLibraryArray()) {
+			labels.add(item.getMyName());
+		}
+
+		labelMenu = new JComboBox<>(labels.toArray());
+		labelMenu.setFont(textfont);
+		labelMenu.setPreferredSize(new Dimension(250, 50));
+
+		labelMenu.addPopupMenuListener(new PopupMenuListener() {
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				refreshLabelMenu();
+			}
+
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+
+			}
+
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+
+			}
+		});
+	}
+
+		private void refreshLabelMenu() {
+
+
+		comboModel = new DefaultComboBoxModel<>();
+		labelMenu.setModel(comboModel);
+
+		for(AppLabel item: fileLibrary.getLabelLibraryArray()) {
+			comboModel.addElement(item.getMyName());
+		}
 
 	}
 
@@ -118,6 +168,7 @@ public class FilePanel extends JPanel {
 	}
 
 	private void searchAction() {
+		/*
 		if (appliedLabels.size() == MAX_LABELS) {
 			JOptionPane.showMessageDialog(null, "You have reached the maximum amount of labels");
 		} else if (searchInput.getText() != "" && fileLibrary.getLabel(searchInput.getText()) != null) {
@@ -135,7 +186,16 @@ public class FilePanel extends JPanel {
 		} else {
 			JOptionPane.showMessageDialog(null, "This Label Does Not Exist");
 		}
-		searchInput.setText("");
+		searchInput.setText("");*/
+		if (appliedLabels.size() == MAX_LABELS) {
+			JOptionPane.showMessageDialog(null, "You have reached the maximum amount of labels");
+		} else {
+			String selectedItem = (String) labelMenu.getItemAt(labelMenu.getSelectedIndex());
+			appliedLabels.add(selectedItem);
+			searchFileList2();
+			appliedLabelsDisplay();
+		}
+
 	}
 
 	private void buildRemoveLabelsButton() {
