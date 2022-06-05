@@ -52,6 +52,5 @@ class Model_UnitTest {
 		assertNotNull(appFile.getFileExtension());
 		assertNotNull(appFile.getFileTypeDescription());
 		assertNotNull(appFile.getFileIcon());
-		assertNotNull(appFile.getLabelsArray());
 	}
 }
