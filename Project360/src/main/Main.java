@@ -60,7 +60,9 @@ public class Main {
 			mainProfileManger = (ProfileManager) FileIO.loadObjectFile(PERSISTENT_DATA_FILE);
 		} else {
 			mainProfileManger = new ProfileManager();
-			mainProfileManger.addProfile(new Profile("default", "pass"));
+			Profile DefaultProfile = new Profile("default", "pass");
+			mainProfileManger.addProfile(DefaultProfile);
+			mainProfileManger.setloadedProfile(DefaultProfile);
 		}
 
 	}
