@@ -39,7 +39,6 @@ public class ProfileManager implements Serializable {
 	 */
 	public void addProfile(Profile theProfile) {
 		profileList.add(theProfile);
-		loadedProfile = theProfile;
 	}
 	
 	/**
