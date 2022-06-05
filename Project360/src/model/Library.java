@@ -7,11 +7,12 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Library that holds all the AppLabels and AppFiles used
- * in a profile.
- * Has a map of Name -> AppLabels, and file path -> AppFile.
+ * Library that holds all the AppLabels and AppFiles used in a profile.<p>
+ * Has methods to: <br>
+ * 1) Add and remove labels and files<br>
+ * 2) Associate an AppLabel to an AppFile
  * 
- * @authors Christopher, 
+ * @author Christopher
  */
 public class Library implements Serializable {
 
@@ -21,10 +22,10 @@ public class Library implements Serializable {
 	 */
 	private static final long serialVersionUID = 3216087415273229721L;
 
-	/** A map of unique file paths to a AppFile Object. */
+	/** A List of AppFiles in this Library. */
 	private ArrayList<AppFile> fileLibrary;
 	
-	/** A map of unique label names to a AppLabel Object. */
+	/** A List of AppLabels in this Library. */
 	private ArrayList<AppLabel> labelLibrary;
 	
 	public Library() {
@@ -32,8 +33,11 @@ public class Library implements Serializable {
 		labelLibrary = new ArrayList<AppLabel>();	
 	}
 	
+	//////////////// Files //////////////////////////////////////////////////
+	
 	/**
-	 * Getter for fileLibrary.
+	 * Getter for Array of AppFiles in this Library.
+	 * @author Christopher
 	 * @return AppFile[] of all the AppFiles in this Library
 	 */
 	public ArrayList<AppFile> getFileLibraryArray() {
@@ -44,62 +48,6 @@ public class Library implements Serializable {
         return files;
 
 	}
-	
-	/**
-	 * Getter for labelLibrary.
-	 * @return AppLabel[] of all the AppFiles in this Library
-	 */
-	public ArrayList<AppLabel> getLabelLibraryArray() {
-		ArrayList<AppLabel> labels = new ArrayList<>();
-		for (AppLabel label : labelLibrary) {
-			labels.add(label);
-		}
-        return labels;
-	}
-
-	/**
-	 * Associates an AppLabel to an AppFile.
-	 * 
-	 * @author Christopher
-	 * @param theFile
-	 * @param theLabel
-	 * @return true if successful
-	 */
-	public boolean applyLabelToFile(AppFile theFile, AppLabel theLabel) {
-		if (containsFile(theFile) &&
-			containsLabel(theLabel)) {
-			
-			theFile.addLabel(theLabel);
-			theLabel.addFile(theFile);
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * Removes a AppLabel from an AppFile
-	 * 
-	 * @author Christopher
-	 * @param theFile
-	 * @param theLabel
-	 * @return true if successful
-	 */
-	public boolean removeLabelFromFile(AppFile theFile, AppLabel theLabel) {
-		if (containsFile(theFile) &&
-			containsLabel(theLabel)) {
-			
-			theFile.removeLabel(theLabel);
-			theLabel.removeFile(theFile);
-
-			return true;
-		}
-		
-		return false;
-	}
-	
-	
-	//////////////// Files //////////////////////////////////////////////////
 	
 	/**
 	 * Searches for a AppFile in the file library.
@@ -178,7 +126,63 @@ public class Library implements Serializable {
 		return true;
 	}
 	
+	///////////// Association /////////////////////////////////////////////////////
+	
+	/**
+	 * Associates an AppLabel to an AppFile.
+	 * 
+	 * @author Christopher
+	 * @param theFile
+	 * @param theLabel
+	 * @return true if successful
+	 */
+	public boolean applyLabelToFile(AppFile theFile, AppLabel theLabel) {
+		if (containsFile(theFile) &&
+			containsLabel(theLabel)) {
+			
+			theFile.addLabel(theLabel);
+			theLabel.addFile(theFile);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Removes a AppLabel from an AppFile
+	 * 
+	 * @author Christopher
+	 * @param theFile
+	 * @param theLabel
+	 * @return true if successful
+	 */
+	public boolean removeLabelFromFile(AppFile theFile, AppLabel theLabel) {
+		if (containsFile(theFile) &&
+			containsLabel(theLabel)) {
+			
+			theFile.removeLabel(theLabel);
+			theLabel.removeFile(theFile);
+
+			return true;
+		}
+		
+		return false;
+	}
+	
 	///////////// Labels /////////////////////////////////////////////////////
+	
+	/**
+	 * Getter for Array of AppLabels in this Library.
+	 * @author Christopher
+	 * @return AppLabel[] of all the AppFiles in this Library
+	 */
+	public ArrayList<AppLabel> getLabelLibraryArray() {
+		ArrayList<AppLabel> labels = new ArrayList<>();
+		for (AppLabel label : labelLibrary) {
+			labels.add(label);
+		}
+        return labels;
+	}
 	
 	/**
 	 * Searches for a AppLabel in the Label library.
@@ -263,7 +267,6 @@ public class Library implements Serializable {
 	//////////////////////////////////////////////////////////////////
 	
 	/**
-	 * TODO: Make Better
 	 * toString method for Library.
 	 * {@inheritDoc}
 	 */
