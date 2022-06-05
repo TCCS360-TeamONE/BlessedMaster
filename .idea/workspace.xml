@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="apply window fix">
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="AppFile fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project360/src/view/FilePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/FilePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/main" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
