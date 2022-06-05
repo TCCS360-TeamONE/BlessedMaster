@@ -84,7 +84,9 @@ public class AppFile implements Serializable {
 	}
 	
 	public AppFile(final String theFilePath) {
-		jFile = fileSystem.createFileObject(theFilePath);
+		File theFile = new File(theFilePath);
+		jFile = theFile;
+		//jFile = fileSystem.createFileObject(theFilePath);
 		fileSystem = FileSystemView.getFileSystemView();
 		fileFullPath = theFilePath;
 		

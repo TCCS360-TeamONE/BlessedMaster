@@ -266,6 +266,7 @@ public class LabelPanel extends JPanel {
 		fileLabelScroll = new JScrollPane(fileLabelList);
 		fileLabelScroll.setPreferredSize(new Dimension(250,270));
 
+		//adding to the panel
 		midApplyPanel.add(addLabelToFile);
 		midApplyPanel.add(Box.createHorizontalStrut(10));
 		midApplyPanel.add(removeLabelFromFile);
@@ -286,6 +287,25 @@ public class LabelPanel extends JPanel {
 		applyApplyWindowBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//check if file name is correct
+				if(!labelLibrary.containsFile(searchField.getText())){
+					JOptionPane.showMessageDialog(null, "Wrong file path");
+					return;
+				}
+				//check if add label list is selected (APPLY)
+				if(!labelLibraryList.isSelectionEmpty()){
+					AppLabel selectedLabel = (AppLabel) labelLibraryList.getSelectedValue();
+
+					labelLibrary.applyLabelToFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
+				}//check if remove label list is selected (REMOVE)
+				else if(!fileLabelList.isSelectionEmpty()){
+					AppLabel selectedLabel = labelLibrary.getLabel((String) fileLabelList.getSelectedValue());
+					labelLibrary.removeLabelFromFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
+				}else{	//else no label is selected
+					System.out.println(labelLibraryList.getSelectedIndex());
+					System.out.println(fileLabelList.getSelectedIndex());
+					JOptionPane.showMessageDialog(null, "No label is selected");
+				}
 
 			}
 		});
