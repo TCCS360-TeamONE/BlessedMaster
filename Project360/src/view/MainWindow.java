@@ -7,12 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -22,11 +22,17 @@ import main.Main;
 
 /**
  * MainWindow contains the tabbed pane, and within those, the file, label, profile panels.
+ * Connected to the java classes: AboutWindow, FilePanel, LabelPanel, and ProfilePane.
  * 
- *    * Connected to the java classes: AboutWindow, FilePanel, LabelPanel, and ProfilePane.
- *    *
+ * @author Christopher, Alan
  */
 public class MainWindow extends JFrame {
+	
+	/**
+	 * serial Version UID.
+	 * @see Serializable
+	 */
+	private static final long serialVersionUID = 5846307300982824039L;
 	
 	/** The title given to the main window. */
 	private static final String TITLE = "TeamONE :: FileSorter";
@@ -35,30 +41,29 @@ public class MainWindow extends JFrame {
 	private static final Dimension WINDOW_DEFAULT_SIZE = new Dimension(1200,800);
 	
 	/** The minimum size of the main window. */
-	private static final Dimension WINDOW_MINIMUM_SIZE = new Dimension(800,500);
+	private static final Dimension WINDOW_MINIMUM_SIZE = new Dimension(930,750);
 	
 	/** The font used my the tabs in the tabbed pane. */
-//	private static final Font TABS_FONT = new Font("Lucida Sans", Font.PLAIN, 22); <= I like this font better
 	private static final Font TABS_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 22);
 	
-	private static final Color LOCKED_TAB_COLOR = new Color(100,100,100);
+	/** The color of tabs which are not selected. */
+	private static final Color TAB_COLOR = new Color(200,200,200);
 	
-	private static final Color UNLOCKED_TAB_COLOR = new Color(200,200,200);
-	
+	/** The size of the tabs in the tabbed pane. */
 	private static final Dimension TAB_SIZE = new Dimension(180, 40);
 	
-	/** The tabbed pane, hold the file, label, profile tabs. */
+	/**
+	 * The tabbed pane has tab's that load the different panes used.
+	 * Tab index:  [0] = FilePanel   [1] = LabelPanel   [2] = ProfilePanel
+	 */
 	private static JTabbedPane tabbedPane;
 
-	/** Big number go Brrrrrrrrrr */
-	private static final long serialVersionUID = 5846307300982824039L;
-
-	
 	public MainWindow() {
 		super(TITLE);
 		setSize(WINDOW_DEFAULT_SIZE);
 		setMinimumSize(WINDOW_MINIMUM_SIZE);
 		
+		// Add custom close operation
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				sysSaveAndExit();
@@ -68,15 +73,13 @@ public class MainWindow extends JFrame {
 		tabbedPane = new JTabbedPane();
         buildTabbedPane();
         tabChangeListener();
+        
+        // set the profile tab to be opened when app starts
         tabbedPane.setSelectedIndex(2);
 		
         setContentPane(tabbedPane);
         setVisible(true);
         setLocationRelativeTo(null);
-	}
-	
-	public JPanel getComponent(int index) {
-		return (JPanel) tabbedPane.getComponentAt(index);
 	}
 	
 	/**
@@ -94,9 +97,12 @@ public class MainWindow extends JFrame {
 		System.exit(0);
 	}
 	
+	/**
+	 * Detects when a new tab is loaded and saves the persistent data when it does.
+	 * @author Christopher
+	 */
 	private void tabChangeListener() {
 		tabbedPane.addChangeListener(new ChangeListener() {
-
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				System.out.println("Tab " + tabbedPane.getSelectedIndex() + " open");
@@ -106,6 +112,10 @@ public class MainWindow extends JFrame {
 		});
 	}
 	
+	/**
+	 * Builds the FilePane to be used in the File tab.
+	 * @author Christopher
+	 */
 	private void buildFilePane() {
 		FilePanel myFilePanel = new FilePanel();
 		tabbedPane.addTab("error", myFilePanel);
@@ -121,6 +131,10 @@ public class MainWindow extends JFrame {
 		tabbedPane.setTabComponentAt(0, fileTab);
 	}
 	
+	/**
+	 * Builds the LabelPane to be used in the Label tab.
+	 * @author Christopher
+	 */
 	private void buildLabelPane() {
 		LabelPanel myLabelPanel = new LabelPanel();
 
@@ -136,6 +150,10 @@ public class MainWindow extends JFrame {
 		tabbedPane.setTabComponentAt(1, labelTab);
 	}
 	
+	/**
+	 * Builds the ProfilePane to be used in the Profile tab.
+	 * @author Christopher
+	 */
 	private void buildProfilePane() {
 		ProfilePanel myProfilePanel = new ProfilePanel();
 		
@@ -159,18 +177,16 @@ public class MainWindow extends JFrame {
 	 * @author Christopher
 	 */
 	private void buildTabbedPane() {
-
         tabbedPane.setFont(TABS_FONT);
-        tabbedPane.setBackground(UNLOCKED_TAB_COLOR); // un-selected tab background color
+        tabbedPane.setBackground(TAB_COLOR); // un-selected tab background color
         tabbedPane.setForeground(Color.BLACK); // sets text color in tabs
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-
         
         buildFilePane();
         buildLabelPane();
         buildProfilePane();
         
-        
+        ////// About tab/button ////////
 		tabbedPane.addTab("", null);
 		int aboutIndex = tabbedPane.getTabCount() - 1;
 		tabbedPane.setTabComponentAt(aboutIndex, aboutButon());
