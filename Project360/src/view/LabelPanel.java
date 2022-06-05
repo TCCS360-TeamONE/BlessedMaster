@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
+import java.nio.file.attribute.FileOwnerAttributeView;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -289,27 +290,33 @@ public class LabelPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//check if file name is correct
-				if(!labelLibrary.containsFile(searchField.getText())){
+				if (!labelLibrary.containsFile(searchField.getText())) {
 					JOptionPane.showMessageDialog(null, "Wrong file path");
 					return;
 				}
 				//check if add label list is selected (APPLY)
-				if(!labelLibraryList.isSelectionEmpty()){
+				if (!labelLibraryList.isSelectionEmpty()) {
 					AppLabel selectedLabel = (AppLabel) labelLibraryList.getSelectedValue();
-					System.out.println(selectedLabel.toString());
 
 					labelLibrary.applyLabelToFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
-				}//check if remove label list is selected (REMOVE)
-				else if(!fileLabelList.isSelectionEmpty()){
-					AppLabel selectedLabel = labelLibrary.getLabel((String) fileLabelList.getSelectedValue());
-					labelLibrary.removeLabelFromFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
-				}else{	//else no label list is selected
+					JOptionPane.showMessageDialog(null, "Label");
+				}	//check if remove label list is selected (REMOVE)
+
+				else {    //else no label is selected
 					System.out.println(labelLibraryList.getSelectedIndex());
 					System.out.println(fileLabelList.getSelectedIndex());
 					JOptionPane.showMessageDialog(null, "No label is selected");
 				}
 
+				if (!fileLabelList.isSelectionEmpty()) {
+						AppLabel selectedLabel = labelLibrary.getLabel((String) fileLabelList.getSelectedValue());
+						labelLibrary.removeLabelFromFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
+
+
+				}
+
 			}
+
 		});
 
 
