@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="AppFile fixed">
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="apply window working correctly now&#10;fixed bugs - remove label list works&#10;need to reopen window to show all labels in remove label list">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" afterDir="false" />
     </list>
@@ -320,7 +320,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654392262267</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="apply window working correctly now&#10;fixed bugs - remove label list works&#10;need to reopen window to show all labels in remove label list">
+      <created>1654687202349</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1654687202349</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -352,6 +359,7 @@
     <MESSAGE value="bug: &#10;apply window : JList is not selected" />
     <MESSAGE value="AppFile fixed" />
     <MESSAGE value="apply window fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="apply window fix" />
+    <MESSAGE value="apply window working correctly now&#10;fixed bugs - remove label list works&#10;need to reopen window to show all labels in remove label list" />
+    <option name="LAST_COMMIT_MESSAGE" value="apply window working correctly now&#10;fixed bugs - remove label list works&#10;need to reopen window to show all labels in remove label list" />
   </component>
 </project>
