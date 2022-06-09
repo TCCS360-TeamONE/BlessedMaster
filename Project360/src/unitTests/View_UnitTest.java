@@ -30,5 +30,4 @@ class View_UnitTest {
 	void test() {
 		fail("Not yet implemented");
 	}
-
 }
