@@ -23,6 +23,7 @@ import model.Library;
  */
 public class LabelPanel extends JPanel {
 
+
 	/**
 	 * Serial Version UID
 	 * @see Serializable
