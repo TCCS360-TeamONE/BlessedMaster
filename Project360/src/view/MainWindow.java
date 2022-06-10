@@ -93,7 +93,7 @@ public class MainWindow extends JFrame {
 	 */
 	private void sysSaveAndExit() {
 		Main.savePersistentData();
-		System.out.println("All Done");
+		//System.out.println("All Done");
 		System.exit(0);
 	}
 	
@@ -105,7 +105,7 @@ public class MainWindow extends JFrame {
 		tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				System.out.println("Tab " + tabbedPane.getSelectedIndex() + " open");
+				//System.out.println("Tab " + tabbedPane.getSelectedIndex() + " open");
 				Main.savePersistentData();
 			}
 			

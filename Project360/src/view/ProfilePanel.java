@@ -252,7 +252,7 @@ public class ProfilePanel extends JPanel {
 				String profileUserName = Main.mainProfileManger.getProfileList().get(selectedProfileIndex).getUserName();
 				String loadedUserName = Main.mainProfileManger.getLoadedProfile().getUserName();
 				if (selectedProfileIndex != 0) {
-					System.out.println(loadedUserName);
+					//System.out.println(loadedUserName);
 					if (loadedUserName.equals(profileUserName)) {
 						JOptionPane.showMessageDialog(null, "Can't remove currently loaded profile!");
 						return;
