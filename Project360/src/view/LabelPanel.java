@@ -23,6 +23,7 @@ import model.Library;
  */
 public class LabelPanel extends JPanel {
 
+
 	/**
 	 * Serial Version UID
 	 * @see Serializable
@@ -444,8 +445,15 @@ public class LabelPanel extends JPanel {
 				}
 				//check if add label list is selected (APPLY)
 				if(!fileLabelList.isSelectionEmpty()) {
-					AppLabel selectedLabel = labelLibrary.getLabel((String) fileLabelList.getSelectedValue());
-					labelLibrary.removeLabelFromFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
+					int removeMessage = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove label from file?", "Remove", JOptionPane.YES_NO_OPTION);
+					if(removeMessage == 0){
+						AppLabel selectedLabel = labelLibrary.getLabel((String) fileLabelList.getSelectedValue());
+						labelLibrary.removeLabelFromFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
+						JOptionPane.showMessageDialog(null,"Remove successful");
+					}else{
+						JOptionPane.showMessageDialog(null, "Label is not remove");
+					}
+
 				}
 				if(!labelLibraryList.isSelectionEmpty()){
 					AppLabel selectedLabel = (AppLabel) labelLibraryList.getSelectedValue();

@@ -202,7 +202,7 @@ public class Library implements Serializable {
 	/**
 	 * Gets a AppLabel from the Label library.
 	 * 
-	 * @author Christopher
+	 * @author Christopher, Andrew
 	 * @param theLabelName
 	 * @return AppLabel or Null if no AppLabel exists
 	 */
