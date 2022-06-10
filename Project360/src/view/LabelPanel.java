@@ -460,6 +460,8 @@ public class LabelPanel extends JPanel {
 					System.out.println(selectedLabel.toString());
 
 					labelLibrary.applyLabelToFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
+
+					JOptionPane.showMessageDialog(null, "Label Applied! Please reopen the apply window to refresh the labels");
 				}//check if remove label list is selected (REMOVE)
 				if (labelLibraryList.isSelectionEmpty() && fileLabelList.isSelectionEmpty()){	//else no label list is selected
 					System.out.println(labelLibraryList.getSelectedIndex());
