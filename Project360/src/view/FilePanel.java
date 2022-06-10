@@ -335,7 +335,7 @@ public class FilePanel extends JPanel {
 					String s = (String) filesList.getSelectedValue();
 					Desktop.getDesktop().open(new File(s));
 				} catch (Exception ex) {
-					System.out.println("fail");
+					//System.out.println("fail");
 					JOptionPane.showMessageDialog(null, "Sorry, couldn't open file path.");
 				}
 

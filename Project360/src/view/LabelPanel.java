@@ -195,11 +195,10 @@ public class LabelPanel extends JPanel {
 					if (!(labelLibrary.containsLabel(name))) {
 						boolean added = labelLibrary.addLabel(name);
 						if (added) {
-							System.out.println("added");
+							//System.out.println("added");
 						} else {
-							System.out.println("Not added");
+							//System.out.println("Not added");
 						}
-						System.out.println(Main.mainProfileManger.getLoadedProfile().getLibrary().toString());
 						row[0] = name;
 						tableModel.addRow(row);
 
@@ -240,9 +239,9 @@ public class LabelPanel extends JPanel {
 						tableModel.removeRow(i);
 						boolean deleted = labelLibrary.removeLabel(labelDeleteName);
 						if (deleted) {
-							System.out.println("deleted");
+							//System.out.println("deleted");
 						} else {
-							System.out.println("Not deleted");
+							//System.out.println("Not deleted");
 						}
 						delButton.setEnabled(tableModel.getRowCount() > 0);
 						applyButton.setEnabled(tableModel.getRowCount() > 0);
@@ -457,15 +456,15 @@ public class LabelPanel extends JPanel {
 				}
 				if(!labelLibraryList.isSelectionEmpty()){
 					AppLabel selectedLabel = (AppLabel) labelLibraryList.getSelectedValue();
-					System.out.println(selectedLabel.toString());
+					//System.out.println(selectedLabel.toString());
 
 					labelLibrary.applyLabelToFile(labelLibrary.getFile(searchField.getText()), selectedLabel);
 
 					JOptionPane.showMessageDialog(null, "Label Applied! Please reopen the apply window to refresh the labels");
 				}//check if remove label list is selected (REMOVE)
 				if (labelLibraryList.isSelectionEmpty() && fileLabelList.isSelectionEmpty()){	//else no label list is selected
-					System.out.println(labelLibraryList.getSelectedIndex());
-					System.out.println(fileLabelList.getSelectedIndex());
+					//System.out.println(labelLibraryList.getSelectedIndex());
+					//System.out.println(fileLabelList.getSelectedIndex());
 					JOptionPane.showMessageDialog(null, "No label is selected");
 				}
 
@@ -540,7 +539,7 @@ public class LabelPanel extends JPanel {
 		table.setDefaultEditor(Object.class, null);
 
 		//load the existing profile
-		System.out.println(labelLibrary.toString());
+		//System.out.println(labelLibrary.toString());
 		ArrayList<AppLabel> labelArray = labelLibrary.getLabelLibraryArray();
 		int lengthOfLabel = labelLibrary.getLabelLibraryArray().size();
 

@@ -116,7 +116,7 @@ public class FileIO {
 		if (choice == JFileChooser.APPROVE_OPTION) {
 			myFile = new File(fileChooser.getSelectedFile().getAbsolutePath());
 		} else {
-			System.out.println("canceled");
+			//System.out.println("canceled");
 		}
 		
 		return myFile;

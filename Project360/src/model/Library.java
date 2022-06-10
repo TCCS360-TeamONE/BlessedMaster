@@ -223,7 +223,7 @@ public class Library implements Serializable {
 	 */
 	public boolean addLabel(final String theLabelName) {
 		if (containsLabel(theLabelName)) {
-			System.out.println("yo 221");
+			//System.out.println("yo 221");
 			return false;
 		}
 		else{
@@ -251,14 +251,14 @@ public class Library implements Serializable {
 	 * @return true if successful
 	 */
 	public boolean removeLabel(final AppLabel theLabel) {
-		System.out.println(theLabel);
+		//System.out.println(theLabel);
 		if (containsLabel(theLabel)) {
 			//Removes the reference to theLabel in each AppFile connected with it
 			AppFile[] filesArr = theLabel.getFilesArray();
 			for (AppFile file : filesArr)
 				file.removeLabel(theLabel);
 			//
-			System.out.println(labelLibrary.remove(theLabel));
+			//System.out.println(labelLibrary.remove(theLabel));
 			return true;
 		}
 		else return false;
