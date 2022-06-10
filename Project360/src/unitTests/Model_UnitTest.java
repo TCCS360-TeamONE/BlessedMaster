@@ -22,6 +22,7 @@ class Model_UnitTest {
 	void setUp() throws Exception {
 	}
 	
+	/** @author Alan */
 	@Test
 	void testAppFile() {
 		AppFile appFile = new AppFile("~/test.txt");
@@ -31,7 +32,6 @@ class Model_UnitTest {
 		assertNotNull(appFile.getFileName());
 		assertNotNull(appFile.getFileExtension());
 		assertNotNull(appFile.getFileTypeDescription());
-		assertNotNull(appFile.getFileIcon());
 	}
 	
 	/** @author Christopher */
