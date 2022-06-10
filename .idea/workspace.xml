@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="Added Javadoc for label panel">
+    <list default="true" id="c2a28180-9c35-4a1d-8541-82154af4fc6e" name="Changes" comment="small fix on apply window">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project360/src/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/model/Library.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project360/src/unitTests/View_UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/unitTests/View_UnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project360/src/view/LabelPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +100,7 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.Model_UnitTest">
+  <component name="RunManager" selected="Application.main.Main">
     <configuration name="main.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="BlessedMaster" />
@@ -187,9 +184,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.main.Main" />
         <item itemvalue="JUnit.Model_UnitTest" />
         <item itemvalue="JUnit.Main_UnitTest" />
-        <item itemvalue="Application.main.Main" />
         <item itemvalue="JUnit.MainTests.testAppVersion" />
         <item itemvalue="JUnit.MainTests" />
       </list>
@@ -355,7 +352,21 @@
       <option name="project" value="LOCAL" />
       <updated>1654692395465</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="small fix on apply window">
+      <created>1654779085933</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1654779085933</updated>
+    </task>
+    <task id="LOCAL-00021" summary="small fix on apply window">
+      <created>1654779158604</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1654779158604</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -389,6 +400,7 @@
     <MESSAGE value="apply window fix" />
     <MESSAGE value="apply window working correctly now&#10;fixed bugs - remove label list works&#10;need to reopen window to show all labels in remove label list" />
     <MESSAGE value="Added Javadoc for label panel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Javadoc for label panel" />
+    <MESSAGE value="small fix on apply window" />
+    <option name="LAST_COMMIT_MESSAGE" value="small fix on apply window" />
   </component>
 </project>
